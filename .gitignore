@@ -5,3 +5,8 @@
 
 
 # Backend
+backend/.idea
+backend/target
+
+# Ignore the db folder
+db
