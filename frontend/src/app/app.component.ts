@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { LuxThemeService } from '@ihk-gfi/lux-components';
+import { LuxSideNavComponent } from '@ihk-gfi/lux-components';
 
 @Component({
   selector: 'app-root',
@@ -6,4 +9,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+
+  @ViewChild(LuxSideNavComponent) sideNavComp!: LuxSideNavComponent;
+
+  constructor(public router: Router, themeService: LuxThemeService) {
+    themeService.loadTheme();
+    router.initialNavigation();
+  }
+
 }
