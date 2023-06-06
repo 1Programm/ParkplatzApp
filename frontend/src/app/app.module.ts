@@ -26,6 +26,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PageHomeComponent } from './components/pages/page-home/page-home.component';
 import { PageErrorComponent } from './components/pages/page-error/page-error.component';
+import { BuchenPageComponent } from './components/pages/buchen-page/buchen-page.component';
 
 registerLocaleData(localeDE, localeDeExtra);
 
@@ -38,6 +39,7 @@ const luxComponentsConfig: LuxComponentsConfigParameters = {
     AppComponent,
     PageHomeComponent,
     PageErrorComponent,
+    BuchenPageComponent,
   ],
   imports: [
     BrowserModule,
