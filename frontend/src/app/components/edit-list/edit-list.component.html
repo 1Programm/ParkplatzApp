@@ -1,0 +1,19 @@
+<div>
+    <ng-template *ngIf="canEdit" ngFor let-item [ngForOf]="items" let-i="index">
+      <lux-layout-form-row>
+        <ng-template ngFor let-attr [ngForOf]="getAttributes(item)" let-i="index">
+          <lux-input [luxTagId]="attr.name" [luxLabel]="attr.name" [luxValue]="attr.value" [luxReadonly]="true" *luxLayoutRowItem="{}"></lux-input>
+        </ng-template>
+        <lux-button [luxDisabled]="false" luxIconName="fas fa-trash-alt" luxColor="warn" [luxRounded]="true" (luxClicked)="loescheItem(i)" *luxLayoutRowItem="{}"></lux-button>
+      </lux-layout-form-row>
+    </ng-template>
+  
+    <ng-template *ngIf="!canEdit" ngFor let-item [ngForOf]="items" let-i="index">
+      <lux-layout-form-row>
+        <ng-template ngFor let-attr [ngForOf]="getAttributes(item)" let-i="index">
+          <lux-input [luxTagId]="attr.name" [luxLabel]="attr.name" [luxValue]="attr.value" [luxReadonly]="true" *luxLayoutRowItem="{}"></lux-input>
+        </ng-template>
+      </lux-layout-form-row>
+    </ng-template>
+</div>
+  

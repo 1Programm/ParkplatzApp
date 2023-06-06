@@ -1,0 +1,17 @@
+
+<lux-card luxTitle="Profile">
+    <lux-icon luxIconName="fa-id-card"></lux-icon>
+    <lux-card-content>
+            <lux-layout-form-row>
+              <lux-input luxLabel="Name" *luxLayoutRowItem="{}" [luxValue]=""></lux-input>
+              
+              <lux-input luxLabel="E-Mail Adresse" *luxLayoutRowItem="{}" luxValue="MaxMustermann@gfi.ihk.de  "></lux-input>
+              </lux-layout-form-row>
+              <lux-layout-form-row>
+            
+              </lux-layout-form-row>
+              
+              <edit-list [items]="test" [attributes]="attr" 
+            [onDelete]="kennzeichenDeleteCallback"></edit-list>
+    </lux-card-content>
+  </lux-card>
