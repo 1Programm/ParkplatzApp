@@ -1,26 +1,28 @@
 <lux-layout>
-    <lux-layout-card-row [luxGap]="{ row: '2px', rowItem: '25px', column: '2px'}" [luxMargin]="{ xs: '0.3%', lg: '0.3%', marginLeft: true, marginRight: true}">
+    <lux-layout-card-row [luxGap]="{ row: '2px', rowItem: '5px', column: '2px'}" [luxMargin]="{ xs: '5%', lg: '5%', xl: '5%', marginLeft: true, marginRight: true}">
         <lux-card *luxLayoutRowItem="{}">
             <lux-card-content>
-                <lux-layout-card-row [luxGap]="{ row: '2px', rowItem: '25px', column: '2px'}">
-                    <lux-select luxLabel="Parking Area" [luxOptions]="options" [luxSelected]="selected" *luxLayoutRowItem="{}">
-                        <ng-template let-option>
-                            {{ option.label }}
-                        </ng-template>
-                    </lux-select>
-                    <lux-datepicker luxLabel="Date" [luxTouchUi]="true" luxPlaceholder="Bitte ein Datum auswählen" *luxLayoutRowItem="{}"></lux-datepicker>
-                </lux-layout-card-row>
+                <lux-layout class="m70">
+                    <lux-layout-form-row [luxGap]="{ row: '2px', rowItem: '25px', column: '10px'}">
+                        <lux-select luxLabel="Parking Area" [luxOptions]="options" [luxSelected]="selected" *luxLayoutRowItem="{ empty: true, colSpan: 2 }">
+                            <ng-template let-option>
+                                {{ option.label }}
+                            </ng-template>
+                        </lux-select>
+                        <lux-datepicker luxLabel="Date" [luxTouchUi]="true" luxPlaceholder="Bitte ein Datum auswählen" *luxLayoutRowItem="{ empty: true, colSpan: 2 }"></lux-datepicker>
+                        <div *luxLayoutRowItem="{ colSpan:2, empty: true }"></div>
+                    </lux-layout-form-row>
+                  </lux-layout>
             </lux-card-content>
-            
         </lux-card>
     </lux-layout-card-row>
-    <lux-layout-card-row [luxGap]="{ row: '2px', rowItem: '2px', column: '2px'}" [luxMargin]="{ xs: '0.3%', lg: '0.3%', marginLeft: true, marginRight: true}">
-      <lux-card luxTitle="Karte D" *luxLayoutRowItem="{ colSpan: 3 }">
-    </lux-card>
-        <lux-card *luxLayoutRowItem="{}">
+    <lux-layout-card-row [luxGap]="{ row: '2px', rowItem: '2px', column: '2px'}" [luxMargin]="{ xs: '5%', lg: '5%', xl: '5%', marginLeft: true, marginRight: true}">
+        <lux-card luxTitle="Karte D" *luxLayoutRowItem="{ colSpan: 4 }">
+        </lux-card>
+        <lux-card *luxLayoutRowItem="{ colSpan: 2 }">
             <lux-card-content>
                 <lux-layout>
-                    <lux-layout-card-row fxLayout="column" fxLayoutAlign="start center">
+                    <lux-layout-card-row fxLayout="column" fxLayoutAlign="center"  [luxMargin]="{ xs: '1%', lg: '1%', xl: '1%', marginLeft: false, marginRight: false}">
                         <lux-card luxTitle="Buchung" *luxLayoutRowItem="{}">
                             <lux-card-content>
                                 <p>
