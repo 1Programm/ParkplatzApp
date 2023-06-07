@@ -17,7 +17,7 @@ public class Mitarbeiter {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int mitarbeiterID;
+    private Long mitarbeiterID;
 
     private String name;
     private String mail;
