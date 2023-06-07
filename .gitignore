@@ -12,6 +12,7 @@ frontend/.angular
 # Backend
 backend/.idea
 backend/target
+backend/backend.iml
 
 # Ignore the db folder
 db
