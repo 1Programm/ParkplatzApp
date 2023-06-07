@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ProfildatenDto } from 'src/app/facade/dto/ProfildatenDto';
+import { ILuxDialogConfig, LuxDialogService } from '@ihk-gfi/lux-components';
+import { Kennzeichen } from 'src/app/facade/Kennezeichen';
+import { Mitarbeiter } from 'src/app/facade/Mitarbeiter';
+import { ProfilServiceService } from 'src/app/services/profil-service.service';
+import { DialogConfigFactory } from 'src/app/utils/dialogConfigFactory';
 
 @Component({
   selector: 'app-page-profil',
@@ -8,24 +12,30 @@ import { ProfildatenDto } from 'src/app/facade/dto/ProfildatenDto';
 })
 export class PageProfilComponent implements OnInit {
 attr: any[] = [{name: "kennzeichen", label: "Kennzeichen"}];
-test: any[];
-index: number = 99;
-  constructor() {
-    this.test = [{kennzeichen: "bla"}, {kennzeichen: "bla"}];
+kennzeichen: Kennzeichen[] = [{id: 1, kennzeichen: "bla"}, {id: 2, kennzeichen: "bla"}];
+mitarbeiter: Mitarbeiter = {id: 0, vorname: "Max", nachname: "Mustermann", email: "max.mustermann@gfi.ihk.de", kennzeichen: this.kennzeichen};
+private deleteKennzeichenDialogConfig: ILuxDialogConfig = new DialogConfigFactory().setWidth('80%').setContent("Wollen Sie das Kennzeichen wirklich löschen?").build();
+
+public kennzeichenDeleteCallback: Function | undefined;
+  constructor(private luxDialogService: LuxDialogService, private profilService: ProfilServiceService) {
    }
 
   ngOnInit(): void {
+    this.kennzeichenDeleteCallback = this.deleteKennzeichen.bind(this);
   }
 
   deleteKennzeichen(index: number): void {
     
-    let test1: any[] = [];
-    for(let i = 0; i < this.test.length; i++) {
-      if(i != index)
-      test1.push(this.test[i].kennzeichen);
-    }
-    this.test = test1;
-    console.log("t3est ", this.test)
-  }
+    const dialogRef = this.luxDialogService.open(this.deleteKennzeichenDialogConfig);
+    dialogRef.dialogConfirmed.subscribe((result: any) => {
+      this.profilService.loescheKennzeichenFromMitarbeiter(this.mitarbeiter.id, this.mitarbeiter.kennzeichen[index].id).subscribe(updatedMitarbeiter => {
+        this.mitarbeiter = updatedMitarbeiter;
+      });
+      
+    });
+  } 
 
+  getName(): string {
+    return this.mitarbeiter.vorname + this.mitarbeiter.nachname;
+  }
 }

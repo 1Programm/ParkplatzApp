@@ -1,17 +1,22 @@
-
-<lux-card luxTitle="Profile">
-    <lux-icon luxIconName="fa-id-card"></lux-icon>
-    <lux-card-content>
+<lux-layout>
+<lux-layout-card-row [luxGap]="{ row: '2px', rowItem: '5px', column: '2px'}"
+    [luxMargin]="{ xs: '5%', lg: '5%', xl: '5%', marginLeft: true, marginRight: true}" >
+    <lux-card luxTitle="Profile" *luxLayoutRowItem="{}">
+        <lux-icon luxIconName="fa-id-card"></lux-icon>
+        <lux-card-content>
             <lux-layout-form-row>
-              <lux-input luxLabel="Name" *luxLayoutRowItem="{}" [luxValue]=""></lux-input>
-              
-              <lux-input luxLabel="E-Mail Adresse" *luxLayoutRowItem="{}" luxValue="MaxMustermann@gfi.ihk.de  "></lux-input>
-              </lux-layout-form-row>
-              <lux-layout-form-row>
-            
-              </lux-layout-form-row>
-              
-              <edit-list [items]="test" [attributes]="attr" 
-            [onDelete]="kennzeichenDeleteCallback"></edit-list>
-    </lux-card-content>
-  </lux-card>
+                <lux-input luxLabel="Name" *luxLayoutRowItem="{}" [luxValue]="getName()"></lux-input>
+
+            </lux-layout-form-row>
+            <lux-layout-form-row>
+
+                <lux-input luxLabel="E-Mail Adresse" *luxLayoutRowItem="{}"
+                    luxValue="MaxMustermann@gfi.ihk.de  "></lux-input>
+            </lux-layout-form-row>
+
+            <edit-list [items]="mitarbeiter.kennzeichen" [attributes]="attr"
+                [onDelete]="kennzeichenDeleteCallback"></edit-list>
+        </lux-card-content>
+    </lux-card>
+</lux-layout-card-row>
+</lux-layout>
