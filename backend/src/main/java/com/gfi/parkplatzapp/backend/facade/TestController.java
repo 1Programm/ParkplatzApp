@@ -1,8 +1,9 @@
-package com.gfi.parkplatzapp.backend;
+package com.gfi.parkplatzapp.backend.facade;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+@CrossOrigin
 @RestController
 public class TestController {
 

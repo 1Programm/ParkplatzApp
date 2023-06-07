@@ -9,34 +9,34 @@ import { Kennzeichen } from '../facade/Kennezeichen';
 export class ProfilServiceService {
 
   constructor(private http: HttpClient) { }
-  apiServerUrl = "localhost:8080";
+  apiServerUrl = "http://localhost:8080";
 
-  getMitarbeiter(mitarbeiterId: number): Observable<Mitarbeiter> {
-    return this.http.get<any>(`{$this.apiServerUrl}/profil/`)
+  getMitarbeiter(mitarbeiterID: number): Observable<Mitarbeiter> {
+    return this.http.get<Mitarbeiter>(`${this.apiServerUrl}/profil/${mitarbeiterID}`)
       .pipe(
         retry(1),
         catchError(this.handleError)
       )
   }
 
-  public createKennzeichen(mitarbeiterId: number, kennzeichen: string): Observable<Mitarbeiter> {
-    return this.http.post<Mitarbeiter>(`${this.apiServerUrl}/umweltgutachter/` + mitarbeiterId, kennzeichen)
+  public createKennzeichen(mitarbeiterID: number, kennzeichen: string): Observable<Mitarbeiter> {
+    return this.http.post<Mitarbeiter>(`${this.apiServerUrl}/profil/` + mitarbeiterID, kennzeichen)
       .pipe(
         retry(1),
         catchError(this.handleError)
       );
   }
 
-  public updateKennzeichen(mitarbeiterId: number, kennzeichenId: string): Observable<Mitarbeiter> {
-    return this.http.put<Mitarbeiter>(`${this.apiServerUrl}/umweltgutachter/` + mitarbeiterId, kennzeichenId)
+  public updateKennzeichen(mitarbeiterID: number, kennzeichen: Kennzeichen): Observable<Mitarbeiter> {
+    return this.http.put<Mitarbeiter>(`${this.apiServerUrl}/profil/` + mitarbeiterID, kennzeichen)
       .pipe(
         retry(1),
         catchError(this.handleError)
       )
   }
 
-  public loescheKennzeichenFromMitarbeiter(mitarbeiterId: number, kennzeichenId: number): Observable<Mitarbeiter> {
-    return this.http.post<Mitarbeiter>(`${this.apiServerUrl}/profil/delete-kennzeichen` + mitarbeiterId, kennzeichenId)
+  public loescheKennzeichenFromMitarbeiter(mitarbeiterID: number, kennzeichenID: number): Observable<Mitarbeiter> {
+    return this.http.post<Mitarbeiter>(`${this.apiServerUrl}/profil/delete-kennzeichen` + mitarbeiterID, kennzeichenID)
       .pipe(
         retry(1),
         catchError(this.handleError)

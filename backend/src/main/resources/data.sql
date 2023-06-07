@@ -11,14 +11,14 @@ INSERT INTO Kennzeichen (kennzeichenID, kennzeichen)
 VALUES(3, 'DEF456');
 
 -- Mitarbeiter
-INSERT INTO Mitarbeiter (mitarbeiterID, mail, name)
-VALUES(1, 'max@example.com', 'Max Mustermann');
+INSERT INTO Mitarbeiter (mitarbeiterID, mail, vorname, nachname)
+VALUES(1, 'max@example.com', 'Max', 'Mustermann');
 
-INSERT INTO Mitarbeiter (mitarbeiterID, mail, name)
-VALUES(2, 'sabine@example.com', 'Sabine Schmidt');
+INSERT INTO Mitarbeiter (mitarbeiterID, mail, vorname, nachname)
+VALUES(2, 'sabine@example.com', 'Sabine', 'Schmidt');
 
-INSERT INTO Mitarbeiter (mitarbeiterID, mail, name)
-VALUES(3, 'thomas@example.com', 'Thomas Müller');
+INSERT INTO Mitarbeiter (mitarbeiterID, mail, vorname, nachname)
+VALUES(3, 'thomas@example.com', 'Thomas', 'Müller');
 
 
 
