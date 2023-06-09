@@ -31,6 +31,7 @@ public kennzeichenDeleteCallback: Function | undefined;
     this.kennzeichenDeleteCallback = this.deleteKennzeichen.bind(this);
     this.activatedRoute.queryParams.subscribe(params => {
       let mitarbeiterID = params['mitarbeiterID'];
+      mitarbeiterID = 1;
       this.profilService.getMitarbeiter(mitarbeiterID).subscribe((data: Mitarbeiter) => {
         this.mitarbeiter = data;
     });
