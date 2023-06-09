@@ -11,10 +11,10 @@
             <lux-layout-form-row>
 
                 <lux-input luxLabel="E-Mail Adresse" *luxLayoutRowItem="{}"
-                    luxValue="MaxMustermann@gfi.ihk.de  "></lux-input>
+                    [luxValue]="mitarbeiter.mail"></lux-input>
             </lux-layout-form-row>
 
-            <edit-list [items]="mitarbeiter.kennzeichen" [attributes]="attr"
+            <edit-list [items]="mitarbeiter.kennzeichenList" [attributes]="attr"
                 [onDelete]="kennzeichenDeleteCallback"></edit-list>
         </lux-card-content>
     </lux-card>
