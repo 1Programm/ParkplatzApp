@@ -1,14 +1,5 @@
 
 
--- Kennzeichen
-INSERT INTO Kennzeichen (kennzeichenID, kennzeichen)
-VALUES(1, 'ABC123');
-
-INSERT INTO Kennzeichen (kennzeichenID, kennzeichen)
-VALUES(2, 'XYZ789');
-
-INSERT INTO Kennzeichen (kennzeichenID, kennzeichen)
-VALUES(3, 'DEF456');
 
 -- Mitarbeiter
 INSERT INTO Mitarbeiter (mitarbeiterID, mail, vorname, nachname)
@@ -91,15 +82,6 @@ VALUES(3, '2023-06-03', 12.75, 3, 2);
 INSERT INTO Buchung (buchungID, datum, tagespreis, mitarbeiter_mitarbeiterID, parkplatz_parkplatzID)
 VALUES(4, '2023-06-04', 9.99, 1, 4);
 
--- Mitarbeiter_kennzeichen_list
-INSERT INTO Mitarbeiter_kennzeichen_list (mitarbeiter_mitarbeiterID, kennzeichen_list_kennzeichenID)
-VALUES(1, 1);
-
-INSERT INTO Mitarbeiter_kennzeichen_list (mitarbeiter_mitarbeiterID, kennzeichen_list_kennzeichenID)
-VALUES(1, 2);
-
-INSERT INTO Mitarbeiter_kennzeichen_list (mitarbeiter_mitarbeiterID, kennzeichen_list_kennzeichenID)
-VALUES(2, 3);
 
 
 -- Mitarbeiter_verstoss_list

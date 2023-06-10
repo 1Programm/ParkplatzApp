@@ -12,11 +12,17 @@
       >
       </lux-side-nav-item>
       <lux-side-nav-item
+        luxLabel="Test"
+        luxTagId="project-side-nav-item"
+        luxIconName="lux-home-1"
+        (luxClicked)="router.navigate(['/test'])"
+      >
+      </lux-side-nav-item>
+      <lux-side-nav-item
         luxLabel="Profil"
         luxTagId="project-side-nav-item"
         luxIconName="lux-interface-user-single"
         (luxClicked)="router.navigate(['/profil'])"
-        
       >
       </lux-side-nav-item>
     </lux-side-nav>

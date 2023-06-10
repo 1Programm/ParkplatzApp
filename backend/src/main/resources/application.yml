@@ -16,9 +16,7 @@ spring:
     driver-class-name: org.h2.Driver
     username: sa
     password: password
-  sql:
-    init:
-      mode: always
+  sql.init.mode: always
 
 logging.level.org.springframework.web: DEBUG
 

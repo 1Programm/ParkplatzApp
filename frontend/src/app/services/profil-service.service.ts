@@ -9,9 +9,9 @@ import { Kennzeichen } from '../facade/Kennezeichen';
 export class ProfilServiceService {
 
   constructor(private http: HttpClient) { }
-  apiServerUrl = "http://localhost:8080";
+  private apiServerUrl = "http://localhost:8080";
 
-  getMitarbeiter(mitarbeiterID: number): Observable<Mitarbeiter> {
+  public getMitarbeiter(mitarbeiterID: number): Observable<Mitarbeiter> {
     return this.http.get<Mitarbeiter>(`${this.apiServerUrl}/profil/${mitarbeiterID}`)
       .pipe(
         retry(1),
@@ -19,15 +19,15 @@ export class ProfilServiceService {
       )
   }
 
-  public createKennzeichen(mitarbeiterID: number, kennzeichen: string): Observable<Mitarbeiter> {
-    return this.http.post<Mitarbeiter>(`${this.apiServerUrl}/profil/` + mitarbeiterID, kennzeichen)
+  public createKennzeichenForMitarbeiter(mitarbeiterID: number, kennzeichen: string): Observable<Mitarbeiter> {
+    return this.http.post<Mitarbeiter>(`${this.apiServerUrl}/profil/${mitarbeiterID}`, {kennzeichen: kennzeichen})
       .pipe(
         retry(1),
         catchError(this.handleError)
       );
   }
 
-  public updateKennzeichen(mitarbeiterID: number, kennzeichen: Kennzeichen): Observable<Mitarbeiter> {
+  public updateKennzeichenForMitarbeiter(mitarbeiterID: number, kennzeichen: Kennzeichen): Observable<Mitarbeiter> {
     return this.http.put<Mitarbeiter>(`${this.apiServerUrl}/profil/` + mitarbeiterID, kennzeichen)
       .pipe(
         retry(1),
@@ -35,12 +35,14 @@ export class ProfilServiceService {
       )
   }
 
-  public loescheKennzeichenFromMitarbeiter(mitarbeiterID: number, kennzeichenID: number): Observable<Mitarbeiter> {
-    return this.http.post<Mitarbeiter>(`${this.apiServerUrl}/profil/delete-kennzeichen` + mitarbeiterID, kennzeichenID)
+  public deleteKennzeichenFromMitarbeiter({ mitarbeiterID, kennzeichenID }: { mitarbeiterID: number; kennzeichenID: number; }): Observable<Mitarbeiter> {
+      const url = `${this.apiServerUrl}/profil/${mitarbeiterID}/kennzeichen/${kennzeichenID}`; 
+     return this.http.delete<Mitarbeiter>(url)
       .pipe(
         retry(1),
         catchError(this.handleError)
       )
+
   }
 
   // Error handling

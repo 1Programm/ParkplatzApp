@@ -1,0 +1,28 @@
+<div>
+  <ng-container *ngFor="let item of items; index as i">
+      <lux-layout-form-row>
+          <ng-container *ngFor="let attr of itemAttribs[i]; index as o">
+              <lux-input [luxTagId]="attr.label" [luxLabel]="attr.label" [luxValue]="attr.value" (luxValueChange)="onAttribChange(i, o, $event)" [luxReadonly]="!canEdit" *luxLayoutRowItem="{}">
+                <lux-form-hint *ngIf="attr.errorMessage">
+                  <span style="color: red;">{{attr.errorMessage}}</span>
+                </lux-form-hint>
+              </lux-input>
+          </ng-container>
+          <lux-button luxTagId="deleteItem" [luxDisabled]="!checkCanDelete(item.data)" luxIconName="fas fa-trash-alt" luxColor="warn" [luxRounded]="true" (luxClicked)="actionDeleteItem(i)" *luxLayoutRowItem="{flex: 'auto'}"></lux-button>
+      </lux-layout-form-row>
+  </ng-container>
+
+  <lux-layout-form-row *ngIf="showNewItemRow">
+    <ng-container *ngFor="let attr of newItemAttribs; index as i">
+      <lux-input [luxTagId]="attr.label" [luxLabel]="attr.label" [luxValue]="attr.value" (luxValueChange)="onNewItemAttribChange(i, $event)" *luxLayoutRowItem="{}">
+        <lux-form-hint *ngIf="attr.errorMessage">
+          <span style="color: red;">{{attr.errorMessage}}</span>
+        </lux-form-hint>
+      </lux-input>
+    </ng-container>
+    <lux-button luxTagId="deleteItem" [luxDisabled]="true" luxIconName="fas fa-trash-alt" luxColor="warn" [luxRounded]="true" *luxLayoutRowItem="{flex: 'auto'}"></lux-button>
+  </lux-layout-form-row>
+
+  <lux-button *ngIf="canAdd && !showNewItemRow" luxTagId="newItem1" luxIconName="fas fa-plus" luxColor="primary" [luxRounded]="true" (luxClicked)="actionAddItem()"></lux-button>
+  <lux-button *ngIf="showNewItemRow" luxTagId="newItem2" [luxDisabled]="!newItemValid" luxLabel="Save" luxColor="accent" [luxRaised]="true" (luxClicked)="actionSaveNewItem()"></lux-button>
+</div>

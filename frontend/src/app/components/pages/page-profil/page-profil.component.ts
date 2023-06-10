@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ILuxDialogConfig, LuxDialogService } from '@ihk-gfi/lux-components';
 import { Kennzeichen } from 'src/app/facade/Kennezeichen';
 import { Mitarbeiter } from 'src/app/facade/Mitarbeiter';
 import { ProfilServiceService } from 'src/app/services/profil-service.service';
-import { DialogConfigFactory } from 'src/app/utils/dialogConfigFactory';
 
 @Component({
   selector: 'app-page-profil',
@@ -12,8 +11,10 @@ import { DialogConfigFactory } from 'src/app/utils/dialogConfigFactory';
   styleUrls: ['./page-profil.component.scss']
 })
 export class PageProfilComponent implements OnInit {
-attr: any[] = [{name: "kennzeichen", label: "Kennzeichen"}];
-kennzeichen: Kennzeichen[] = [{id: 1, kennzeichen: "bla"}, {id: 2, kennzeichen: "bla"}];
+
+public attr = [
+  {name: 'kennzeichen', validator: this.kennzeichenValidator}
+]
 mitarbeiter: Mitarbeiter = {
   id: 0,
   vorname: '',
@@ -21,38 +22,39 @@ mitarbeiter: Mitarbeiter = {
   mail: '',
   kennzeichenList: []
 }
-private deleteKennzeichenDialogConfig: ILuxDialogConfig = new DialogConfigFactory().setWidth('80%').setContent("Wollen Sie das Kennzeichen wirklich löschen?").build();
+mitarbeiterID: number;
+
 
 public kennzeichenDeleteCallback: Function | undefined;
-  constructor(private luxDialogService: LuxDialogService, private activatedRoute: ActivatedRoute, private profilService: ProfilServiceService) {
-   }
+  constructor(private activatedRoute: ActivatedRoute, private profilService: ProfilServiceService) {}
 
   ngOnInit(): void {
-    this.kennzeichenDeleteCallback = this.deleteKennzeichen.bind(this);
     this.activatedRoute.queryParams.subscribe(params => {
-      let mitarbeiterID = params['mitarbeiterID'];
-      mitarbeiterID = 1;
-      this.profilService.getMitarbeiter(mitarbeiterID).subscribe((data: Mitarbeiter) => {
-        this.mitarbeiter = data;
-    });
-  });
-    
-   
+      this.mitarbeiterID = params['mitarbeiterID'];
+      this.profilService.getMitarbeiter(this.mitarbeiterID).subscribe((data: Mitarbeiter) => {
+      this.mitarbeiter = data;   
+      });
+    }); 
   }
 
-  deleteKennzeichen(index: number): void {
-    
-    const dialogRef = this.luxDialogService.open(this.deleteKennzeichenDialogConfig);
-    dialogRef.dialogConfirmed.subscribe((result: any) => {
-      this.profilService.loescheKennzeichenFromMitarbeiter(this.mitarbeiter.id, this.mitarbeiter.kennzeichenList[index].id).subscribe(updatedMitarbeiter => {
-        this.mitarbeiter = updatedMitarbeiter;
+  public deleteKennzeichen(toDelete: any): void {
+      this.profilService.deleteKennzeichenFromMitarbeiter({ mitarbeiterID: this.mitarbeiterID, kennzeichenID: toDelete.kennzeichenID }).subscribe(updated => {
+        this.mitarbeiter = updated;
       });
-      
+    }
+    
+  public saveKennzeichen(toSave: any) {
+    this.profilService.createKennzeichenForMitarbeiter(this.mitarbeiterID, toSave.kennzeichen).subscribe(updated => {
+      this.mitarbeiter = updated;
     });
-  } 
+  }
 
-  getName(): string {
-
+  public getName(): string {
     return this.mitarbeiter.vorname + " " + this.mitarbeiter.nachname;
+  }
+
+  private kennzeichenValidator(kennzeichen: string){
+    if(kennzeichen.match('^[A-ZÄÖÜ]{1,3}\-[ ]{0,1}[A-Z]{0,2}[0-9]{1,4}[H]{0,1}')) return undefined;
+    return "Das angegebene Kennzeichen entspricht nicht der Form XXX-YY1111";
   }
 }
