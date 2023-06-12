@@ -1,0 +1,33 @@
+<lux-layout>
+<lux-layout-card-row [luxGap]="{ row: '30px', rowItem: '50px', column: '2px'}"
+    [luxMargin]="{ xs: '5%', lg: '5%', xl: '5%', marginLeft: true, marginRight: true}" >
+    <lux-card luxTitle="Profil" *luxLayoutRowItem="{}">
+        <lux-icon luxIconName="fa-id-card"></lux-icon>
+        <lux-card-content>
+            <lux-layout-form-row>
+                <lux-input [luxReadonly]="true" luxLabel="Name" *luxLayoutRowItem="{}" [luxValue]="getName()"></lux-input>
+
+            </lux-layout-form-row>
+            <lux-layout-form-row>
+
+                <lux-input [luxReadonly]="true" luxLabel="E-Mail Adresse" *luxLayoutRowItem="{}"
+                    [luxValue]="mitarbeiter.mail"></lux-input>
+            </lux-layout-form-row>
+
+        </lux-card-content>
+    </lux-card>
+
+    
+</lux-layout-card-row>
+<lux-layout-card-row [luxGap]="{ row: '2px', rowItem: '5px', column: '2px'}"
+    [luxMargin]="{ xs: '5%', lg: '5%', xl: '5%', marginLeft: true, marginRight: true}" >
+    <lux-card luxTitle="Kennzeichen" *luxLayoutRowItem="{}">
+        <lux-card-content>
+      
+        <app-edit-list [items]="mitarbeiter.kennzeichenList" [doAutoChange]="false" [attributes]="attr" [canDelete]="true" [canEdit]="false" [canAdd]="true" (onDelete)="deleteKennzeichen($event)" (onAdd)="saveKennzeichen($event)"></app-edit-list>
+        </lux-card-content>
+    </lux-card>
+
+    
+</lux-layout-card-row>
+</lux-layout>

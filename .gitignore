@@ -1,5 +1,6 @@
 # Mac - Stuff
 .DS_Store
+.idea
 
 # Frontend
 frontend/node_modules
@@ -8,12 +9,11 @@ frontend/.vscode
 frontend/.browserslistrc
 frontend/.editorconfig
 frontend/.angular
-
+frontend/dist
 # Backend
 backend/.idea
 backend/target
-.idea
-backend.iml
+backend/backend.iml
 
 # Ignore the db folder
 db
