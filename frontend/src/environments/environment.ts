@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   generateLuxTagIds: true,
-  apiServerUrl: "localhost:8080"
+  apiServerUrl: "http://localhost:8080"
 };
 
 /*
