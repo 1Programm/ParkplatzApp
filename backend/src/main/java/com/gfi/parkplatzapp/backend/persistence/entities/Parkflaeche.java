@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -21,6 +22,6 @@ public class Parkflaeche {
 
     private String bezeichnung;
     @OneToMany
-    private ArrayList<Parkplatz> parkplatzList;
+    private List<Parkplatz> parkplatzList;
 
 }

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
  * Er stellt Endpunkte bereit, um Mitarbeiterprofile zu verwalten.
  */
 @Slf4j
-@CrossOrigin(origins = "*")
+@CrossOrigin
 @RestController
 @RequestMapping("/profil")
 public class ProfildatenController {

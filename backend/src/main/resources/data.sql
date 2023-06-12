@@ -54,7 +54,18 @@ VALUES(2, 'Geschwindigkeitsüberschreitung', '2023-06-02');
 INSERT INTO Verstoss (meldeID, bemerkung, datum)
 VALUES(3, 'Parken auf Behindertenparkplatz', '2023-06-03');
 
+--Kennzeichen
+INSERT INTO Kennzeichen (kennzeichenID, kennzeichen)
+VALUES(1, 'DO-JB1999');
 
+INSERT INTO Kennzeichen (kennzeichenID, kennzeichen)
+VALUES(2, 'DO-JB1999');
+
+INSERT INTO Kennzeichen (kennzeichenID, kennzeichen)
+VALUES(3, 'DO-JB1998');
+
+INSERT INTO Kennzeichen (kennzeichenID, kennzeichen)
+VALUES(4, 'DO-KE1200');
 
 -- Parkplatz
 INSERT INTO Parkplatz (parkplatzID, koordinate, nummer, parkplatztyp_parkplatztypID, preiskategorie_kategorieID)
@@ -70,19 +81,17 @@ INSERT INTO Parkplatz (parkplatzID, koordinate, nummer, parkplatztyp_parkplatzty
 VALUES(4, '901.234', 'P4', 3, 2);
 
 -- Buchung
-INSERT INTO Buchung (buchungID, datum, tagespreis, mitarbeiter_mitarbeiterID, parkplatz_parkplatzID)
-VALUES(1, '2023-06-01', 10.50, 1, 1);
+INSERT INTO Buchung (buchungID, datum, tagespreis, mitarbeiter_mitarbeiterID, parkplatz_parkplatzID, kennzeichen_kennzeichenID)
+VALUES(1, '2023-06-01', 10.50, 1, 1, 1);
 
-INSERT INTO Buchung (buchungID, datum, tagespreis, mitarbeiter_mitarbeiterID, parkplatz_parkplatzID)
-VALUES(2, '2023-06-02', 15.00, 2, 3);
+INSERT INTO Buchung (buchungID, datum, tagespreis, mitarbeiter_mitarbeiterID, parkplatz_parkplatzID, kennzeichen_kennzeichenID)
+VALUES(2, '2023-06-02', 15.00, 2, 3, 3);
 
-INSERT INTO Buchung (buchungID, datum, tagespreis, mitarbeiter_mitarbeiterID, parkplatz_parkplatzID)
-VALUES(3, '2023-06-03', 12.75, 3, 2);
+INSERT INTO Buchung (buchungID, datum, tagespreis, mitarbeiter_mitarbeiterID, parkplatz_parkplatzID, kennzeichen_kennzeichenID)
+VALUES(3, '2023-06-03', 12.75, 3, 2, 4);
 
-INSERT INTO Buchung (buchungID, datum, tagespreis, mitarbeiter_mitarbeiterID, parkplatz_parkplatzID)
-VALUES(4, '2023-06-04', 9.99, 1, 4);
-
-
+INSERT INTO Buchung (buchungID, datum, tagespreis, mitarbeiter_mitarbeiterID, parkplatz_parkplatzID, kennzeichen_kennzeichenID)
+VALUES(4, '2023-06-04', 9.99, 1, 4, 2);
 
 -- Mitarbeiter_verstoss_list
 INSERT INTO Mitarbeiter_verstoss_list (mitarbeiter_mitarbeiterID, verstoss_list_meldeID)
@@ -93,6 +102,19 @@ VALUES(2, 2);
 
 INSERT INTO Mitarbeiter_verstoss_list (mitarbeiter_mitarbeiterID, verstoss_list_meldeID)
 VALUES(2, 3);
+
+--Mitarbeiter_kennzeichen_list
+INSERT INTO Mitarbeiter_kennzeichen_list(mitarbeiter_mitarbeiterID, kennzeichen_list_kennzeichenID)
+VALUES(1,1);
+
+INSERT INTO Mitarbeiter_kennzeichen_list(mitarbeiter_mitarbeiterID, kennzeichen_list_kennzeichenID)
+VALUES(1,2);
+
+INSERT INTO Mitarbeiter_kennzeichen_list(mitarbeiter_mitarbeiterID, kennzeichen_list_kennzeichenID)
+VALUES(2,3);
+
+INSERT INTO Mitarbeiter_kennzeichen_list(mitarbeiter_mitarbeiterID, kennzeichen_list_kennzeichenID)
+VALUES(3,4);
 
 -- parkflaeche_parkplatz_list
 INSERT INTO parkflaeche_parkplatz_list (parkflaeche_parkflacheID, parkplatz_list_parkplatzID)
