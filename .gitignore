@@ -9,6 +9,11 @@ frontend/.browserslistrc
 frontend/.editorconfig
 frontend/.angular
 
+# Frontend - Service
+frontend-service/.idea
+frontend-service/target
+frontend-service/frontend-service.iml
+
 # Backend
 backend/.idea
 backend/target
