@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  generateLuxTagIds: false
+  generateLuxTagIds: false,
+  backendUrl: 'localhost:8080'
 };
