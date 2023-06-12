@@ -57,16 +57,16 @@ VALUES(3, 'Parken auf Behindertenparkplatz', '2023-06-03');
 
 
 -- Parkplatz
-INSERT INTO Parkplatz (parkplatzID, koordinate, number, parkplatztyp_parkplatztypID, preiskategorie_kategorieID)
+INSERT INTO Parkplatz (parkplatzID, koordinate, nummer, parkplatztyp_parkplatztypID, preiskategorie_kategorieID)
 VALUES(1, '123.456', 'P1', 1, 1);
 
-INSERT INTO Parkplatz (parkplatzID, koordinate, number, parkplatztyp_parkplatztypID, preiskategorie_kategorieID)
+INSERT INTO Parkplatz (parkplatzID, koordinate, nummer, parkplatztyp_parkplatztypID, preiskategorie_kategorieID)
 VALUES(2, '789.012', 'P2', 2, 2);
 
-INSERT INTO Parkplatz (parkplatzID, koordinate, number, parkplatztyp_parkplatztypID, preiskategorie_kategorieID)
+INSERT INTO Parkplatz (parkplatzID, koordinate, nummer, parkplatztyp_parkplatztypID, preiskategorie_kategorieID)
 VALUES(3, '345.678', 'P3', 1, 1);
 
-INSERT INTO Parkplatz (parkplatzID, koordinate, number, parkplatztyp_parkplatztypID, preiskategorie_kategorieID)
+INSERT INTO Parkplatz (parkplatzID, koordinate, nummer, parkplatztyp_parkplatztypID, preiskategorie_kategorieID)
 VALUES(4, '901.234', 'P4', 3, 2);
 
 -- Buchung

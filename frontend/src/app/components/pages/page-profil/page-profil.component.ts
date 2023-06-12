@@ -1,7 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ILuxDialogConfig, LuxDialogService } from '@ihk-gfi/lux-components';
-import { Kennzeichen } from 'src/app/facade/Kennezeichen';
 import { Mitarbeiter } from 'src/app/facade/Mitarbeiter';
 import { ProfilServiceService } from 'src/app/services/profil-service.service';
 
@@ -20,7 +19,8 @@ mitarbeiter: Mitarbeiter = {
   vorname: '',
   nachname: '',
   mail: '',
-  kennzeichenList: []
+  kennzeichenList: [],
+  verstossList: []
 }
 mitarbeiterID: number;
 
