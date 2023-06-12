@@ -8,7 +8,7 @@ frontend/.vscode
 frontend/.browserslistrc
 frontend/.editorconfig
 frontend/.angular
-
+frontend/dist
 # Backend
 backend/.idea
 backend/target
