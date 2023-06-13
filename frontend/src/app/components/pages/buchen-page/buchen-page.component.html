@@ -4,12 +4,12 @@
             <lux-card-content>
                 <lux-layout class="m70">
                     <lux-layout-form-row [luxGap]="{ row: '2px', rowItem: '25px', column: '10px'}">
-                        <lux-select luxLabel="Parkfläche" [luxOptions]="options" [luxSelected]="selected" *luxLayoutRowItem="{ empty: true, colSpan: 2 }">
-                            <ng-template let-option>
-                                {{ option.label }}
+                        <lux-select luxLabel="Parkfläche" [luxSelected]="selectedParkanlage" [luxOptions]="parkanlagen" *luxLayoutRowItem="{ empty: true, colSpan: 2 }">
+                            <ng-template let-parkanlage>
+                                {{ parkanlage.parkhausBezeichnung }} - {{ parkanlage.parkflaecheBezeichnung}}
                             </ng-template>
                         </lux-select>
-                        <lux-datepicker luxLabel="Datum" [luxTouchUi]="true" luxPlaceholder="Bitte ein Datum auswählen" *luxLayoutRowItem="{ empty: true, colSpan: 2 }"></lux-datepicker>
+                        <lux-datepicker luxLabel="Datum" [luxTouchUi]="true" [(luxValue)]="startDatum" luxPlaceholder="Bitte ein Datum auswählen" *luxLayoutRowItem="{ empty: true, colSpan: 2 }"></lux-datepicker>
                         <div *luxLayoutRowItem="{ colSpan:2, empty: true }"></div>
                     </lux-layout-form-row>
                 </lux-layout>

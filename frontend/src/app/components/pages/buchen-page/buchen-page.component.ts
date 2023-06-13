@@ -1,18 +1,31 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { BuchungService } from 'src/app/services/buchung.service';
+import {ParkflaecheAuswahlDto } from '../../../dtos/parkflaeche-auswahl.dto';
 
 @Component({
   selector: 'app-buchen-page',
   templateUrl: './buchen-page.component.html',
   styleUrls: ['./buchen-page.component.scss']
 })
-export class BuchenPageComponent {
-  options: { label: string }[] = [
-    { label: 'PK-123' },
-    { label: 'PK-234' },
-    { label: 'PK-345' },
-    { label: 'PK-456' },
-    { label: 'PK-567' },
-    { label: 'PK-678' },
-];
-selected: { label: string } = this.options[1];
+export class BuchenPageComponent implements OnInit {
+
+  parkanlagen : ParkflaecheAuswahlDto[];
+  selectedParkanlage: ParkflaecheAuswahlDto;
+
+  constructor(private buchungService: BuchungService) {}
+
+  ngOnInit(): void {
+    this.getParkAnlagen();
+  }
+
+  startDatum: string = new Date().toLocaleDateString();
+
+  public getParkAnlagen() : ParkflaecheAuswahlDto[] {
+    this.buchungService.getParkanlagen().subscribe(parkanlagen => {
+      this.parkanlagen = parkanlagen;
+      this.selectedParkanlage = parkanlagen[0];
+      console.log(this.parkanlagen);
+    });
+    return this.parkanlagen;
+  }
 }
