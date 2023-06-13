@@ -22,6 +22,10 @@ public class Buchung {
 
     private Date datum;
     private Double tagespreis;
+
+    @ManyToOne
+    private Kennzeichen kennzeichen;
+
     @ManyToOne
     private Mitarbeiter mitarbeiter;
     @ManyToOne
