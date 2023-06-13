@@ -1,6 +1,6 @@
 export class ParkflaecheAuswahlDto {
-    public parkhausId?: number;
+    public parkhausID?: number;
     public parkhausBezeichnung?: string;
-    public parkflaecheId?: number;
+    public parkflacheID?: number;
     public parkflaecheBezeichnung?: string;
 }
