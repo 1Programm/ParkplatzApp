@@ -25,10 +25,7 @@
                     <lux-layout-card-row fxLayout="column" fxLayoutAlign="center"  [luxMargin]="{ xs: '1%', lg: '1%', xl: '1%', marginLeft: false, marginRight: false}">
                         <lux-card luxTitle="Buchung" *luxLayoutRowItem="{}">
                             <lux-card-content>
-                                <p>
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam repellat vel corrupti numquam odit saepe reiciendis mollitia assumenda, quo obcaecati doloribus accusamus, magnam rem velit excepturi voluptates facere animi laudantium.
-                                    Nobis reiciendis libero neque fuga? Nostrum quaerat corrupti autem praesentium recusandae, sequi ipsa aut totam incidunt laboriosam. Illo doloremque, illum temporibus, delectus voluptates modi eaque in aspernatur laudantium commodi cupiditate?
-                                </p>
+                                <app-edit-list [items]="testData" [attributes]="testAttribs" [canDelete]="true" [canEdit]="true" [canAdd]="true" (onDelete)="onDelete($event)" (onAdd)="onAdd($event)"></app-edit-list>
                             </lux-card-content>
                         </lux-card>
                     </lux-layout-card-row>
