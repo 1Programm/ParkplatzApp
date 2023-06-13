@@ -1,4 +1,3 @@
-import { Interface } from "readline";
 import { Kennzeichen } from "../Kennezeichen";
 
 export interface BuchungDto {

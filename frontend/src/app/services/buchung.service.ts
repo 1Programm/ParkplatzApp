@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, retry, throwError } from 'rxjs';
-import { ParkflaecheAuswahlDto } from '../dtos/parkflaeche-auswahl.dto';
+import { ParkflaecheAuswahlDto } from '../facade/dto/parkflaeche-auswahl.dto';
 import { environment } from 'src/environments/environment';
 
 @Injectable({

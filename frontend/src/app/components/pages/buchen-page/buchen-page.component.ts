@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BuchungService } from 'src/app/services/buchung.service';
-import {ParkflaecheAuswahlDto } from '../../../dtos/parkflaeche-auswahl.dto';
+import {ParkflaecheAuswahlDto } from '../../../facade/dto/parkflaeche-auswahl.dto';
+import { BuchungDto } from 'src/app/facade/dto/BuchungDto';
 
 @Component({
   selector: 'app-buchen-page',
@@ -11,6 +12,7 @@ export class BuchenPageComponent implements OnInit {
 
   parkanlagen : ParkflaecheAuswahlDto[];
   selectedParkanlage: ParkflaecheAuswahlDto;
+  selectedDatum: string = new Date().toLocaleDateString();
 
   constructor(private buchungService: BuchungService) {}
 
@@ -27,14 +29,16 @@ export class BuchenPageComponent implements OnInit {
     }, 5000);
   }
 
-  startDatum: string = new Date().toLocaleDateString();
-
   public getParkAnlagen() : ParkflaecheAuswahlDto[] {
     this.buchungService.getParkanlagen().subscribe(parkanlagen => {
       this.parkanlagen = parkanlagen;
       this.selectedParkanlage = parkanlagen[0];
     });
     return this.parkanlagen;
+  }
+
+  public buchenParkanlage() {
+    console.log(this.selectedParkanlage);
   }
 
 
