@@ -94,7 +94,7 @@ public class BuchungsuebersichtService {
      */
     private BuchungDto createFromBuchung(Buchung buchung) {
         Parkflaeche parkflaeche = parkflaecheRepo.findByParkplatzList_parkplatzID(buchung.getParkplatz().getParkplatzID());
-        Parkhaus parkhaus = parkhausRepo.findByParkflaecheList_parkflacheID(parkflaeche.getParkflacheID());
+        Parkhaus parkhaus = parkhausRepo.findByParkflaecheList_parkflaecheID(parkflaeche.getParkflaecheID());
         String bezeichnung = parkhaus.getBezeichnung() + "-" + parkflaeche.getBezeichnung() + "-" + buchung.getParkplatz().getNummer();
         return new BuchungDto(buchung.getBuchungID(), buchung.getDatum(), buchung.getTagespreis(), bezeichnung, buchung.getKennzeichen());
     }
