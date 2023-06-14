@@ -4,4 +4,5 @@ import com.gfi.parkplatzapp.backend.persistence.entities.Parkflaeche;
 import org.springframework.data.repository.CrudRepository;
 
 public interface ParkflaecheRepo extends CrudRepository<Parkflaeche, Long> {
+
 }

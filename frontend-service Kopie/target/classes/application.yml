@@ -1,0 +1,61 @@
+app:
+  backend:
+    base-url: http://localhost:8081/
+
+logging:
+  level:
+    root: INFO
+
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: login-app
+            authorization-grant-type: authorization_code
+            scope:
+              - openid
+            user-name-attribute: preferred_username
+            redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
+        provider:
+          keycloak:
+            issuer-uri: https://venuflibis.de/auth/realms/SpringBootKeyCloak_ParkplatzApp
+
+      resourceserver:
+        jwt:
+          issuer-uri: https://venuflibis.de/auth/realms/SpringBootKeyCloak_ParkplatzApp
+  cloud:
+    gateway:
+      forwarded:
+        enabled: true
+      x-forwarded:
+        for-enabled: true
+        host-enabled: true
+      routes:
+        - id: fbresource
+          uri: ${app.backend.base-url}
+          predicates:
+            - Path=/fb/api/**
+          filters:
+            - StripPrefix=2
+            - TokenRelay=
+            - RemoveRequestHeader=Cookie
+            - PrefixPath=/business-service/api/
+            - AddRequestHeader=X-Forwarded-Prefix, /fb
+        - id: openapi
+          uri: ${app.backend.base-url}
+          predicates:
+            - Path=/fb/openapi/**
+          filters:
+            - StripPrefix=2
+            - RemoveRequestHeader=Cookie
+            - PrefixPath=/business-service/openapi/
+            - AddRequestHeader=X-Forwarded-Prefix, /fb
+        - id: angularresource
+          uri: http://localhost:4200/
+          predicates:
+            - Path=/**
+
+server:
+  port: 8080
