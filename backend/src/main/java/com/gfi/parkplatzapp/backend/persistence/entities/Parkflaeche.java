@@ -18,7 +18,7 @@ public class Parkflaeche {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long parkflacheID;
+    private Long parkflaecheID;
 
     private String bezeichnung;
     @OneToMany

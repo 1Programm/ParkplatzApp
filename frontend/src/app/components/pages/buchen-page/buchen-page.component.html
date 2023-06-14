@@ -1,0 +1,40 @@
+<lux-layout>
+    <lux-layout-card-row [luxGap]="{ row: '2px', rowItem: '5px', column: '2px'}" [luxMargin]="{ xs: '5%', lg: '5%', xl: '5%', marginLeft: true, marginRight: true}">
+        <lux-card *luxLayoutRowItem="{}">
+            <lux-card-content>
+                <lux-layout class="m70">
+                    <lux-layout-form-row [luxGap]="{ row: '2px', rowItem: '25px', column: '10px'}">
+                        <lux-select luxLabel="Parkfläche" [luxSelected]="selectedParkanlage" [luxOptions]="parkanlagen" *luxLayoutRowItem="{ empty: true, colSpan: 2 }">
+                            <ng-template let-parkanlage>
+                                {{ parkanlage.parkhausBezeichnung }} - {{ parkanlage.parkflaecheBezeichnung}}
+                            </ng-template>
+                        </lux-select>
+                        <lux-datepicker luxLabel="Datum" [luxTouchUi]="true" [(luxValue)]="startDatum" luxPlaceholder="Bitte ein Datum auswählen" *luxLayoutRowItem="{ empty: true, colSpan: 2 }"></lux-datepicker>
+                        <div *luxLayoutRowItem="{ colSpan:2, empty: true }"></div>
+                    </lux-layout-form-row>
+                </lux-layout>
+            </lux-card-content>
+        </lux-card>
+    </lux-layout-card-row>
+    <lux-layout-card-row [luxGap]="{ row: '2px', rowItem: '2px', column: '2px'}" [luxMargin]="{ xs: '5%', lg: '5%', xl: '5%', marginLeft: true, marginRight: true}">
+        <lux-card luxTitle="Karte D" *luxLayoutRowItem="{ colSpan: 4 }">
+        </lux-card>
+        <lux-card *luxLayoutRowItem="{ colSpan: 2 }">
+            <lux-card-content>
+                <lux-layout>
+                    <lux-layout-card-row fxLayout="column" fxLayoutAlign="center"  [luxMargin]="{ xs: '1%', lg: '1%', xl: '1%', marginLeft: false, marginRight: false}">
+                        <lux-card luxTitle="Buchung" *luxLayoutRowItem="{}">
+                            <lux-card-content>
+                                <app-edit-list [items]="testData" [attributes]="testAttribs" [canDelete]="true" [canEdit]="true" [canAdd]="true" (onDelete)="onDelete($event)" (onAdd)="onAdd($event)"></app-edit-list>
+                            </lux-card-content>
+                        </lux-card>
+                    </lux-layout-card-row>
+                    <lux-layout-card-row fxLayout="column" fxLayoutAlign="start center" [luxMargin]="{ xs: '0.3%', lg: '0.3%', marginLeft: true, marginRight: true}">
+                        <lux-button [luxRaised]="true" luxLabel="confirm" luxColor="primary" *luxLayoutRowItem="{}"></lux-button>
+                    </lux-layout-card-row>
+                </lux-layout>
+                
+            </lux-card-content>  
+        </lux-card>
+    </lux-layout-card-row>
+</lux-layout>

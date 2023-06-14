@@ -1,5 +1,6 @@
 # Mac - Stuff
 .DS_Store
+.idea
 
 # Frontend
 frontend/node_modules

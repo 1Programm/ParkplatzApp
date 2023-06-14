@@ -14,10 +14,10 @@ VALUES(3, 'thomas@example.com', 'Thomas', 'Müller');
 
 
 -- Parkflaeche
-INSERT INTO Parkflaeche (parkflacheID, bezeichnung)
+INSERT INTO Parkflaeche (parkflaecheID, bezeichnung)
 VALUES(1, 'Fläche A');
 
-INSERT INTO Parkflaeche (parkflacheID, bezeichnung)
+INSERT INTO Parkflaeche (parkflaecheID, bezeichnung)
 VALUES(2, 'Fläche B');
 
 -- Parkhaus
@@ -120,22 +120,22 @@ INSERT INTO Mitarbeiter_kennzeichen_list(mitarbeiter_mitarbeiterID, kennzeichen_
 VALUES(3,4);
 
 -- parkflaeche_parkplatz_list
-INSERT INTO parkflaeche_parkplatz_list (parkflaeche_parkflacheID, parkplatz_list_parkplatzID)
+INSERT INTO parkflaeche_parkplatz_list (parkflaeche_parkflaecheID, parkplatz_list_parkplatzID)
 VALUES(1, 1);
 
-INSERT INTO parkflaeche_parkplatz_list (parkflaeche_parkflacheID, parkplatz_list_parkplatzID)
+INSERT INTO parkflaeche_parkplatz_list (parkflaeche_parkflaecheID, parkplatz_list_parkplatzID)
 VALUES(1, 2);
 
-INSERT INTO parkflaeche_parkplatz_list (parkflaeche_parkflacheID, parkplatz_list_parkplatzID)
+INSERT INTO parkflaeche_parkplatz_list (parkflaeche_parkflaecheID, parkplatz_list_parkplatzID)
 VALUES(2, 3);
 
-INSERT INTO parkflaeche_parkplatz_list (parkflaeche_parkflacheID, parkplatz_list_parkplatzID)
+INSERT INTO parkflaeche_parkplatz_list (parkflaeche_parkflaecheID, parkplatz_list_parkplatzID)
 VALUES(2, 4);
 
 -- parkhaus_parkflaeche_list
-INSERT INTO parkhaus_parkflaeche_list (parkhaus_parkhausID, parkflaeche_list_parkflacheID)
+INSERT INTO parkhaus_parkflaeche_list (parkhaus_parkhausID, parkflaeche_list_parkflaecheID)
 VALUES(1, 1);
 
-INSERT INTO parkhaus_parkflaeche_list (parkhaus_parkhausID, parkflaeche_list_parkflacheID)
+INSERT INTO parkhaus_parkflaeche_list (parkhaus_parkhausID, parkflaeche_list_parkflaecheID)
 VALUES(1, 2);
 

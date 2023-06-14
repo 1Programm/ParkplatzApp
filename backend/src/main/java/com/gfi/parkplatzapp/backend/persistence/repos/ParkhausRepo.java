@@ -6,5 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface ParkhausRepo extends CrudRepository<Parkhaus, Long> {
 
-    Parkhaus findByParkflaecheList_parkflacheID(Long parkflacheID);
+    Parkhaus findByParkflaecheList_parkflaecheID(Long parkflaecheID);
 }
