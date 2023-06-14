@@ -1,5 +1,5 @@
-import { Interface } from "readline";
-import { Kennzeichen } from "../Kennezeichen";
+
+import { Kennzeichen } from "../Kennzeichen";
 
 export interface BuchungDto {
     

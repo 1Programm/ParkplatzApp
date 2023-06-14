@@ -1,4 +1,4 @@
 export interface Kennzeichen {
-    id: number
+    kennzeichenID: number
     kennzeichen: string
 }

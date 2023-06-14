@@ -59,10 +59,10 @@ INSERT INTO Kennzeichen (kennzeichenID, kennzeichen)
 VALUES(1, 'DO-JB1999');
 
 INSERT INTO Kennzeichen (kennzeichenID, kennzeichen)
-VALUES(2, 'DO-JB1999');
+VALUES(2, 'DO-JB1998');
 
 INSERT INTO Kennzeichen (kennzeichenID, kennzeichen)
-VALUES(3, 'DO-JB1998');
+VALUES(3, 'DO-JB1997');
 
 INSERT INTO Kennzeichen (kennzeichenID, kennzeichen)
 VALUES(4, 'DO-KE1200');
@@ -86,6 +86,9 @@ VALUES(1, '2023-06-01', 10.50, 1, 1, 1);
 
 INSERT INTO Buchung (buchungID, datum, tagespreis, mitarbeiter_mitarbeiterID, parkplatz_parkplatzID, kennzeichen_kennzeichenID)
 VALUES(2, '2023-06-02', 15.00, 2, 3, 3);
+
+INSERT INTO Buchung (buchungID, datum, tagespreis, mitarbeiter_mitarbeiterID, parkplatz_parkplatzID, kennzeichen_kennzeichenID)
+VALUES(5, '2023-08-30', 15.00, 1, 3, 1);
 
 INSERT INTO Buchung (buchungID, datum, tagespreis, mitarbeiter_mitarbeiterID, parkplatz_parkplatzID, kennzeichen_kennzeichenID)
 VALUES(3, '2023-06-03', 12.75, 3, 2, 4);

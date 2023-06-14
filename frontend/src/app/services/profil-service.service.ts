@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError, retry, throwError } from 'rxjs';
 import { Mitarbeiter } from '../facade/Mitarbeiter';
-import { Kennzeichen } from '../facade/Kennezeichen';
+import { Kennzeichen } from '../facade/Kennzeichen';
 import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
