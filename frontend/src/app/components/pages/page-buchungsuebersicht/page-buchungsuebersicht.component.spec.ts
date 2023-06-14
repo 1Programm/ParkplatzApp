@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BuchungsuebersichtComponent } from './buchungsuebersicht.component';
+import { PageBuchungsuebersichtComponent } from './page-buchungsuebersicht.component';
 
 describe('BuchungsuebersichtComponent', () => {
-  let component: BuchungsuebersichtComponent;
-  let fixture: ComponentFixture<BuchungsuebersichtComponent>;
+  let component: PageBuchungsuebersichtComponent;
+  let fixture: ComponentFixture<PageBuchungsuebersichtComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BuchungsuebersichtComponent ]
+      declarations: [ PageBuchungsuebersichtComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(BuchungsuebersichtComponent);
+    fixture = TestBed.createComponent(PageBuchungsuebersichtComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -10,10 +10,10 @@ import { DialogConfigFactory } from 'src/app/utils/dialogConfigFactory';
 
 @Component({
   selector: 'app-buchungsuebersicht',
-  templateUrl: './buchungsuebersicht.component.html',
-  styleUrls: ['./buchungsuebersicht.component.scss']
+  templateUrl: './page-buchungsuebersicht.component.html',
+  styleUrls: ['./page-buchungsuebersicht.component.scss']
 })
-export class BuchungsuebersichtComponent implements OnInit {
+export class PageBuchungsuebersichtComponent implements OnInit {
 
   public buchungen: BuchungDto[];
   public mitarbeiterID: number;
