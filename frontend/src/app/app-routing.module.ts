@@ -5,12 +5,14 @@ import { PageHomeComponent } from './components/pages/page-home/page-home.compon
 import { PageErrorComponent } from './components/pages/page-error/page-error.component';
 import { PageProfilComponent } from './components/pages/page-profil/page-profil.component';
 import { PageTestComponent } from './components/pages/page-test/page-test.component';
+import { BuchungsuebersichtComponent } from './components/pages/page-buchungsuebersicht/buchungsuebersicht.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: PageHomeComponent },
   { path: 'profil', component: PageProfilComponent },
   { path: 'test', component: PageTestComponent },
+  { path: 'buchungen', component: BuchungsuebersichtComponent },
   { path: '**', component: PageErrorComponent } // Immer als letzte Route !! -> 404!
 ];
 
