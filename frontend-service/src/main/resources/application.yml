@@ -6,14 +6,12 @@ app:
 
 logging:
   level:
-    root: DEBUG
+    root: INFO
 #    org.springframework: DEBUG
 
 spring:
-#  main:
-#    allow-bean-definition-overriding: true
   session:
-    timeout: 10m
+    timeout: 5m
   security:
     oauth2:
       client:
@@ -33,6 +31,8 @@ spring:
         jwt:
           issuer-uri: https://venuflibis.de/auth/realms/SpringBootKeyCloak_ParkplatzApp
   cloud:
+    discovery:
+      enabled: true
     gateway:
       forwarded:
         enabled: true
@@ -48,7 +48,7 @@ spring:
             - StripPrefix=2
             - TokenRelay=
             - RemoveRequestHeader=Cookie
-            - PrefixPath=/business-service/api/
+#            - PrefixPath=/business-service/api/
             - AddRequestHeader=X-Forwarded-Prefix, /fb
         - id: openapi
           uri: ${app.backend.base-url}
@@ -63,6 +63,10 @@ spring:
           uri: http://localhost:4200/
           predicates:
             - Path=/**
+zuul:
+  routes:
+    angularresource:
+      path: /**
 
 server:
   port: 8080

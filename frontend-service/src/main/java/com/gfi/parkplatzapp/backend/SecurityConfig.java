@@ -12,7 +12,6 @@ import org.springframework.web.reactive.config.EnableWebFlux;
 @EnableWebFluxSecurity
 class SecurityConfig {
 
-
     @Bean
     public SecurityWebFilterChain filterChain(ServerHttpSecurity http) throws Exception {
         String[] angularApi = {
@@ -24,10 +23,15 @@ class SecurityConfig {
                 "/styles(-es5|-es2015)?\\.(js|css)(\\.map)?" };
 
 
-//        http.authorizeExchange().matchers(new RegexServerWebExchangeMatcher(angularApi)).permitAll();
+        http.authorizeExchange().matchers(new RegexServerWebExchangeMatcher(angularApi)).permitAll();
 
-        http.authorizeExchange().anyExchange().permitAll();
+        http.authorizeExchange().pathMatchers("/test").permitAll();
+        http.authorizeExchange().pathMatchers("/profil").hasRole("PA_ADMIN");
+//        http.authorizeExchange().pathMatchers("/fb/api/test").authenticated();
+        http.logout().logoutUrl("/logout");
+        http.authorizeExchange().anyExchange().authenticated();
         http.oauth2Login();
+
 
         return http.build();
     }

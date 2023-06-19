@@ -25,11 +25,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-tomcat</artifactId>-->
-<!--            <scope>provided</scope>-->
-<!--        </dependency>-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -41,12 +36,6 @@
             <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.cloud</groupId>-->
-<!--            <artifactId>spring-cloud-starter-bootstrap</artifactId>-->
-<!--            <version>4.0.1</version>-->
-<!--        </dependency>-->
-
         <!-- Security -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -57,12 +46,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-reactor-netty</artifactId>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>io.netty</groupId>-->
-<!--            <artifactId>netty-resolver-dns-native-macos</artifactId>-->
-<!--&lt;!&ndash;            <version>XXX</version>&ndash;&gt;-->
-<!--            <classifier>osx-aarch_64</classifier>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-resolver-dns-native-macos</artifactId>
+<!--            <version>XXX</version>-->
+            <classifier>osx-aarch_64</classifier>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -75,39 +64,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
-        <!-- Readiness- und Liveness-Probes -->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-actuator</artifactId>-->
-<!--        </dependency>-->
-
-        <!-- JAST-Tracing -->
-<!--        <dependency>-->
-<!--            <groupId>io.opentracing.contrib</groupId>-->
-<!--            <artifactId>opentracing-spring-jaeger-starter</artifactId>-->
-<!--        </dependency>-->
-
-<!--        <dependency>-->
-<!--            <groupId>io.opentracing.contrib</groupId>-->
-<!--            <artifactId>opentracing-spring-cloud-starter</artifactId>-->
-<!--        </dependency>-->
-
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-amqp</artifactId>-->
-<!--        </dependency>-->
-
-        <!-- Session-Management -->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-data-redis</artifactId>-->
-<!--        </dependency>-->
-
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.session</groupId>-->
-<!--            <artifactId>spring-session-data-redis</artifactId>-->
-<!--        </dependency>-->
 
         <dependency>
             <groupId>org.springframework.session</groupId>
@@ -156,10 +112,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-<!--                <configuration>-->
-<!--                    <source>17</source>-->
-<!--                    <target>17</target>-->
-<!--                </configuration>-->
             </plugin>
         </plugins>
     </build>

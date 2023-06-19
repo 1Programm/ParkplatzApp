@@ -3,35 +3,6 @@ logging:
     root: INFO
 
 spring:
-#  cloud:
-#    gateway:
-#      routes:
-#        - id: fbresource
-#          uri: http://localhost:8080/backend
-#          predicates:
-#            - Path=/fb/**
-#        - id: angularresource
-#          uri: forward:/index.html
-#          predicates:
-#            - Path=/**
-#  cloud:
-#    gateway:
-#      routes:
-#        - id: baeldung_route
-#          uri: http://baeldung.com
-#          predicates:
-#            - Path=/baeldung/
-#  cloud:
-#    gateway:
-#      routes:
-#        - id: employeeModule
-#          uri: forward:/test
-#          predicates:
-#            - Path=/employee/**
-#        - id: consumerModule
-#          uri: http://localhost:4200/
-#          predicates:
-#            - Path=/consumer/**
   h2:
     console.enabled: true
   jpa:
