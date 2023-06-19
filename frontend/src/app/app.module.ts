@@ -46,7 +46,7 @@ const luxComponentsConfig: LuxComponentsConfigParameters = {
     PageTestComponent,
     PageProfilComponent,
     EditListComponent,
-    PageBuchungsuebersichtComponent
+    PageBuchungsuebersichtComponent,
     EditListComponent,
     BuchenPageComponent,
   ],
