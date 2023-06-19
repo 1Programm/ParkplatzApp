@@ -1,6 +1,6 @@
 # Mac - Stuff
 .DS_Store
-.idea/
+.idea
 
 # Frontend
 frontend/node_modules
@@ -9,6 +9,7 @@ frontend/.vscode
 frontend/.browserslistrc
 frontend/.editorconfig
 frontend/.angular
+frontend/dist
 
 # Frontend - Service
 frontend-service/.idea

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -19,11 +20,12 @@ public class Mitarbeiter {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long mitarbeiterID;
 
-    private String name;
+    private String vorname;
+    private String nachname;
     private String mail;
     @OneToMany
-    private ArrayList<Verstoss> verstossList;
+    private List<Verstoss> verstossList;
     @OneToMany
-    private ArrayList<Kennzeichen> kennzeichenList;
+    private List<Kennzeichen> kennzeichenList;
 
 }

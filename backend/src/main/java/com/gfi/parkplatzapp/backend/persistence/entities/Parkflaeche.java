@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -17,10 +18,10 @@ public class Parkflaeche {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long parkflacheID;
+    private Long parkflaecheID;
 
     private String bezeichnung;
     @OneToMany
-    private ArrayList<Parkplatz> parkplatzList;
+    private List<Parkplatz> parkplatzList;
 
 }
