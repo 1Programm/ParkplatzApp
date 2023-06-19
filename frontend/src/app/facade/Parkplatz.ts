@@ -3,7 +3,7 @@ import { Preiskategorie } from "./Preiskategorie"
 
 export interface Parkplatz {
     parkplatzID: number
-    nummer: String
+    nummer: string
     xkoordinate: number
     ykoordinate: number
     parkplatztyp: Parkplatztyp
