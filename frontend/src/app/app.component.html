@@ -33,6 +33,11 @@
     >
     </lux-side-nav-item>
     </lux-side-nav>
+
+    <lux-app-header-right-nav *ngIf="accountService.loggedIn">
+      <lux-menu-item luxIconName="fa-power-off" luxLabel="Abmelden" (luxClicked)="accountService.logout()">
+      </lux-menu-item>
+    </lux-app-header-right-nav>
   </lux-app-header>
 
   <lux-app-content luxAriaRoleMainLabel=""></lux-app-content>

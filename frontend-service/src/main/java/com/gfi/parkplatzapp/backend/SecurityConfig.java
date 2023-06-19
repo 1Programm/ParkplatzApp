@@ -25,6 +25,8 @@ class SecurityConfig {
 
         http.authorizeExchange().matchers(new RegexServerWebExchangeMatcher(angularApi)).permitAll();
 
+        http.authorizeExchange().pathMatchers("/logout").authenticated();
+
         http.authorizeExchange().pathMatchers("/test").permitAll();
         http.authorizeExchange().pathMatchers("/profil").hasRole("PA_ADMIN");
 //        http.authorizeExchange().pathMatchers("/fb/api/test").authenticated();

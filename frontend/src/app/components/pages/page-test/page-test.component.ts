@@ -20,7 +20,7 @@ export class PageTestComponent implements OnInit {
       return value.includes(' ') ? "You cannot have spaces in the name!" : undefined;
     }},
     //Validator as a method
-    {name: 'age', validator: this.ageValidator},
+    {name: 'age', typ: 'string', validator: this.ageValidator},
     {name: 'gender', typ: ["Male", "Female", "Diverse"]}
   ];
 
