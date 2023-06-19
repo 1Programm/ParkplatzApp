@@ -1,28 +1,26 @@
 package com.gfi.parkplatzapp.backend.persistence.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Getter
 @Setter
 public class Parkplatz {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long parkplatzID;
 
     private String nummer;
     private int xKoordinate;
     private int yKoordinate;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Parkplatztyp parkplatztyp;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Preiskategorie preiskategorie;
 }

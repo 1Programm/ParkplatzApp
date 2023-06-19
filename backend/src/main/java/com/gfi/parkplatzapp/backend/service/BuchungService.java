@@ -4,6 +4,7 @@ import com.gfi.parkplatzapp.backend.facade.dto.BuchungDto;
 import com.gfi.parkplatzapp.backend.facade.dto.ParkflaecheAuswahlDto;
 import com.gfi.parkplatzapp.backend.persistence.entities.*;
 import com.gfi.parkplatzapp.backend.persistence.repos.*;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,9 @@ public class BuchungService {
     private ParkplatzRepo parkplatzRepo;
     @Autowired
     private ParkplatztypRepo parkplatztypRepo;
+
+    @Autowired
+    private PreiskategorieRepo preiskategorieRepo;
 
     public List<ParkflaecheAuswahlDto> getParkflaechen() {
         List<ParkflaecheAuswahlDto> resultList = new ArrayList<>();
@@ -57,5 +61,19 @@ public class BuchungService {
         return typen;
     }
 
+    public List<Preiskategorie> getPreiskategorien() {
+        List<Preiskategorie> kategorien = new ArrayList<>();
+        preiskategorieRepo.findAll().iterator().forEachRemaining(kategorien::add);
+        return kategorien;
+    }
+
+    public List<Parkplatz> createParkplatz(Parkplatz parkplatz) {
+        List<Parkplatz> parkplaetze = new ArrayList<>();
+        parkplatz.setPreiskategorie(preiskategorieRepo.findById(parkplatz.getPreiskategorie().getKategorieID()).get());
+        parkplatz.setParkplatztyp(parkplatztypRepo.findById(parkplatz.getParkplatztyp().getParkplatztypID()).get());
+        parkplatzRepo.save(parkplatz);
+        parkplatzRepo.findAll().iterator().forEachRemaining(parkplaetze::add);
+        return parkplaetze;
+    }
 
 }
