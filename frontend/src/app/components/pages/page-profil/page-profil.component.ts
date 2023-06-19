@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ILuxDialogConfig, LuxDialogService } from '@ihk-gfi/lux-components';
 import { Mitarbeiter } from 'src/app/facade/Mitarbeiter';
+import { AccountService } from 'src/app/services/account.service';
 import { ProfilServiceService } from 'src/app/services/profil-service.service';
 
 @Component({
@@ -22,29 +23,27 @@ mitarbeiter: Mitarbeiter = {
   kennzeichenList: [],
   verstossList: []
 }
-mitarbeiterID: number;
 
 
 public kennzeichenDeleteCallback: Function | undefined;
-  constructor(private activatedRoute: ActivatedRoute, private profilService: ProfilServiceService) {}
+  constructor(private accountService: AccountService, private profilService: ProfilServiceService) {}
 
   ngOnInit(): void {
-    this.activatedRoute.queryParams.subscribe(params => {
-      this.mitarbeiterID = params['mitarbeiterID'];
-      this.profilService.getMitarbeiter(this.mitarbeiterID).subscribe((data: Mitarbeiter) => {
-      this.mitarbeiter = data;   
+    this.accountService.getMitarbeiterIDAsObservable().subscribe(mitarbeiterID => {
+      this.profilService.getMitarbeiter(mitarbeiterID).subscribe((data: Mitarbeiter) => {
+        this.mitarbeiter = data;   
       });
-    }); 
+    });
   }
 
   public deleteKennzeichen(toDelete: any): void {
-      this.profilService.deleteKennzeichenFromMitarbeiter({ mitarbeiterID: this.mitarbeiterID, kennzeichenID: toDelete.kennzeichenID }).subscribe(updated => {
+      this.profilService.deleteKennzeichenFromMitarbeiter(toDelete.kennzeichenID).subscribe(updated => {
         this.mitarbeiter = updated;
       });
     }
     
   public saveKennzeichen(toSave: any) {
-    this.profilService.createKennzeichenForMitarbeiter(this.mitarbeiterID, toSave.kennzeichen).subscribe(updated => {
+    this.profilService.createKennzeichenForMitarbeiter(toSave.kennzeichen).subscribe(updated => {
       this.mitarbeiter = updated;
     });
   }

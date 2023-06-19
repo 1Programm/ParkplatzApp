@@ -2,10 +2,9 @@ package com.gfi.parkplatzapp.backend.facade;
 
 import com.gfi.parkplatzapp.backend.persistence.entities.Kennzeichen;
 import com.gfi.parkplatzapp.backend.persistence.entities.Mitarbeiter;
-import com.gfi.parkplatzapp.backend.service.ProfildatenService;
+import com.gfi.parkplatzapp.backend.service.MitarbeiterService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -18,16 +17,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/profil")
 public class ProfildatenController {
 
-    private ProfildatenService profilService;
-
-    /**
-     * Erzeugt eine neue Instanz des ProfildatenControllers.
-     *
-     * @param profilService der ProfildatenService, der für die Geschäftslogik zuständig ist.
-     */
-    public ProfildatenController(final ProfildatenService profilService){
-        this.profilService = profilService;
-    }
+    @Autowired
+    private MitarbeiterService mitarbeiterService;
 
     /**
      * Gibt einen Mitarbeiter anhand der Mitarbeiter-ID zurück.
@@ -38,7 +29,7 @@ public class ProfildatenController {
     @GetMapping("/{mitarbeiterID}")
     public Mitarbeiter getMitarbeiter(@PathVariable("mitarbeiterID") Long mitarbeiterID)
     {
-        return this.profilService.getMitarbeiter(mitarbeiterID);
+        return this.mitarbeiterService.getMitarbeiter(mitarbeiterID);
     }
 
     /**
@@ -50,7 +41,7 @@ public class ProfildatenController {
      */
     @DeleteMapping(path = "/{mitarbeiterID}/kennzeichen/{kennzeichenID}")
     public Mitarbeiter deleteKennzeichenFromMitarbeiter(@PathVariable long mitarbeiterID, @PathVariable long kennzeichenID) {
-        return profilService.deleteKennzeichenFromMitarbeiter(mitarbeiterID, kennzeichenID);
+        return mitarbeiterService.deleteKennzeichenFromMitarbeiter(mitarbeiterID, kennzeichenID);
     }
 
     /**
@@ -63,6 +54,6 @@ public class ProfildatenController {
     @PostMapping(path = "/{mitarbeiterID}", consumes = "application/json")
     public Mitarbeiter createKennzeichenForMitarbeiter(@PathVariable long mitarbeiterID, @RequestBody Kennzeichen kennzeichen)
     {
-        return profilService.createKennzeichenForMitarbeiter(mitarbeiterID, kennzeichen.getKennzeichen());
+        return mitarbeiterService.createKennzeichenForMitarbeiter(mitarbeiterID, kennzeichen.getKennzeichen());
     }
 }

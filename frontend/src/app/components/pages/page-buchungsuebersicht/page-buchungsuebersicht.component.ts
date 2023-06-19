@@ -5,6 +5,7 @@ import { LuxDialogService, LuxSnackbarService } from '@ihk-gfi/lux-components';
 import { Buchung } from 'src/app/facade/Buchung';
 import { Kennzeichen } from 'src/app/facade/Kennzeichen';
 import { BuchungDto } from 'src/app/facade/dto/BuchungDto';
+import { AccountService } from 'src/app/services/account.service';
 import { BuchungsuebersichtService } from 'src/app/services/buchungsuebersicht.service';
 import { DialogConfigFactory } from 'src/app/utils/dialogConfigFactory';
 
@@ -16,28 +17,25 @@ import { DialogConfigFactory } from 'src/app/utils/dialogConfigFactory';
 export class PageBuchungsuebersichtComponent implements OnInit {
 
   public buchungen: BuchungDto[];
-  public mitarbeiterID: number;
   public kennzeichen: Kennzeichen[];
   public selected: Kennzeichen;
 
   constructor(
-    private activatedRoute: ActivatedRoute,
+    private accountService: AccountService,
     private buchungenService: BuchungsuebersichtService,
     private snackbar: LuxSnackbarService,
     private luxDialogService: LuxDialogService
   ) { }
 
   ngOnInit(): void {
-    this.activatedRoute.queryParams.subscribe(params => {
-      this.mitarbeiterID = params['mitarbeiterID'];
-      
+    this.accountService.getMitarbeiterIDAsObservable().subscribe(mitarbeiterID => {  
       // Abrufen der Buchungen für den Mitarbeiter
-      this.buchungenService.getBuchungenForMitarbeiter(this.mitarbeiterID).subscribe((data: BuchungDto[]) => {
+      this.buchungenService.getBuchungenForMitarbeiter().subscribe((data: BuchungDto[]) => {
         this.buchungen = data;
       });
 
       // Abrufen der Kennzeichen für den Mitarbeiter
-      this.buchungenService.getKennzeichenForMitarbeiter(this.mitarbeiterID).subscribe((data: Kennzeichen[]) => {
+      this.buchungenService.getKennzeichenForMitarbeiter().subscribe((data: Kennzeichen[]) => {
         this.kennzeichen = data;
       });
     });
@@ -56,7 +54,7 @@ export class PageBuchungsuebersichtComponent implements OnInit {
     const dialogRef = this.luxDialogService.open(new DialogConfigFactory().setWidth('30%').setContent("Wollen Sie die Buchung wirklich löschen?").build());
     dialogRef.dialogConfirmed.subscribe(() => {
       // Löschen der Buchung
-      this.buchungenService.deleteBuchungFromMitarbeiter({ mitarbeiterID: this.mitarbeiterID, buchungID: buchung.buchungID }).subscribe(updated => {
+      this.buchungenService.deleteBuchungFromMitarbeiter(buchung.buchungID).subscribe(updated => {
         this.buchungen = updated;
       });
     });

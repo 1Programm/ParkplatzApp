@@ -1,10 +1,12 @@
 package com.gfi.parkplatzapp.backend.facade;
 
 import com.gfi.parkplatzapp.backend.facade.dto.ParkflaecheAuswahlDto;
-import com.gfi.parkplatzapp.backend.persistence.entities.*;
+import com.gfi.parkplatzapp.backend.persistence.entities.Parkplatz;
+import com.gfi.parkplatzapp.backend.persistence.entities.Parkplatztyp;
+import com.gfi.parkplatzapp.backend.persistence.entities.Preiskategorie;
 import com.gfi.parkplatzapp.backend.service.BuchungService;
-import com.gfi.parkplatzapp.backend.service.ProfildatenService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,16 +17,11 @@ import java.util.List;
 @RequestMapping("/buchung")
 public class BuchungController {
 
+    @Autowired
     private BuchungService buchungService;
 
-    public BuchungController(final BuchungService buchungService){
-        this.buchungService = buchungService;
-    }
-
-
     @GetMapping("/parkanlagen")
-    public List<ParkflaecheAuswahlDto> getParkflaechen()
-    {
+    public List<ParkflaecheAuswahlDto> getParkflaechen() {
         return this.buchungService.getParkflaechen();
     }
 
@@ -45,8 +42,7 @@ public class BuchungController {
     }
 
     @PostMapping(path = "/parkplatz", consumes = "application/json")
-    public List<Parkplatz> createKennzeichenForMitarbeiter(@RequestBody Parkplatz parkplatz)
-    {
+    public List<Parkplatz> createKennzeichenForMitarbeiter(@RequestBody Parkplatz parkplatz) {
         return buchungService.createParkplatz(parkplatz);
     }
 }

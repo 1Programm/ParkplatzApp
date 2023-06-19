@@ -5,15 +5,18 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Kennzeichen } from '../facade/Kennzeichen';
 import { Buchung } from '../facade/Buchung';
+import { AccountService } from './account.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BuchungsuebersichtService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private accountService: AccountService) { }
   
 
-  public getBuchungenForMitarbeiter(mitarbeiterID: number): Observable<BuchungDto[]> {
+  public getBuchungenForMitarbeiter(): Observable<BuchungDto[]> {
+    let mitarbeiterID = this.accountService.getMitarbeiterID();
+    
     return this.http.get<BuchungDto[]>(`${environment.apiServerUrl}/buchungen/${mitarbeiterID}`)
       .pipe(
         retry(1),
@@ -21,16 +24,20 @@ export class BuchungsuebersichtService {
       )
   }
 
-  public deleteBuchungFromMitarbeiter({ mitarbeiterID, buchungID }: { mitarbeiterID: number; buchungID: number; }): Observable<BuchungDto[]> {
+  public deleteBuchungFromMitarbeiter(buchungID: number): Observable<BuchungDto[]> {
+    let mitarbeiterID = this.accountService.getMitarbeiterID();
+
     const url = `${environment.apiServerUrl}/buchungen/${mitarbeiterID}/buchung/${buchungID}`; 
-   return this.http.delete<BuchungDto[]>(url)
+    return this.http.delete<BuchungDto[]>(url)
     .pipe(
       retry(1),
       catchError(this.handleError)
     )
 }
 
-  public getKennzeichenForMitarbeiter(mitarbeiterID: number): Observable<Kennzeichen[]> {
+  public getKennzeichenForMitarbeiter(): Observable<Kennzeichen[]> {
+    let mitarbeiterID = this.accountService.getMitarbeiterID();
+
     return this.http.get<Kennzeichen[]>(`${environment.apiServerUrl}/buchungen/${mitarbeiterID}/kennzeichen`)
     .pipe(
       retry(1),

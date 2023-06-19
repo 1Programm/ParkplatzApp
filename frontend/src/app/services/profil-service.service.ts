@@ -4,12 +4,13 @@ import { Observable, catchError, retry, throwError } from 'rxjs';
 import { Mitarbeiter } from '../facade/Mitarbeiter';
 import { Kennzeichen } from '../facade/Kennzeichen';
 import { environment } from 'src/environments/environment';
+import { AccountService } from './account.service';
 @Injectable({
   providedIn: 'root'
 })
 export class ProfilServiceService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private accountService: AccountService) { }
   
 
   public getMitarbeiter(mitarbeiterID: number): Observable<Mitarbeiter> {
@@ -20,7 +21,9 @@ export class ProfilServiceService {
       )
   }
 
-  public createKennzeichenForMitarbeiter(mitarbeiterID: number, kennzeichen: string): Observable<Mitarbeiter> {
+  public createKennzeichenForMitarbeiter(kennzeichen: string): Observable<Mitarbeiter> {
+    let mitarbeiterID = this.accountService.getMitarbeiterID();
+    
     return this.http.post<Mitarbeiter>(`${environment.apiServerUrl}/profil/${mitarbeiterID}`, {kennzeichen: kennzeichen})
       .pipe(
         retry(1),
@@ -28,7 +31,9 @@ export class ProfilServiceService {
       );
   }
 
-  public updateKennzeichenForMitarbeiter(mitarbeiterID: number, kennzeichen: Kennzeichen): Observable<Mitarbeiter> {
+  public updateKennzeichenForMitarbeiter(kennzeichen: Kennzeichen): Observable<Mitarbeiter> {
+    let mitarbeiterID = this.accountService.getMitarbeiterID();
+    
     return this.http.put<Mitarbeiter>(`${environment.apiServerUrl}/profil/` + mitarbeiterID, kennzeichen)
       .pipe(
         retry(1),
@@ -36,9 +41,10 @@ export class ProfilServiceService {
       )
   }
 
-  public deleteKennzeichenFromMitarbeiter({ mitarbeiterID, kennzeichenID }: { mitarbeiterID: number; kennzeichenID: number; }): Observable<Mitarbeiter> {
-      const url = `${environment.apiServerUrl}/profil/${mitarbeiterID}/kennzeichen/${kennzeichenID}`; 
-     return this.http.delete<Mitarbeiter>(url)
+  public deleteKennzeichenFromMitarbeiter(kennzeichenID: number): Observable<Mitarbeiter> {
+    let mitarbeiterID = this.accountService.getMitarbeiterID();
+    
+    return this.http.delete<Mitarbeiter>(`${environment.apiServerUrl}/profil/${mitarbeiterID}/kennzeichen/${kennzeichenID}`)
       .pipe(
         retry(1),
         catchError(this.handleError)
