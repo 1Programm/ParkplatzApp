@@ -7,4 +7,5 @@ export interface Buchung {
     tagespreis: number
     mitarbeiter: Mitarbeiter
     parkplatz: Parkplatz
+    
 }

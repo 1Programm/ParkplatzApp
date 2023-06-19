@@ -30,6 +30,7 @@ import { BuchenPageComponent } from './components/pages/buchen-page/buchen-page.
 import { PageProfilComponent } from './components/pages/page-profil/page-profil.component';
 import { PageTestComponent } from './components/pages/page-test/page-test.component';
 import { EditListComponent } from './components/core/edit-list/edit-list.component';
+import { PageBuchungsuebersichtComponent } from './components/pages/page-buchungsuebersicht/page-buchungsuebersicht.component';
 
 registerLocaleData(localeDE, localeDeExtra);
 
@@ -44,6 +45,8 @@ const luxComponentsConfig: LuxComponentsConfigParameters = {
     PageErrorComponent,
     PageTestComponent,
     PageProfilComponent,
+    EditListComponent,
+    PageBuchungsuebersichtComponent
     EditListComponent,
     BuchenPageComponent,
   ],

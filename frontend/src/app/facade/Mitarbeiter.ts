@@ -1,4 +1,4 @@
-import { Kennzeichen } from "./Kennezeichen"
+import { Kennzeichen } from "./Kennzeichen"
 import { Verstoss } from "./Verstoss";
 
 export interface Mitarbeiter {
