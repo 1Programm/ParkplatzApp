@@ -68,17 +68,17 @@ INSERT INTO Kennzeichen (kennzeichenID, kennzeichen)
 VALUES(4, 'DO-KE1200');
 
 -- Parkplatz
-INSERT INTO Parkplatz (parkplatzID, koordinate, nummer, parkplatztyp_parkplatztypID, preiskategorie_kategorieID)
-VALUES(1, '123.456', 'P1', 1, 1);
+INSERT INTO Parkplatz (nummer, x_Koordinate, y_Koordinate, parkplatztyp_parkplatztypID, preiskategorie_kategorieID)
+VALUES('P1', 185, 132, 1, 1);
 
-INSERT INTO Parkplatz (parkplatzID, koordinate, nummer, parkplatztyp_parkplatztypID, preiskategorie_kategorieID)
-VALUES(2, '789.012', 'P2', 2, 2);
+INSERT INTO Parkplatz (nummer, x_Koordinate, y_Koordinate, parkplatztyp_parkplatztypID, preiskategorie_kategorieID)
+VALUES('P2', 135, 132, 2, 2);
 
-INSERT INTO Parkplatz (parkplatzID, koordinate, nummer, parkplatztyp_parkplatztypID, preiskategorie_kategorieID)
-VALUES(3, '345.678', 'P3', 1, 1);
+INSERT INTO Parkplatz (nummer, x_Koordinate, y_Koordinate, parkplatztyp_parkplatztypID, preiskategorie_kategorieID)
+VALUES('P3', 2, 300, 1, 1);
 
-INSERT INTO Parkplatz (parkplatzID, koordinate, nummer, parkplatztyp_parkplatztypID, preiskategorie_kategorieID)
-VALUES(4, '901.234', 'P4', 3, 2);
+INSERT INTO Parkplatz ( nummer, x_Koordinate, y_Koordinate, parkplatztyp_parkplatztypID, preiskategorie_kategorieID)
+VALUES('P4', 1, 10, 3, 2);
 
 -- Buchung
 INSERT INTO Buchung (buchungID, datum, tagespreis, mitarbeiter_mitarbeiterID, parkplatz_parkplatzID, kennzeichen_kennzeichenID)
