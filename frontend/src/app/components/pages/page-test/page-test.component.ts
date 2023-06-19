@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AttribInfo } from '../../core/edit-list/edit-list.component';
 
 @Component({
   selector: 'app-page-test',
@@ -8,30 +9,32 @@ import { Component, OnInit } from '@angular/core';
 export class PageTestComponent implements OnInit {
 
   public testData = [
-    {name: "Julian", age: 23},
-    {name: "Otto", age: 3},
-    {name: "Max", age: 99}
+    {name: "Julian", age: 23, gender: "Female"},
+    {name: "Otto", age: 3, gender: "Male"},
+    {name: "Max", age: 99, gender: undefined}
   ];
 
-  public testAttribs = [
+  public testAttribs: AttribInfo[] = [
     //Validator inline
     {name: 'name', validator: (value) => {
       return value.includes(' ') ? "You cannot have spaces in the name!" : undefined;
     }},
     //Validator as a method
-    {name: 'age', validator: this.ageValidator}
-  ]
+    {name: 'age', validator: this.ageValidator},
+    {name: 'gender', typ: ["Male", "Female", "Diverse"]}
+  ];
 
   constructor() { }
 
   ngOnInit(): void {
     setTimeout(() => {
       console.log("Test add item after time in parent component!");
-      this.testData.push({name: "Arnold", age: 100});
+      this.testData.push({name: "Arnold", age: 100, gender: "Male"});
     }, 2000);
 
     setTimeout(() => {
       console.log("++++", this.testData[0].name);
+      console.log("####", this.testData[0].gender);
     }, 5000);
   }
 

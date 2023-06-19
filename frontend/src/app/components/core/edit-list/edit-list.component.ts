@@ -2,6 +2,8 @@ import { Component, EventEmitter, Input, IterableDiffer, IterableDiffers, Output
 
 class EditListAttrib {
   public name: string;
+  public typ: any;
+  public choices?: any[];
   public label: string;
   public value: any;
   public errorMessage: string | undefined;
@@ -9,8 +11,9 @@ class EditListAttrib {
 
 export class AttribInfo {
   public name: string;
+  public typ?: any;
   public label?: string;
-  public validator: AttributeValidator;
+  public validator?: AttributeValidator;
 }
 
 export type AttributeValidator = (any) => string | undefined;
@@ -53,14 +56,34 @@ export class EditListComponent {
     for(let attrib of attributes){
       if(typeof(attrib) === 'string'){
         let label = attrib.substring(0, 1).toUpperCase() + attrib.substring(1);
-        this._attributes.push({name: attrib, label, validator: undefined});
+        this._attributes.push({name: attrib, typ: "string", label, validator: undefined});
       }
       else {
-        if(!attrib.label) {
-          attrib.label = attrib.name.substring(0, 1).toUpperCase() + attrib.name.substring(1);
+        let info = new AttribInfo();
+        info.name = attrib.name;
+        info.typ = attrib.typ;
+        info.validator = attrib.validator;
+
+        if(attrib.label) {
+          info.label = attrib.label;
         }
-        this._attributes.push(attrib);
+        else {
+          info.label = attrib.name.substring(0, 1).toUpperCase() + attrib.name.substring(1);
+        }
+        
+
+        if(typeof(attrib.typ) === "object"){
+            info["choices"] = attrib.typ;
+            info.typ = "choices";
+        }
+        else if(attrib.typ === undefined){
+          info.typ = "string";
+        }
+
+        this._attributes.push(info);
       }
+
+      // console.log(attrib, this._attributes);
     }
   }
 
@@ -99,6 +122,10 @@ export class EditListComponent {
   //The EventEmitter for the add-item-event
   @Output()
   public onAdd: EventEmitter<any> = new EventEmitter<any>();
+
+  //The EventEmitter for the edit-item-event
+  @Output()
+  public onEdit: EventEmitter<{name: string, value: any}> = new EventEmitter<{name: string, value: any}>();
 
   //If true a row for the new item will be shown
   public showNewItemRow: boolean = false;
@@ -144,7 +171,7 @@ export class EditListComponent {
 
         let value = item[attrib.name];
 
-        attrs.push({name: attrib.name, label: attrib.label, value, errorMessage: undefined});
+        attrs.push({name: attrib.name, typ: attrib.typ, choices: attrib["choices"], label: attrib.label, value, errorMessage: undefined});
       }
     }
 
@@ -171,6 +198,8 @@ export class EditListComponent {
         return;
       }
     }
+
+    this.onEdit.emit({name: attribName, value});
 
     if(attrib.errorMessage) attrib.errorMessage = undefined;
 
@@ -231,7 +260,7 @@ export class EditListComponent {
     this.newItemValid = false;
     this.newItemAttribs = [];
     for(let attrib of this.attributes){
-      this.newItemAttribs.push({name: attrib.name, label: attrib.label, value: "", errorMessage: "This field is required!"});
+      this.newItemAttribs.push({name: attrib.name, typ: attrib.typ, choices: attrib["choices"], label: attrib.label, value: "", errorMessage: "This field is required!"});
     }
   }
 
