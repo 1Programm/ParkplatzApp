@@ -1,4 +1,4 @@
-package com.gfi.parkplatzapp.backend;
+package com.gfi.parkplatzapp.backend.facade;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

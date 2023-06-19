@@ -4,21 +4,19 @@ import com.gfi.parkplatzapp.backend.persistence.entities.Kennzeichen;
 import com.gfi.parkplatzapp.backend.persistence.entities.Mitarbeiter;
 import com.gfi.parkplatzapp.backend.persistence.repos.KennzeichenRepo;
 import com.gfi.parkplatzapp.backend.persistence.repos.MitarbeiterRepo;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Slf4j
 @Service
-public class ProfildatenService {
+public class MitarbeiterService {
 
     @Autowired
-    private MitarbeiterRepo mitarbeiterRepository;
+    private MitarbeiterRepo mitarbeiterRepo;
 
     @Autowired
-    private KennzeichenRepo kennzeichenRepository;
+    private KennzeichenRepo kennzeichenRepo;
 
     /**
      * Ruft einen Mitarbeiter anhand seiner ID ab.
@@ -28,8 +26,17 @@ public class ProfildatenService {
      * @throws IllegalArgumentException wenn der Mitarbeiter nicht gefunden wird
      */
     public Mitarbeiter getMitarbeiter(Long id) {
-        return mitarbeiterRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Mitarbeiter mit ID " + id + " wurde nicht gefunden."));
+        return mitarbeiterRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Mitarbeiter mit ID " + id + " wurde nicht gefunden."));
+    }
+
+    /**
+     * Liefert eine Liste von Kennzeichen-Objekten für den angegebenen Mitarbeiter.
+     *
+     * @param mitarbeiterID ID des Mitarbeiters
+     * @return Liste von Kennzeichen-Objekten
+     */
+    public List<Kennzeichen> getKennzeichenForMitarbeiter(Long mitarbeiterID) {
+        return mitarbeiterRepo.findById(mitarbeiterID).get().getKennzeichenList();
     }
 
     /**
@@ -41,7 +48,7 @@ public class ProfildatenService {
      * @throws IllegalArgumentException wenn der Mitarbeiter oder das Kennzeichen nicht gefunden wird
      */
     public Mitarbeiter deleteKennzeichenFromMitarbeiter(Long mitarbeiterID, Long kennzeichenID) {
-        Mitarbeiter mitarbeiter = mitarbeiterRepository.findById(mitarbeiterID)
+        Mitarbeiter mitarbeiter = mitarbeiterRepo.findById(mitarbeiterID)
                 .orElseThrow(() -> new IllegalArgumentException("Mitarbeiter mit ID " + mitarbeiterID + " wurde nicht gefunden."));
 
         List<Kennzeichen> kennzeichenList = mitarbeiter.getKennzeichenList();
@@ -59,7 +66,7 @@ public class ProfildatenService {
 
         if (found) {
             mitarbeiter.setKennzeichenList(kennzeichenList);
-            return mitarbeiterRepository.save(mitarbeiter);
+            return mitarbeiterRepo.save(mitarbeiter);
         } else {
             throw new IllegalArgumentException("Das angegebene Kennzeichen existiert nicht für den Mitarbeiter.");
         }
@@ -74,12 +81,13 @@ public class ProfildatenService {
      * @throws IllegalArgumentException wenn der Mitarbeiter nicht gefunden wird
      */
     public Mitarbeiter createKennzeichenForMitarbeiter(long mitarbeiterID, String pKennzeichen) {
-        Mitarbeiter mitarbeiter = mitarbeiterRepository.findById(mitarbeiterID)
+        Mitarbeiter mitarbeiter = mitarbeiterRepo.findById(mitarbeiterID)
                 .orElseThrow(() -> new IllegalArgumentException("Mitarbeiter mit ID " + mitarbeiterID + " wurde nicht gefunden."));
 
-        Kennzeichen kennzeichen = kennzeichenRepository.save(new Kennzeichen(null, pKennzeichen));
+        Kennzeichen kennzeichen = kennzeichenRepo.save(new Kennzeichen(null, pKennzeichen));
 
         mitarbeiter.getKennzeichenList().add(kennzeichen);
-        return mitarbeiterRepository.save(mitarbeiter);
+        return mitarbeiterRepo.save(mitarbeiter);
     }
+
 }

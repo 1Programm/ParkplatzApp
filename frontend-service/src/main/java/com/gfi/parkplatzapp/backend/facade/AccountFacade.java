@@ -1,4 +1,4 @@
-package com.gfi.parkplatzapp.backend;
+package com.gfi.parkplatzapp.backend.facade;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -16,7 +16,9 @@ public class AccountFacade {
 
     @GetMapping("/account")
     public Account getAccount(Principal principal){
+        System.out.println("AAA");
         if(principal == null) return null;
+        System.out.println("BBB");
         String uuid = principal.getName();
 
         //1. Get Account from backend

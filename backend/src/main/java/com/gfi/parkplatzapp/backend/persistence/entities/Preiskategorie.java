@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class Preiskategorie {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long kategorieID;
 
     private String bezeichnung;

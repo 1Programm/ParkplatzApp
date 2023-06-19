@@ -1,0 +1,9 @@
+
+<div class="parking-map" (click)="handleMapClick($event)">
+    <div class="marker" *ngFor="let spot of parkingSpots" [ngStyle]="getPositionStyle(spot)" (click)="handleMarkerClick(spot)">
+      {{ spot.nummer }}
+    </div>
+    <div class="new-marker" *ngIf="showNewMarker" [style.left.px]="newMarkerX" [style.top.px]="newMarkerY" (click)="addNewMarker()">
+        +
+      </div>
+  </div>

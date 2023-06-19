@@ -1,4 +1,3 @@
-
 import { Kennzeichen } from "../Kennzeichen";
 
 export interface BuchungDto {

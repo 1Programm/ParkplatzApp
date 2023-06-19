@@ -1,7 +1,7 @@
 import { Parkplatz } from "./Parkplatz"
 
 export interface Parkflaeche {
-    parkflaechID: number
+    parkflaecheID: number
     bezeichnung: string
     parkplatzList: Parkplatz[]
 }
