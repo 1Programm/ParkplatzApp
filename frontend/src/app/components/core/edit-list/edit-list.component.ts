@@ -223,7 +223,7 @@ export class EditListComponent {
       this._items.splice(index, 1);
     }
 
-    this.onDelete.emit(index);
+    this.onDelete.emit(this._items[index]);
   }
   
   public actionAddItem(){
@@ -241,7 +241,6 @@ export class EditListComponent {
     let newItem = {};
     for(let attrib of this.newItemAttribs){
       newItem[attrib.name] = attrib.value;
-      console.log(attrib);
     }
 
     if(this.doAutoChange) {

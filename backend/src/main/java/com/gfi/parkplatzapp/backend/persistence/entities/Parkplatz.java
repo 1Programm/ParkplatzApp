@@ -17,7 +17,7 @@ public class Parkplatz {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long parkplatzID;
 
-    private String number;
+    private String nummer;
     private String koordinate;
 
     @ManyToOne

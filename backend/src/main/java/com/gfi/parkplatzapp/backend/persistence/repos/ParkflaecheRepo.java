@@ -5,4 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface ParkflaecheRepo extends CrudRepository<Parkflaeche, Long> {
 
+    Parkflaeche findByParkplatzList_parkplatzID(Long parkplatzID);
 }

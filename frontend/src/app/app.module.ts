@@ -26,8 +26,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PageHomeComponent } from './components/pages/page-home/page-home.component';
 import { PageErrorComponent } from './components/pages/page-error/page-error.component';
-import { EditListComponent } from './components/core/edit-list/edit-list.component';
+import { BuchenPageComponent } from './components/pages/buchen-page/buchen-page.component';
+import { PageProfilComponent } from './components/pages/page-profil/page-profil.component';
 import { PageTestComponent } from './components/pages/page-test/page-test.component';
+import { EditListComponent } from './components/core/edit-list/edit-list.component';
+import { PageBuchungsuebersichtComponent } from './components/pages/page-buchungsuebersicht/page-buchungsuebersicht.component';
 
 registerLocaleData(localeDE, localeDeExtra);
 
@@ -40,8 +43,12 @@ const luxComponentsConfig: LuxComponentsConfigParameters = {
     AppComponent,
     PageHomeComponent,
     PageErrorComponent,
-    EditListComponent,
     PageTestComponent,
+    PageProfilComponent,
+    EditListComponent,
+    PageBuchungsuebersichtComponent
+    EditListComponent,
+    BuchenPageComponent,
   ],
   imports: [
     BrowserModule,
