@@ -47,6 +47,7 @@ const luxComponentsConfig: LuxComponentsConfigParameters = {
     PageProfilComponent,
     EditListComponent,
     PageBuchungsuebersichtComponent,
+    EditListComponent,
     BuchenPageComponent,
   ],
   imports: [
