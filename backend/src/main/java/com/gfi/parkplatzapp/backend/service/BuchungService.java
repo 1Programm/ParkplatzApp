@@ -2,14 +2,8 @@ package com.gfi.parkplatzapp.backend.service;
 
 import com.gfi.parkplatzapp.backend.facade.dto.BuchungDto;
 import com.gfi.parkplatzapp.backend.facade.dto.ParkflaecheAuswahlDto;
-import com.gfi.parkplatzapp.backend.persistence.entities.Buchung;
-import com.gfi.parkplatzapp.backend.persistence.entities.Mitarbeiter;
-import com.gfi.parkplatzapp.backend.persistence.entities.Parkflaeche;
-import com.gfi.parkplatzapp.backend.persistence.entities.Parkhaus;
-import com.gfi.parkplatzapp.backend.persistence.repos.BuchungRepo;
-import com.gfi.parkplatzapp.backend.persistence.repos.MitarbeiterRepo;
-import com.gfi.parkplatzapp.backend.persistence.repos.ParkflaecheRepo;
-import com.gfi.parkplatzapp.backend.persistence.repos.ParkhausRepo;
+import com.gfi.parkplatzapp.backend.persistence.entities.*;
+import com.gfi.parkplatzapp.backend.persistence.repos.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +23,10 @@ public class BuchungService {
     private BuchungRepo buchungRepository;
     @Autowired
     private MitarbeiterRepo mitarbeiterRepository;
+    @Autowired
+    private ParkplatzRepo parkplatzRepo;
+    @Autowired
+    private ParkplatztypRepo parkplatztypRepo;
 
     public List<ParkflaecheAuswahlDto> getParkflaechen() {
         List<ParkflaecheAuswahlDto> resultList = new ArrayList<>();
@@ -46,6 +44,17 @@ public class BuchungService {
         }
 
         return resultList;
+    }
+
+    public List<Parkplatz> getParkplaetzeOfParkflaeche(Long parkflaecheID) {
+        Parkflaeche flaeche = parkflaecheRepository.findById(parkflaecheID).get();
+        return flaeche.getParkplatzList();
+    }
+
+    public List<Parkplatztyp> getParkplatztyp() {
+        List<Parkplatztyp> typen = new ArrayList<>();
+        parkplatztypRepo.findAll().iterator().forEachRemaining(typen::add);
+        return typen;
     }
 
 

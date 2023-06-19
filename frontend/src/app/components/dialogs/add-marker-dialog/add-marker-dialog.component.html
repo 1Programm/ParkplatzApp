@@ -1,0 +1,35 @@
+
+
+<lux-dialog-structure>
+    <lux-dialog-title>Hinzufügen eines Parkplatzes</lux-dialog-title>
+    <lux-dialog-content>
+        <lux-layout-form-row>
+            <lux-input [luxReadonly]="true" luxLabel="Nummer" *luxLayoutRowItem="{}" [luxValue]=""></lux-input>
+        
+        </lux-layout-form-row>
+        <lux-layout-form-row>
+        
+            <lux-input [luxReadonly]="true" luxLabel="E-Mail Adresse" *luxLayoutRowItem="{}"
+                luxValue="bla"></lux-input>
+        </lux-layout-form-row>
+        <lux-layout-form-row>
+            <lux-select [luxOptions]="typen" [luxSelected]="selected" luxOptionLabelProp="bezeichnung" luxLabel="Parkplatzart" *luxLayoutRowItem="{}"></lux-select>
+        </lux-layout-form-row>
+    </lux-dialog-content>
+    <lux-dialog-actions>
+        
+      <lux-button
+      luxLabel="Abbrechen"
+      luxColor="primary"
+      [luxFlat]="true"
+      (luxClicked)="luxDialogRef.closeDialog(false)"
+    ></lux-button>
+      <lux-button
+        luxLabel="Speichern"
+        luxColor="primary"
+        [luxFlat]="true"
+        (luxClicked)="luxDialogRef.closeDialog(true)"
+      ></lux-button>
+      
+    </lux-dialog-actions>
+  </lux-dialog-structure>

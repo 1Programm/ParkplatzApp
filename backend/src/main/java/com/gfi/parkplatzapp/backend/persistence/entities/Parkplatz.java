@@ -18,7 +18,8 @@ public class Parkplatz {
     private Long parkplatzID;
 
     private String nummer;
-    private String koordinate;
+    private int xKoordinate;
+    private int yKoordinate;
 
     @ManyToOne
     private Parkplatztyp parkplatztyp;
