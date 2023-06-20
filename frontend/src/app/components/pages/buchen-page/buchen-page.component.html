@@ -26,7 +26,7 @@
                     <lux-layout-card-row fxLayout="column" fxLayoutAlign="center"  [luxMargin]="{ xs: '1%', lg: '1%', xl: '1%', marginLeft: false, marginRight: false}">
                         <lux-card luxTitle="Buchung" *luxLayoutRowItem="{}">
                             <lux-card-content>
-                                <app-edit-list [items]="testData" [attributes]="testAttribs" [canDelete]="true" [canEdit]="false" [canAdd]="false" (onDelete)="onDelete($event)" (onAdd)="onAdd($event)"></app-edit-list>
+                                <app-edit-list [items]="buchungen" [attributes]="testAttribs" [canDelete]="true" [canEdit]="false" [canAdd]="false" (onDelete)="onDelete($event)"></app-edit-list>
                             </lux-card-content>
                         </lux-card>
                     </lux-layout-card-row>

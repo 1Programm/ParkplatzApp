@@ -8,13 +8,16 @@ import { Parkflaeche } from '../facade/Parkflaeche';
 import { Parkplatz } from '../facade/Parkplatz';
 import { Parkplatztyp } from '../facade/Parkplatztyp';
 import { Preiskategorie } from '../facade/Preiskategorie';
+import { Kennzeichen } from '../facade/Kennzeichen';
+import { AccountService } from './account.service';
+import { BuchungDto } from '../facade/dto/BuchungDto';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BuchungService {
 
-  constructor(private http: HttpClient){}
+  constructor(private http: HttpClient, private accountService: AccountService){}
 
   public getParkanlagen(): Observable<ParkflaecheAuswahlDto[]> {
     return this.http.get<ParkflaecheAuswahlDto[]>(`${environment.apiServerUrl}/buchung/parkanlagen`).pipe(
@@ -49,6 +52,26 @@ export class BuchungService {
 
   public saveParkplatz(parkplatz: Parkplatz): Observable<Parkplatz[]> {
     return this.http.post<Parkplatz[]>(`${environment.apiServerUrl}/buchung/parkplatz`, parkplatz)
+    .pipe(
+      retry(1),
+      catchError(this.handleError)
+    )
+  }
+
+  public getBuchungenForMitarbeiter(): Observable<BuchungDto[]> {
+    let mitarbeiterID = this.accountService.getMitarbeiterID();
+    
+    return this.http.get<BuchungDto[]>(`${environment.apiServerUrl}/buchungen/${mitarbeiterID}`)
+      .pipe(
+        retry(1),
+        catchError(this.handleError)
+      )
+  }
+
+  public getKennzeichenForMitarbeiter(): Observable<Kennzeichen[]> {
+    let mitarbeiterID = this.accountService.getMitarbeiterID();
+
+    return this.http.get<Kennzeichen[]>(`${environment.apiServerUrl}/buchungen/${mitarbeiterID}/kennzeichen`)
     .pipe(
       retry(1),
       catchError(this.handleError)

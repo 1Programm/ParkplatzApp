@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { BuchungService } from 'src/app/services/buchung.service';
+import { AccountService } from 'src/app/services/account.service';
 import {ParkflaecheAuswahlDto } from '../../../facade/dto/parkflaeche-auswahl.dto';
 import { BuchungDto } from 'src/app/facade/dto/BuchungDto';
+import { Kennzeichen } from 'src/app/facade/Kennzeichen';
 
 @Component({
   selector: 'app-buchen-page',
@@ -13,20 +15,27 @@ export class BuchenPageComponent implements OnInit {
   parkanlagen : ParkflaecheAuswahlDto[];
   selectedParkanlage: ParkflaecheAuswahlDto;
   selectedDatum: string = new Date().toLocaleDateString();
+  buchungen: BuchungDto[];
+  kennzeichen: Kennzeichen[] = [];
 
-  constructor(private buchungService: BuchungService) {}
+  constructor(private buchungService: BuchungService, private accountService: AccountService) {}
 
   ngOnInit(): void {
     this.getParkAnlagen();
 
-    setTimeout(() => {
-      console.log("Test add item after time in parent component!");
-      this.testData.push({name: "Arnold", age: 100});
-    }, 2000);
+    this.accountService.getMitarbeiterIDAsObservable().subscribe(mitarbeiterID => {  
+      // Abrufen der Buchungen für den Mitarbeiter
+      this.buchungService.getBuchungenForMitarbeiter().subscribe((data: BuchungDto[]) => {
+        this.buchungen = data;
+        console.log(this.buchungen);
+        
+      });
 
-    setTimeout(() => {
-      console.log("++++", this.testData[0].name);
-    }, 5000);
+      // Abrufen der Kennzeichen für den Mitarbeiter
+      this.buchungService.getKennzeichenForMitarbeiter().subscribe((data: Kennzeichen[]) => {
+        this.kennzeichen = data;
+      });
+    });
   }
 
   public getParkAnlagen() : ParkflaecheAuswahlDto[] {
@@ -41,35 +50,15 @@ export class BuchenPageComponent implements OnInit {
     console.log(this.selectedParkanlage);
   }
 
-
-  public testData = [
-    {name: "Julian", age: 23},
-    {name: "Otto", age: 3},
-    {name: "Max", age: 99}
-  ];
-
   public testAttribs = [
     //Validator inline
-    {name: 'name', validator: (value) => {
-      return value.includes(' ') ? "You cannot have spaces in the name!" : undefined;
-    }},
+    {name: 'datum'},
     //Validator as a method
-    {name: 'age', validator: this.ageValidator}
+    {name: 'parkplatzKennung'},
+    {name: 'kennzeichen', typ: this.kennzeichen}
   ]
-
-
-
-  public onAdd(item: any){
-    console.log("Added new item: ", item);
-  }
 
   public onDelete(pos: number){
     console.log("Deleted Index: ", pos);
-  }
-
-  private ageValidator(age: string){
-    if(age.match(/\%^[0-9]+\%$/)) return undefined;
-    if((+age) > 0 && (+age) <= 99) return undefined;
-    return "The age must be a number from 1-99!";
   }
 }
