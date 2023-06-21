@@ -155,10 +155,13 @@ export class EditListComponent {
 
   private generateAttribsToItems(){
     this.itemAttribs = [];
-    
-    for(let item of this._items){
-      let attribs = this.getAttributes(item);
-      this.itemAttribs.push(attribs);
+    if(this._items) {
+      for(let item of this._items){
+        let attribs = this.getAttributes(item);
+        this.itemAttribs.push(attribs);
+      }
+      console.log(this._attributes);
+      
     }
   }
 
