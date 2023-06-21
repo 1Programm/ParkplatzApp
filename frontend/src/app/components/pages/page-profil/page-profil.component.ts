@@ -1,9 +1,11 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ILuxDialogConfig, LuxDialogService } from '@ihk-gfi/lux-components';
+import { Kennzeichen } from 'src/app/facade/Kennzeichen';
 import { Mitarbeiter } from 'src/app/facade/Mitarbeiter';
 import { AccountService } from 'src/app/services/account.service';
 import { ProfilServiceService } from 'src/app/services/profil-service.service';
+import { DialogConfigFactory } from 'src/app/utils/dialogConfigFactory';
 
 @Component({
   selector: 'app-page-profil',
@@ -26,7 +28,7 @@ mitarbeiter: Mitarbeiter = {
 
 
 public kennzeichenDeleteCallback: Function | undefined;
-  constructor(private accountService: AccountService, private profilService: ProfilServiceService) {}
+  constructor(private accountService: AccountService, private profilService: ProfilServiceService, private luxDialogService: LuxDialogService) {}
 
   ngOnInit(): void {
     this.accountService.getMitarbeiterIDAsObservable().subscribe(mitarbeiterID => {
@@ -37,9 +39,19 @@ public kennzeichenDeleteCallback: Function | undefined;
   }
 
   public deleteKennzeichen(toDelete: any): void {
+    
+    this.profilService.getBuchungForKennzeichen(toDelete.kennzeichenID).subscribe(buchungen => {
+    
+      if(buchungen.length != 0) {
+        
+        this.luxDialogService.open(new DialogConfigFactory().setDeclineAction(null).setWidth('30%').setContent("Das Kennzeichen kann nicht gelöscht werden, da es in einer aktiven Buchung genutzt wird").build());
+      } else {
+    
       this.profilService.deleteKennzeichenFromMitarbeiter(toDelete.kennzeichenID).subscribe(updated => {
         this.mitarbeiter = updated;
       });
+      }
+    });
     }
     
   public saveKennzeichen(toSave: any) {
@@ -55,5 +67,9 @@ public kennzeichenDeleteCallback: Function | undefined;
   private kennzeichenValidator(kennzeichen: string){
     if(kennzeichen.match('^[A-ZÄÖÜ]{1,3}\-[ ]{0,1}[A-Z]{0,2}[0-9]{1,4}[H]{0,1}')) return undefined;
     return "Das angegebene Kennzeichen entspricht nicht der Form XXX-YY1111";
+  }
+
+  private kennzeichenInActiveBuchung(kennzeichenID: number) {
+     
   }
 }

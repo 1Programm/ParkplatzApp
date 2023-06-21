@@ -1,7 +1,9 @@
 package com.gfi.parkplatzapp.backend.service;
 
+import Utils.StatusEnum;
 import com.gfi.parkplatzapp.backend.facade.dto.BuchungDto;
 import com.gfi.parkplatzapp.backend.facade.dto.ParkflaecheAuswahlDto;
+import com.gfi.parkplatzapp.backend.facade.dto.ParkplatzMitStatusDto;
 import com.gfi.parkplatzapp.backend.persistence.entities.*;
 import com.gfi.parkplatzapp.backend.persistence.repos.*;
 import lombok.extern.slf4j.Slf4j;
@@ -9,8 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -116,6 +123,38 @@ public class BuchungService {
         return resultList;
     }
 
+    public List<ParkplatzMitStatusDto> getParkplaetzeOfParkflaecheAndDate(Long parkflaecheID, String p_date) {
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        Date date = new Date();
+        Parkflaeche flaeche = parkflaecheRepo.findById(parkflaecheID).get();
+        List<Parkplatz> parkplaetze = flaeche.getParkplatzList();
+        List<ParkplatzMitStatusDto> res = new ArrayList<>();
+        for (Parkplatz parkplatz : parkplaetze) {
+            try{
+                date = dateFormat.parse(p_date);
+            } catch(ParseException e) {
+                e.printStackTrace();
+            }
+            if (isBuchungVorhanden(parkplatz, date)) {
+                res.add(new ParkplatzMitStatusDto(StatusEnum.BELEGT, parkplatz));
+            } else {
+                res.add(new ParkplatzMitStatusDto(StatusEnum.FREI, parkplatz));
+            }
+
+        }
+        return res;
+    }
+
+    private boolean isBuchungVorhanden(Parkplatz parkplatz, Date date) {
+        boolean found;
+        List<Buchung> buchungen = new ArrayList<>();
+        this.buchungRepo.findAll().iterator().forEachRemaining(buchungen::add);
+        for(Buchung b:buchungen) {
+            if(b.getDatum().compareTo(date) == 0 && b.getParkplatz().getParkplatzID() == parkplatz.getParkplatzID()) return true;
+        }
+        return false;
+    }
     public List<Parkplatz> getParkplaetzeOfParkflaeche(Long parkflaecheID) {
         Parkflaeche flaeche = parkflaecheRepo.findById(parkflaecheID).get();
         return flaeche.getParkplatzList();
@@ -133,13 +172,16 @@ public class BuchungService {
         return kategorien;
     }
 
-    public List<Parkplatz> createParkplatz(Parkplatz parkplatz) {
-        List<Parkplatz> parkplaetze = new ArrayList<>();
-        parkplatz.setPreiskategorie(preiskategorieRepo.findById(parkplatz.getPreiskategorie().getKategorieID()).get());
-        parkplatz.setParkplatztyp(parkplatztypRepo.findById(parkplatz.getParkplatztyp().getParkplatztypID()).get());
-        parkplatzRepo.save(parkplatz);
-        parkplatzRepo.findAll().iterator().forEachRemaining(parkplaetze::add);
-        return parkplaetze;
+
+    public List<Buchung> isAnyKennzeichenForBuchung(Long kennzeichenID, Long mitarbeiterID) {
+       Date filterDate = new Date();
+       Kennzeichen kennzeichen = kennzeichenRepo.findById(kennzeichenID).get();
+       Mitarbeiter mitarbeiter = mitarbeiterRepo.findById(mitarbeiterID).get();
+       List<Buchung> res = buchungRepo.findByKennzeichenAndMitarbeiter(kennzeichen, mitarbeiter).stream()
+                .filter(buchung -> buchung.getDatum().after(filterDate))
+                .collect(Collectors.toList());
+       return res;
     }
+
 
 }

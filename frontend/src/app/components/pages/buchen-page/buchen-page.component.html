@@ -9,7 +9,7 @@
                                 {{ parkanlage.parkhausBezeichnung }} - {{ parkanlage.parkflaecheBezeichnung}}
                             </ng-template>
                         </lux-select>
-                        <lux-datepicker luxLabel="Datum" [luxTouchUi]="true" [(luxValue)]="selectedDatum" luxPlaceholder="Bitte ein Datum auswählen" *luxLayoutRowItem="{ empty: true, colSpan: 2 }"></lux-datepicker>
+                        <lux-datepicker luxLabel="Datum" [luxTouchUi]="true" [(luxValue)]="selectedDatum" [luxDisabled]="isAdmin()" luxPlaceholder="Bitte ein Datum auswählen" *luxLayoutRowItem="{ empty: true, colSpan: 2 }"></lux-datepicker>
                         <div *luxLayoutRowItem="{ colSpan:2, empty: true }"></div>
                     </lux-layout-form-row>
                 </lux-layout>
@@ -18,7 +18,9 @@
     </lux-layout-card-row>
     <lux-layout-card-row [luxGap]="{ row: '2px', rowItem: '2px', column: '2px'}" [luxMargin]="{ xs: '5%', lg: '5%', xl: '5%', marginLeft: true, marginRight: true}">
         <lux-card luxTitle="Karte D" *luxLayoutRowItem="{ colSpan: 4 }">
-            
+            <lux-card-content>
+                <app-map [date]="selectedDatum" [parkflaecheID]="selectedParkanlage.parkflaecheID"></app-map>
+            </lux-card-content>
         </lux-card>
         <lux-card *luxLayoutRowItem="{ colSpan: 2 }">
             <lux-card-content>

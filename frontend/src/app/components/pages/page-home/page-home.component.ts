@@ -12,10 +12,7 @@ parkplaetze: Parkplatz[];
   constructor(private buchungService: BuchungService) { }
 
   ngOnInit(): void {
-   this.buchungService.getParkplaetzeOfParkflaeche(1).subscribe( data => {
-    this.parkplaetze = data;
-    console.log("data; ", data)
-   });
+  
   }
 
 }

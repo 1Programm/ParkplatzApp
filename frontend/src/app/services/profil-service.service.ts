@@ -5,6 +5,7 @@ import { Mitarbeiter } from '../facade/Mitarbeiter';
 import { Kennzeichen } from '../facade/Kennzeichen';
 import { environment } from 'src/environments/environment';
 import { AccountService } from './account.service';
+import { Buchung } from '../facade/Buchung';
 @Injectable({
   providedIn: 'root'
 })
@@ -49,7 +50,16 @@ export class ProfilServiceService {
         retry(1),
         catchError(this.handleError)
       )
+  }
 
+  public getBuchungForKennzeichen(kennzeichenID: number): Observable<Buchung[]> {
+    let mitarbeiterID = this.accountService.getMitarbeiterID();
+    
+    return this.http.get<Buchung[]>(`${environment.apiServerUrl}/profil/${kennzeichenID}/${mitarbeiterID}`)
+    .pipe(
+      retry(1),
+      catchError(this.handleError)
+    )
   }
 
   // Error handling

@@ -8,6 +8,7 @@ import { Parkflaeche } from '../facade/Parkflaeche';
 import { Parkplatz } from '../facade/Parkplatz';
 import { Parkplatztyp } from '../facade/Parkplatztyp';
 import { Preiskategorie } from '../facade/Preiskategorie';
+import { ParkplatzMitStatusDto } from '../facade/dto/ParkplatzMitStatusDto';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,15 @@ export class BuchungService {
     )
   }
 
+  public getParkplaetzeOfParkflaecheAndDate(parkflaecheID:number, datum: string): Observable<ParkplatzMitStatusDto[]> {
+    return this.http.get<ParkplatzMitStatusDto[]>(`${environment.apiServerUrl}/buchung/parkplatz/${parkflaecheID}/${datum}`)
+    .pipe(
+      retry(1),
+      catchError(this.handleError)
+    )
+  }
+
+
   public getParkplatztypen(): Observable<Parkplatztyp[]> {
     return this.http.get<Parkplatztyp[]>(`${environment.apiServerUrl}/buchung/parkplatztypen`)
     .pipe(
@@ -47,12 +57,22 @@ export class BuchungService {
     )
   }
 
-  public saveParkplatz(parkplatz: Parkplatz): Observable<Parkplatz[]> {
-    return this.http.post<Parkplatz[]>(`${environment.apiServerUrl}/buchung/parkplatz`, parkplatz)
+  public saveParkplatz(parkplatz: Parkplatz, parkflaecheID: number): Observable<Parkplatz[]> {
+
+    return this.http.post<Parkplatz[]>(`${environment.apiServerUrl}/buchung/parkplatz/${parkflaecheID}`, parkplatz)
     .pipe(
       retry(1),
       catchError(this.handleError)
     )
+  }
+
+  public deleteParkplatz(parkplatzID: number): Observable<Parkplatz> {
+    
+    return this.http.delete<Parkplatz>(`${environment.apiServerUrl}/buchung/parkplatz/${parkplatzID}`)
+      .pipe(
+        retry(1),
+        catchError(this.handleError)
+      )
   }
 
   // Error handling

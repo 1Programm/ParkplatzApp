@@ -28,7 +28,6 @@ export class PageBuchungsuebersichtComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.accountService.getMitarbeiterIDAsObservable().subscribe(mitarbeiterID => {  
       // Abrufen der Buchungen für den Mitarbeiter
       this.buchungenService.getBuchungenForMitarbeiter().subscribe((data: BuchungDto[]) => {
         this.buchungen = data;
@@ -38,11 +37,12 @@ export class PageBuchungsuebersichtComponent implements OnInit {
       this.buchungenService.getKennzeichenForMitarbeiter().subscribe((data: Kennzeichen[]) => {
         this.kennzeichen = data;
       });
-    });
+    
   }
 
   saveKennzeichenForBuchung(kennzeichen: Kennzeichen, buchung: BuchungDto) {
     // Speichern der Kennzeichenänderung für die Buchung
+    // Abrufen des ausgewählten Kennzeichens für die Buchung
     this.buchungenService.saveKennzeichenForBuchung(buchung.buchungID, kennzeichen.kennzeichenID).subscribe(buchungen => {
       this.buchungen = buchungen;
       this.snackbar.openText("Kennzeichenänderung wurde gespeichert.", 2000);
@@ -50,7 +50,7 @@ export class PageBuchungsuebersichtComponent implements OnInit {
   }
 
   deleteBuchung(buchung: BuchungDto) {
-    // Öffnen eines Dialogs zur Bestätigung der Buchungslöschung
+    // Öffnen eines Dialogs zur Bestätigung der Buchungslöschung 
     const dialogRef = this.luxDialogService.open(new DialogConfigFactory().setWidth('30%').setContent("Wollen Sie die Buchung wirklich löschen?").build());
     dialogRef.dialogConfirmed.subscribe(() => {
       // Löschen der Buchung
@@ -72,7 +72,7 @@ export class PageBuchungsuebersichtComponent implements OnInit {
 
   getSelected(buchung: BuchungDto) {
     // Abrufen des ausgewählten Kennzeichens für die Buchung
-    return this.kennzeichen.find(item => item.kennzeichenID === buchung.kennzeichen.kennzeichenID);
+    return this.kennzeichen.find(item => item.kennzeichenID === buchung.kennzeichen.kennzeichenID); 
   }
 
 }

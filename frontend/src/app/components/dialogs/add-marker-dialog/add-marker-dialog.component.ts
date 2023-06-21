@@ -1,4 +1,4 @@
-  import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LuxDialogRef, LuxValidationErrors } from '@ihk-gfi/lux-components';
 import { Parkplatz } from 'src/app/facade/Parkplatz';
@@ -13,42 +13,62 @@ import { BuchungService } from 'src/app/services/buchung.service';
 })
 export class AddMarkerDialogComponent implements OnInit {
 
-  protected typen: Parkplatztyp[];
-  protected preiskategorie: Preiskategorie[];
-  protected selectedTyp: Parkplatztyp;
-  protected selectedKategorie: Preiskategorie;
-  protected nummer: string;
-  protected nummerFnArr = [Validators.pattern(/^[\d]{1,3}$/)];
-  protected parkplatzFormGroup: FormGroup;
+  typen: Parkplatztyp[];
+  preiskategorie: Preiskategorie[];
+  selectedTyp: Parkplatztyp;
+  selectedKategorie: Preiskategorie;
+  nummer: string;
+  nummerFnArr = [Validators.pattern(/^[\d]{1,3}$/), Validators.required];
+  parkplatzFormGroup: FormGroup;
+  parkplatz: Parkplatz;
 
   constructor(private buchenService: BuchungService, public luxDialogRef: LuxDialogRef) { }
 
   ngOnInit(): void {
+    this.parkplatz = this.luxDialogRef.data;
+    this.nummer = this.parkplatz?.nummer;
+    this.initializeTypen();
+    this.initializePreiskategorien();
+  }
+
+  private initializeTypen(): void {
     this.buchenService.getParkplatztypen().subscribe(data => {
       this.typen = data;
-      this.selectedTyp = data[0];
+      this.selectedTyp = this.typen[0];
+      if (this.parkplatz) {
+        this.selectedTyp = this.typen.find(item => item.parkplatztypID === this.parkplatz.parkplatztyp.parkplatztypID);
+      }
     });
+  }
 
+  private initializePreiskategorien(): void {
     this.buchenService.getPreiskategorien().subscribe(preiskategorie => {
       this.preiskategorie = preiskategorie;
       this.selectedKategorie = preiskategorie[0];
+      if (this.parkplatz) {
+        this.selectedKategorie = this.preiskategorie.find(item => item.kategorieID === this.parkplatz.preiskategorie.kategorieID);
+      }
     });
   }
 
-  protected submitDialog() {
-    console.log("bla", this.nummer)
-    let parkplatz: Parkplatz = {
-      parkplatzID: undefined,
+  submitDialog(): void {
+    const p: Parkplatz = {
+      parkplatzID: this.parkplatz ? this.parkplatz.parkplatzID : null,
       nummer: this.nummer,
-      xkoordinate: 0,
-      ykoordinate: 0,
+      xkoordinate: this.parkplatz ? this.parkplatz.xkoordinate : 0,
+      ykoordinate: this.parkplatz ? this.parkplatz.ykoordinate : 0,
       parkplatztyp: this.selectedTyp,
       preiskategorie: this.selectedKategorie
-    }
-    this.luxDialogRef.closeDialog(parkplatz);
+    };
+
+    this.luxDialogRef.closeDialog(p);
+
   }
 
-  protected nummerErrorCallback = (value: any, errors: LuxValidationErrors) => {
+  deleteParkplatz(){
+    
+}
+  nummerErrorCallback = (value: any, errors: LuxValidationErrors): string | undefined => {
     if (errors['pattern']) return 'Die Parkplatznummer darf nur Zahlen enthalten';
     return undefined;
   }

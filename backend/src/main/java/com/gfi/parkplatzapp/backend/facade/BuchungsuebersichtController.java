@@ -40,7 +40,9 @@ public class BuchungsuebersichtController {
     }
 
     @DeleteMapping(path = "/{mitarbeiterID}/buchung/{buchungID}")
-    public List<BuchungDto> deleteBuchungFromMitarbeiter(@PathVariable long mitarbeiterID, @PathVariable long buchungID) {
+    public List<BuchungDto> deleteBuchungFromMitarbeiter(@PathVariable Long mitarbeiterID, @PathVariable Long buchungID) {
         return buchungService.deleteBuchungFromMitarbeiter(mitarbeiterID, buchungID);
     }
+
+
 }

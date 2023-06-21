@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { BuchungService } from 'src/app/services/buchung.service';
 import {ParkflaecheAuswahlDto } from '../../../facade/dto/parkflaeche-auswahl.dto';
 import { BuchungDto } from 'src/app/facade/dto/BuchungDto';
+import { Parkflaeche } from 'src/app/facade/Parkflaeche';
+import { Parkplatz } from 'src/app/facade/Parkplatz';
+import { ParkplatzMitStatusDto } from 'src/app/facade/dto/ParkplatzMitStatusDto';
+import { AccountService } from 'src/app/services/account.service';
 
 @Component({
   selector: 'app-buchen-page',
@@ -9,15 +13,16 @@ import { BuchungDto } from 'src/app/facade/dto/BuchungDto';
   styleUrls: ['./buchen-page.component.scss']
 })
 export class BuchenPageComponent implements OnInit {
-
-  parkanlagen : ParkflaecheAuswahlDto[];
-  selectedParkanlage: ParkflaecheAuswahlDto;
+  public parkplaetze: ParkplatzMitStatusDto[];
+  parkanlagen : ParkflaecheAuswahlDto[] ;
+  selectedParkanlage: ParkflaecheAuswahlDto = {parkflaecheID: 1};
   selectedDatum: string = new Date().toLocaleDateString();
 
-  constructor(private buchungService: BuchungService) {}
+  constructor(private buchungService: BuchungService, private accountService: AccountService) {}
 
   ngOnInit(): void {
     this.getParkAnlagen();
+
 
     setTimeout(() => {
       console.log("Test add item after time in parent component!");
@@ -33,6 +38,7 @@ export class BuchenPageComponent implements OnInit {
     this.buchungService.getParkanlagen().subscribe(parkanlagen => {
       this.parkanlagen = parkanlagen;
       this.selectedParkanlage = parkanlagen[0];
+
     });
     return this.parkanlagen;
   }
@@ -57,8 +63,6 @@ export class BuchenPageComponent implements OnInit {
     {name: 'age', validator: this.ageValidator}
   ]
 
-
-
   public onAdd(item: any){
     console.log("Added new item: ", item);
   }
@@ -72,4 +76,8 @@ export class BuchenPageComponent implements OnInit {
     if((+age) > 0 && (+age) <= 99) return undefined;
     return "The age must be a number from 1-99!";
   }
+
+  public isAdmin() {
+    return this.accountService.isAdmin()
+}
 }

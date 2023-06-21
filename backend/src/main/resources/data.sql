@@ -55,30 +55,30 @@ INSERT INTO Verstoss (meldeID, bemerkung, datum)
 VALUES(3, 'Parken auf Behindertenparkplatz', '2023-06-03');
 
 --Kennzeichen
-INSERT INTO Kennzeichen (kennzeichenID, kennzeichen)
-VALUES(1, 'DO-JB1999');
+INSERT INTO Kennzeichen (kennzeichen)
+VALUES('DO-JB1999');
 
-INSERT INTO Kennzeichen (kennzeichenID, kennzeichen)
-VALUES(2, 'DO-JB1998');
+INSERT INTO Kennzeichen (kennzeichen)
+VALUES('DO-JB1998');
 
-INSERT INTO Kennzeichen (kennzeichenID, kennzeichen)
-VALUES(3, 'DO-JB1997');
+INSERT INTO Kennzeichen (kennzeichen)
+VALUES('DO-JB1997');
 
 INSERT INTO Kennzeichen (kennzeichenID, kennzeichen)
 VALUES(4, 'DO-KE1200');
 
 -- Parkplatz
 INSERT INTO Parkplatz (nummer, x_Koordinate, y_Koordinate, parkplatztyp_parkplatztypID, preiskategorie_kategorieID)
-VALUES('P1', 185, 132, 1, 1);
+VALUES('1', 185, 132, 1, 1);
 
 INSERT INTO Parkplatz (nummer, x_Koordinate, y_Koordinate, parkplatztyp_parkplatztypID, preiskategorie_kategorieID)
-VALUES('P2', 135, 132, 2, 2);
+VALUES('2', 135, 132, 2, 2);
 
 INSERT INTO Parkplatz (nummer, x_Koordinate, y_Koordinate, parkplatztyp_parkplatztypID, preiskategorie_kategorieID)
-VALUES('P3', 2, 300, 1, 1);
+VALUES('3', 2, 300, 1, 1);
 
 INSERT INTO Parkplatz ( nummer, x_Koordinate, y_Koordinate, parkplatztyp_parkplatztypID, preiskategorie_kategorieID)
-VALUES('P4', 1, 10, 3, 2);
+VALUES('4', 1, 10, 3, 2);
 
 -- Buchung
 INSERT INTO Buchung (buchungID, datum, tagespreis, mitarbeiter_mitarbeiterID, parkplatz_parkplatzID, kennzeichen_kennzeichenID)

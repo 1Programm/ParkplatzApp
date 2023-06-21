@@ -1,9 +1,14 @@
 
 <div class="parking-map" (click)="handleMapClick($event)">
-    <div class="marker" *ngFor="let spot of parkingSpots" [ngStyle]="getPositionStyle(spot)" (click)="handleMarkerClick(spot)">
-      {{ spot.nummer }}
-    </div>
-    <div class="new-marker" *ngIf="showNewMarker" [style.left.px]="newMarkerX" [style.top.px]="newMarkerY" (click)="addNewMarker()">
-        +
-      </div>
+  <div class="marker" *ngFor="let spot of parkplaetzeForDate" [ngStyle]="getPositionStyle(spot.parkplatz)" (click)="handleMarkerClick($event, spot.parkplatz)">
   </div>
+
+<div *ngIf="isAdmin">
+  <div class="marker" *ngFor="let spot of alleParkplaetze"  [style.background-color]="'blue'" [ngStyle]="getPositionStyle(spot)" (click)="handleMarkerClick($event, spot)">
+  </div>
+
+  <div class="new-marker" *ngIf="showNewMarker" [style.left.px]="newMarkerX" [style.top.px]="newMarkerY" (click)="addNewMarker()">
+      +
+    </div>
+</div>
+</div>
