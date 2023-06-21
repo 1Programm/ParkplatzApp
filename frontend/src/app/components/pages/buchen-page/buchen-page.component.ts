@@ -51,7 +51,7 @@ export class BuchenPageComponent implements OnInit {
       });
       this.testAttribs = [{name: 'datum'},
       {name: 'parkplatzKennung', label: "Parkfläche"},
-      {name: 'kennzeichen', typ: this.kennzeichen}];
+      {name: 'kennzeichen', typ: this.kennzeichen, choicePropLabel: "kennzeichen"}];
     });
   }
 
