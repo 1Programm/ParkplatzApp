@@ -78,6 +78,14 @@ export class BuchungService {
     )
   }
 
+  public updateBuchungen(buchungList: BuchungDto[]): Observable<BuchungDto[]> {
+    return this.http.post<BuchungDto[]>(`${environment.apiServerUrl}/buchung/buchen`, buchungList)
+    .pipe(
+      retry(1),
+      catchError(this.handleError)
+    )
+  }
+
   // Error handling
   handleError(error: any) {
     let errorMessage = '';

@@ -71,7 +71,11 @@ export class BuchenPageComponent implements OnInit {
     console.log("Deleted Index: ", pos);
   }
 
-  dateFormat(datum: Date): string {
+  public updateBuchungen() {
+    this.buchungService.updateBuchungen(this.buchungen);
+  }
+
+  private dateFormat(datum: Date): string {
     // Formatieren des Datums im gewünschten Format
     return formatDate(datum, 'dd/MM/YYYY', "de-DE");
   }

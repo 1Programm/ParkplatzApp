@@ -62,4 +62,9 @@ public class BuchungController {
     public List<Kennzeichen> getKennzeichenForMitarbeiter(@PathVariable("mitarbeiterID") Long mitarbeiterID) {
         return this.mitarbeiterService.getKennzeichenForMitarbeiter(mitarbeiterID);
     }
+
+    @PostMapping(path = "/buchen", consumes = "application/json")
+    public void createKennzeichenForMitarbeiter(@RequestBody List<BuchungDto> buchungDtoList) {
+        buchungService.updateBuchungen(buchungDtoList);
+    }
 }
