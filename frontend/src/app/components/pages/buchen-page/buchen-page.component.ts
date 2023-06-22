@@ -4,6 +4,7 @@ import { AccountService } from 'src/app/services/account.service';
 import {ParkflaecheAuswahlDto } from '../../../facade/dto/parkflaeche-auswahl.dto';
 import { BuchungDto } from 'src/app/facade/dto/BuchungDto';
 import { Kennzeichen } from 'src/app/facade/Kennzeichen';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-buchen-page',
@@ -15,8 +16,8 @@ export class BuchenPageComponent implements OnInit {
   parkanlagen : ParkflaecheAuswahlDto[];
   selectedParkanlage: ParkflaecheAuswahlDto;
   selectedDatum: string = new Date().toLocaleDateString();
-  buchungen: BuchungDto[] = [];
-  kennzeichen: Kennzeichen[] = [];
+  buchungen: any[] = [];
+  kennzeichen: string[] = [];
   public testAttribs = []
 
   constructor(private buchungService: BuchungService, private accountService: AccountService) {}
@@ -31,10 +32,10 @@ export class BuchenPageComponent implements OnInit {
         for(let item of data) {
           this.buchungen.push({
             buchungID: item.buchungID,
-            datum: item.datum,
+            datum: this.dateFormat(item.datum),
             tagespreis: item.tagespreis,
             parkplatzKennung: item.parkplatzKennung,
-            kennzeichen: item.kennzeichen
+            kennzeichen: item.kennzeichen.kennzeichen
           });
         }
       });
@@ -45,13 +46,12 @@ export class BuchenPageComponent implements OnInit {
         
         for(let item of data) {
           console.log(item);
-          //this.kennzeichen.push(item.kennzeichen);
-          this.kennzeichen.push(item);
+          this.kennzeichen.push(item.kennzeichen);
         }
       });
       this.testAttribs = [{name: 'datum'},
       {name: 'parkplatzKennung', label: "Parkfläche"},
-      {name: 'kennzeichen', typ: this.kennzeichen, choicePropLabel: "kennzeichen"}];
+      {name: 'kennzeichen', typ: this.kennzeichen}];
     });
   }
 
@@ -69,5 +69,10 @@ export class BuchenPageComponent implements OnInit {
 
   public onDelete(pos: number){
     console.log("Deleted Index: ", pos);
+  }
+
+  dateFormat(datum: Date): string {
+    // Formatieren des Datums im gewünschten Format
+    return formatDate(datum, 'dd/MM/YYYY', "de-DE");
   }
 }
