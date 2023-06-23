@@ -142,8 +142,9 @@ public class BuchungService {
         return parkplaetze;
     }
 
-    public void updateBuchungen(List<BuchungDto> buchungDtoList) {
-        log.info("Test", buchungDtoList);
+    public void updateBuchungen(BuchungDto buchung) {
+        log.info("TESTTTTTTTT", buchung);
+        System.out.println(buchung.getParkplatzKennung());
         /*buchungsList.forEach(buchungDto -> {
             Buchung buchung = new Buchung();
             buchung.setKennzeichen(buchungDto.getKennzeichen());

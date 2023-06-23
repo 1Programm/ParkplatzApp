@@ -1,6 +1,6 @@
 import { Kennzeichen } from "../Kennzeichen";
 
-export interface BuchungDto {
+export class BuchungDto {
     
     buchungID: number
 

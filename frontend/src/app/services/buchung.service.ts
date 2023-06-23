@@ -78,8 +78,8 @@ export class BuchungService {
     )
   }
 
-  public updateBuchungen(buchungList: BuchungDto[]): Observable<BuchungDto[]> {
-    return this.http.post<BuchungDto[]>(`${environment.apiServerUrl}/buchung/buchen`, buchungList)
+  public updateBuchungen(buchung: BuchungDto): Observable<BuchungDto> {
+    return this.http.post<BuchungDto>(`${environment.apiServerUrl}/buchung/test`, buchung)
     .pipe(
       retry(1),
       catchError(this.handleError)
