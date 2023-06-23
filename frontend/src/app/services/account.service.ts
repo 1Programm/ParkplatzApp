@@ -13,7 +13,6 @@ export class AccountService {
 
   public setup(){
     this.http.get<any>('/account').subscribe(acc => {
-      console.log(acc);
       this._loggedIn = true;
     });
   }
@@ -29,7 +28,7 @@ export class AccountService {
   }
 
   public isAdmin(): boolean {
-    return true;
+    return false;
   }
 
   public getMitarbeiterID(): number {

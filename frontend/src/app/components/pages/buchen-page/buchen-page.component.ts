@@ -16,7 +16,7 @@ export class BuchenPageComponent implements OnInit {
   public parkplaetze: ParkplatzMitStatusDto[];
   parkanlagen : ParkflaecheAuswahlDto[] ;
   selectedParkanlage: ParkflaecheAuswahlDto = {parkflaecheID: 1};
-  selectedDatum: string = new Date().toLocaleDateString();
+  selectedDatum: string = new Date().toISOString();
 
   constructor(private buchungService: BuchungService, private accountService: AccountService) {}
 

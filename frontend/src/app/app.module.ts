@@ -32,7 +32,7 @@ import { PageTestComponent } from './components/pages/page-test/page-test.compon
 import { EditListComponent } from './components/core/edit-list/edit-list.component';
 import { PageBuchungsuebersichtComponent } from './components/pages/page-buchungsuebersicht/page-buchungsuebersicht.component';
 import { MapComponent } from './components/core/map/map.component';
-import { AddMarkerDialogComponent } from './components/dialogs/add-marker-dialog/add-marker-dialog.component';
+import { MarkerDialogComponent } from './components/dialogs/marker-dialog/marker-dialog.component';
 
 registerLocaleData(localeDE, localeDeExtra);
 
@@ -52,7 +52,7 @@ const luxComponentsConfig: LuxComponentsConfigParameters = {
     EditListComponent,
     BuchenPageComponent,
     MapComponent,
-    AddMarkerDialogComponent,
+    MarkerDialogComponent,
   ],
   imports: [
     BrowserModule,

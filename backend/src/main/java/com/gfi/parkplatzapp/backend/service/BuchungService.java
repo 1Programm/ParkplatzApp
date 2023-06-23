@@ -136,11 +136,9 @@ public class BuchungService {
             } catch(ParseException e) {
                 e.printStackTrace();
             }
-            if (isBuchungVorhanden(parkplatz, date)) {
-                res.add(new ParkplatzMitStatusDto(StatusEnum.BELEGT, parkplatz));
-            } else {
-                res.add(new ParkplatzMitStatusDto(StatusEnum.FREI, parkplatz));
-            }
+
+            StatusEnum status = isBuchungVorhanden(parkplatz, date) ? StatusEnum.BELEGT : StatusEnum.FREI;
+            res.add(new ParkplatzMitStatusDto(status, parkplatz));
 
         }
         return res;
