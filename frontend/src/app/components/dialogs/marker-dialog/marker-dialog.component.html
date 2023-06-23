@@ -1,0 +1,24 @@
+<lux-dialog-structure>
+  <lux-dialog-title>Parkplatzbearbeitung</lux-dialog-title>
+  <lux-dialog-content>
+    
+      <lux-input luxLabel="Nummer" [(luxValue)]="nummer" [luxControlValidators]="nummerFnArr"
+        [luxErrorCallback]="nummerErrorCallback"></lux-input>
+
+
+      <lux-select [luxOptions]="preiskategorie" [(luxSelected)]="selectedKategorie" luxOptionLabelProp="bezeichnung"
+        luxLabel="preiskategorie" ></lux-select>
+  
+      <lux-select [luxOptions]="typen" [(luxSelected)]="selectedTyp" luxOptionLabelProp="bezeichnung"
+        luxLabel="Parkplatzart" ></lux-select>
+  </lux-dialog-content>
+  <lux-dialog-actions>
+
+    <lux-button luxLabel="Abbrechen" luxColor="primary" [luxFlat]="true"
+      (luxClicked)="luxDialogRef.closeDialog(null)"></lux-button>
+      
+    <lux-button *ngIf=""luxLabel="Hinzufügen" luxColor="primary" [luxFlat]="true" (luxClicked)="submitDialog()"></lux-button>
+    <lux-button luxLabel="Speichern" luxColor="primary" [luxFlat]="true" (luxClicked)="submitDialog()"></lux-button>
+    <lux-button luxLabel="Löschen" luxColor="warn" [luxFlat]="true" (luxClicked)="luxDialogRef.closeDialog(parkplatz.parkplatzID)"></lux-button>
+  </lux-dialog-actions>
+</lux-dialog-structure>
