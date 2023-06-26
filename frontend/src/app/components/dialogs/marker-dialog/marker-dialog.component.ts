@@ -25,25 +25,32 @@ export class MarkerDialogComponent implements OnInit {
   parkplatz: Parkplatz;
   parkplatzMitStatus: ParkplatzMitStatusDto
   title: string;
+  isAdmin: boolean = this.accountService.isAdmin();;
 
 
   constructor(private buchenService: BuchungService, public luxDialogRef: LuxDialogRef, public accountService: AccountService) { }
 
   ngOnInit(): void {
+    //wenn der Parkplatz bereits vorhanden ist 
     if(this.luxDialogRef.data != null) {
       this.parkplatzMitStatus = this.luxDialogRef.data;
       this.parkplatz = this.parkplatzMitStatus.parkplatz;
       this.nummer = this.parkplatz?.nummer;
     }
-    this.initializeTypen();
-    this.initializePreiskategorien();
-    
-    if(this.isAdmin()) {
-      this.title = "Parkplatzbearbeitung"
+
+    //titel des dialogs
+    if(this.isAdmin) {
+      this.parkplatz?.nummer ? this.title = "Parkplatzbearbeitung" : this.title = "Parkplatz hinzufügen" 
     }
     else {
       this.title = "Parkplatz Details"
     }
+
+    //laden der selects
+    this.initializeTypen();
+    this.initializePreiskategorien();
+    
+   
   }
 
   private initializeTypen(): void {
@@ -83,7 +90,5 @@ export class MarkerDialogComponent implements OnInit {
     return undefined;
   }
 
-  isAdmin() {
-    return this.accountService.isAdmin();
-  }
+
 }
