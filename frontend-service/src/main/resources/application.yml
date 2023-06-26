@@ -24,6 +24,11 @@ spring:
     gateway:
       default-filters:
         - TokenRelay
+      forwarded:
+        enabled: true
+      x-forwarded:
+        for-enabled: true
+        host-enabled: true
       routes:
         - id: backend-server
           uri: http://localhost:8081
