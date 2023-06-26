@@ -52,6 +52,7 @@ public class AccountService {
         }
         else {
             mitarbeiterId = mitarbeiter.getMitarbeiterID();
+            log.info("Found mapped Mitarbeiter [{}] in database!", mitarbeiterId);
         }
 
         //Get all roles for this Mitarbeiter
