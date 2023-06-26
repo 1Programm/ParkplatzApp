@@ -28,7 +28,7 @@ export class AccountService {
   }
 
   public isAdmin(): boolean {
-    return false;
+    return true;
   }
 
   public getMitarbeiterID(): number {

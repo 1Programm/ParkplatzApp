@@ -4,6 +4,7 @@ import { LuxDialogRef, LuxValidationErrors } from '@ihk-gfi/lux-components';
 import { Parkplatz } from 'src/app/facade/Parkplatz';
 import { Parkplatztyp } from 'src/app/facade/Parkplatztyp';
 import { Preiskategorie } from 'src/app/facade/Preiskategorie';
+import { ParkplatzMitStatusDto } from 'src/app/facade/dto/ParkplatzMitStatusDto';
 import { AccountService } from 'src/app/services/account.service';
 import { BuchungService } from 'src/app/services/buchung.service';
 
@@ -22,14 +23,27 @@ export class MarkerDialogComponent implements OnInit {
   nummerFnArr = [Validators.pattern(/^[\d]{1,3}$/), Validators.required];
   parkplatzFormGroup: FormGroup;
   parkplatz: Parkplatz;
+  parkplatzMitStatus: ParkplatzMitStatusDto
+  title: string;
+
 
   constructor(private buchenService: BuchungService, public luxDialogRef: LuxDialogRef, public accountService: AccountService) { }
 
   ngOnInit(): void {
-    this.parkplatz = this.luxDialogRef.data;
-    this.nummer = this.parkplatz?.nummer;
+    if(this.luxDialogRef.data != null) {
+      this.parkplatzMitStatus = this.luxDialogRef.data;
+      this.parkplatz = this.parkplatzMitStatus.parkplatz;
+      this.nummer = this.parkplatz?.nummer;
+    }
     this.initializeTypen();
     this.initializePreiskategorien();
+    
+    if(this.isAdmin()) {
+      this.title = "Parkplatzbearbeitung"
+    }
+    else {
+      this.title = "Parkplatz Details"
+    }
   }
 
   private initializeTypen(): void {
@@ -61,16 +75,15 @@ export class MarkerDialogComponent implements OnInit {
       parkplatztyp: this.selectedTyp,
       preiskategorie: this.selectedKategorie
     };
-
     this.luxDialogRef.closeDialog(p);
-
   }
 
-  deleteParkplatz(){
-    
-}
   nummerErrorCallback = (value: any, errors: LuxValidationErrors): string | undefined => {
     if (errors['pattern']) return 'Die Parkplatznummer darf nur Zahlen enthalten';
     return undefined;
+  }
+
+  isAdmin() {
+    return this.accountService.isAdmin();
   }
 }

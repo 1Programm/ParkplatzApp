@@ -64,8 +64,8 @@ VALUES('DO-JB1998');
 INSERT INTO Kennzeichen (kennzeichen)
 VALUES('DO-JB1997');
 
-INSERT INTO Kennzeichen (kennzeichenID, kennzeichen)
-VALUES(4, 'DO-KE1200');
+INSERT INTO Kennzeichen (kennzeichen)
+VALUES('DO-KE1200');
 
 -- Parkplatz
 INSERT INTO Parkplatz (nummer, x_Koordinate, y_Koordinate, parkplatztyp_parkplatztypID, preiskategorie_kategorieID)
