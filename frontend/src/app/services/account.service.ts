@@ -12,8 +12,9 @@ export class AccountService {
   constructor(private http: HttpClient) { }
 
   public setup(){
-    this.http.get<any>('/account').subscribe(acc => {
-      console.log(acc);
+    console.log("BALLLLLLLAADADWADAWD");
+    this.http.get<any>('/fb/api/account').subscribe(acc => {
+      console.log("#########", acc);
       this._loggedIn = true;
     });
   }

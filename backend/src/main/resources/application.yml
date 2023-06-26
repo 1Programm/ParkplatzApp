@@ -1,6 +1,7 @@
 logging:
   level:
     root: INFO
+    org.springframework.web: DEBUG
 
 spring:
   h2:
@@ -17,8 +18,11 @@ spring:
     username: sa
     password: password
   sql.init.mode: always
-
-logging.level.org.springframework.web: DEBUG
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://venuflibis.de/auth/realms/SpringBootKeyCloak_ParkplatzApp
 
 server:
   servlet:
