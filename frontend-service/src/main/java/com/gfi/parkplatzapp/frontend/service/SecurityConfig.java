@@ -50,9 +50,9 @@ public class SecurityConfig {
         return http.build();
     }
 
-//    @Bean
-//    public HttpClient createHttpClient(){
-//        return HttpClient.create().resolver(DefaultAddressResolverGroup.INSTANCE);
-//    }
+    @Bean
+    public HttpClient createHttpClient(){
+        return HttpClient.create().resolver(DefaultAddressResolverGroup.INSTANCE);
+    }
 
 }
