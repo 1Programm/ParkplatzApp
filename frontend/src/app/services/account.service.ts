@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, Subject, of } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { AccountDto } from '../facade/dto/Account.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -8,15 +10,34 @@ import { Observable, of } from 'rxjs';
 export class AccountService {
 
   private _loggedIn: boolean = false;
+  private account: AccountDto;
+  private _isAdmin: boolean;
+
+  private mitarbeiterIdSubject: Subject<number> = new Subject<number>();
 
   constructor(private http: HttpClient) { }
 
   public setup(){
-    console.log("BALLLLLLLAADADWADAWD");
-    this.http.get<any>('/fb/api/account').subscribe(acc => {
+    this.http.get<any>(`${environment.apiServerUrl}/account`).subscribe(acc => {
       console.log("#########", acc);
+      this.account = acc;
       this._loggedIn = true;
+
+      this._isAdmin = this.containsRole(this.account.roles, "PA_ADMIN");
+      console.log("###", this.isAdmin);
+
+      this.mitarbeiterIdSubject.next(this.getMitarbeiterID());
     });
+  }
+  
+  private containsRole(roles: string[], role: string): boolean{
+    for(let r of roles){
+      if(r === role){
+        return true;
+      }
+    }
+
+    return false;
   }
 
   public logout(): void {
@@ -29,15 +50,20 @@ export class AccountService {
     return this._loggedIn;
   }
 
-  public isAdmin(): boolean {
-    return true;
+  public get isAdmin(): boolean {
+    return this._isAdmin;
   }
 
-  public getMitarbeiterID(): number {
-    return 1;
+  private getMitarbeiterID(): number {
+    return this.account.mitarbeiterId;
   }
 
   public getMitarbeiterIDAsObservable() : Observable<number> {
-    return of(this.getMitarbeiterID());
+    if(this.loggedIn){
+      return of(this.getMitarbeiterID());
+    }
+    else {
+      return this.mitarbeiterIdSubject;
+    }
   }
 }

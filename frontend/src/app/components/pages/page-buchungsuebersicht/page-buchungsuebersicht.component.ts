@@ -16,6 +16,7 @@ import { DialogConfigFactory } from 'src/app/utils/dialogConfigFactory';
 })
 export class PageBuchungsuebersichtComponent implements OnInit {
 
+  private mitarbeiterID: number;
   public buchungen: BuchungDto[];
   public kennzeichen: Kennzeichen[];
   public selected: Kennzeichen;
@@ -28,14 +29,16 @@ export class PageBuchungsuebersichtComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.accountService.getMitarbeiterIDAsObservable().subscribe(mitarbeiterID => {  
+    this.accountService.getMitarbeiterIDAsObservable().subscribe(mitarbeiterID => {
+      this.mitarbeiterID = mitarbeiterID;
+
       // Abrufen der Buchungen für den Mitarbeiter
-      this.buchungenService.getBuchungenForMitarbeiter().subscribe((data: BuchungDto[]) => {
+      this.buchungenService.getBuchungenForMitarbeiter(mitarbeiterID).subscribe((data: BuchungDto[]) => {
         this.buchungen = data;
       });
 
       // Abrufen der Kennzeichen für den Mitarbeiter
-      this.buchungenService.getKennzeichenForMitarbeiter().subscribe((data: Kennzeichen[]) => {
+      this.buchungenService.getKennzeichenForMitarbeiter(mitarbeiterID).subscribe((data: Kennzeichen[]) => {
         this.kennzeichen = data;
       });
     });
@@ -54,7 +57,7 @@ export class PageBuchungsuebersichtComponent implements OnInit {
     const dialogRef = this.luxDialogService.open(new DialogConfigFactory().setWidth('30%').setContent("Wollen Sie die Buchung wirklich löschen?").build());
     dialogRef.dialogConfirmed.subscribe(() => {
       // Löschen der Buchung
-      this.buchungenService.deleteBuchungFromMitarbeiter(buchung.buchungID).subscribe(updated => {
+      this.buchungenService.deleteBuchungFromMitarbeiter(this.mitarbeiterID, buchung.buchungID).subscribe(updated => {
         this.buchungen = updated;
       });
     });
