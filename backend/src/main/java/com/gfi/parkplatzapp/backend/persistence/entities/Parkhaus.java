@@ -17,7 +17,7 @@ import java.util.List;
 public class Parkhaus {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long parkhausID;
 
     private String bezeichnung;
