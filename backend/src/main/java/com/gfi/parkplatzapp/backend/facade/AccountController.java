@@ -1,5 +1,6 @@
 package com.gfi.parkplatzapp.backend.facade;
 
+import com.gfi.parkplatzapp.backend.facade.dto.AccountDto;
 import com.gfi.parkplatzapp.backend.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
@@ -15,9 +16,7 @@ public class AccountController {
     private AccountService accountService;
 
     @GetMapping
-    public Account getAccount(JwtAuthenticationToken auth){
-        System.out.println("auth: " + auth);
-
+    public AccountDto getAccount(JwtAuthenticationToken auth){
         return accountService.getAccount(auth);
     }
 
