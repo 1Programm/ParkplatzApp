@@ -2,14 +2,14 @@
 
 
 -- Mitarbeiter
-INSERT INTO Mitarbeiter (mitarbeiterID, mail, vorname, nachname)
-VALUES(1, 'max@example.com', 'Max', 'Mustermann');
+INSERT INTO Mitarbeiter (mitarbeiterID, uid, mail, vorname, nachname)
+VALUES(1, '4cd18d0c-fc5f-44c5-a12c-9ed1ef09c945', 'max-mustermann@web.de', 'Max', 'Mustermann');
 
-INSERT INTO Mitarbeiter (mitarbeiterID, mail, vorname, nachname)
-VALUES(2, 'sabine@example.com', 'Sabine', 'Schmidt');
+INSERT INTO Mitarbeiter (mitarbeiterID, uid, mail, vorname, nachname)
+VALUES(2,  'a9ec3008-2295-47d4-8b8e-83ce3b4f6470', 'marielle-musterfrau@gmx.de', 'Marielle', 'Musterfrau');
 
-INSERT INTO Mitarbeiter (mitarbeiterID, mail, vorname, nachname)
-VALUES(3, 'thomas@example.com', 'Thomas', 'Müller');
+INSERT INTO Mitarbeiter (mitarbeiterID, uid, mail, vorname, nachname)
+VALUES(3, '2a7051ab-a5f4-462d-b011-440388fd5208', 'thomas@example.com', 'Thomas', 'Müller');
 
 
 

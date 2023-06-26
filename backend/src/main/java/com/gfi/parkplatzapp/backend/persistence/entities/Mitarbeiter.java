@@ -19,6 +19,7 @@ public class Mitarbeiter {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long mitarbeiterID;
+    private String uid;
 
     private String vorname;
     private String nachname;

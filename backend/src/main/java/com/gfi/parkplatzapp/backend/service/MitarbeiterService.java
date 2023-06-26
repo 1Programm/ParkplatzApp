@@ -6,6 +6,7 @@ import com.gfi.parkplatzapp.backend.persistence.repos.KennzeichenRepo;
 import com.gfi.parkplatzapp.backend.persistence.repos.MitarbeiterRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -27,6 +28,10 @@ public class MitarbeiterService {
      */
     public Mitarbeiter getMitarbeiter(Long id) {
         return mitarbeiterRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Mitarbeiter mit ID " + id + " wurde nicht gefunden."));
+    }
+
+    public Mitarbeiter getMitarbeiterByTechnicalKey(String technicalKey){
+        return mitarbeiterRepo.findByUid(technicalKey);
     }
 
     /**
