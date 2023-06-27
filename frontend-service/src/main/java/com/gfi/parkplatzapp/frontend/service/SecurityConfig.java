@@ -33,20 +33,7 @@ public class SecurityConfig {
             .oauth2Login(); // to redirect to oauth2 login page.
 //        http.authorizeExchange().anyExchange().permitAll();
 
-        CookieServerCsrfTokenRepository csrfRepository = CookieServerCsrfTokenRepository.withHttpOnlyFalse();
-        csrfRepository.setCookieName(appId.toUpperCase() + "_XSRF-TOKEN");
-        csrfRepository.setHeaderName("X-" + appId.toUpperCase() + "_XSRF-TOKEN");
-
-        http.oauth2Login();
-
-        http.csrf().csrfTokenRepository(csrfRepository).and()
-                .headers()
-                .xssProtection().disable()
-//                .writer(xssWriter)
-                .referrerPolicy(ReferrerPolicyServerHttpHeadersWriter.ReferrerPolicy.NO_REFERRER).and()
-//                .contentSecurityPolicy(csp).and()
-                .frameOptions().mode(XFrameOptionsServerHttpHeadersWriter.Mode.SAMEORIGIN);
-
+    
         return http.build();
     }
 

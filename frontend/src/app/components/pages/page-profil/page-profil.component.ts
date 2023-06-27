@@ -16,7 +16,7 @@ export class PageProfilComponent implements OnInit {
   ];
 
   mitarbeiter: Mitarbeiter = {
-    id: 0,
+    mitarbeiterID: 0,
     vorname: '',
     nachname: '',
     mail: '',
@@ -37,13 +37,13 @@ export class PageProfilComponent implements OnInit {
   }
 
   public deleteKennzeichen(toDelete: any): void {
-    this.profilService.deleteKennzeichenFromMitarbeiter(this.mitarbeiter.id, toDelete.kennzeichenID).subscribe(updated => {
+    this.profilService.deleteKennzeichenFromMitarbeiter(this.mitarbeiter.mitarbeiterID, toDelete.kennzeichenID).subscribe(updated => {
       this.mitarbeiter = updated;
     });
   }
     
   public saveKennzeichen(toSave: any) {
-    this.profilService.createKennzeichenForMitarbeiter(this.mitarbeiter.id, toSave.kennzeichen).subscribe(updated => {
+    this.profilService.createKennzeichenForMitarbeiter(this.mitarbeiter.mitarbeiterID, toSave.kennzeichen).subscribe(updated => {
       this.mitarbeiter = updated;
     });
   }
