@@ -10,6 +10,8 @@ import { Parkplatztyp } from '../facade/Parkplatztyp';
 import { Preiskategorie } from '../facade/Preiskategorie';
 import { ParkplatzMitStatusDto } from '../facade/dto/ParkplatzMitStatusDto';
 import { ServiceBase } from './service-utils';
+import { BuchungDto } from '../facade/dto/BuchungDto';
+import { Kennzeichen } from '../facade/Kennzeichen';
 
 @Injectable({
   providedIn: 'root'
@@ -50,12 +52,27 @@ export class BuchungService extends ServiceBase{
     );
   }
 
-  public saveParkplatz(parkplatz: Parkplatz, parkflaecheID: number): Observable<Parkplatz[]> {
+  public saveParkplatz(parkplatz: Parkplatz): Observable<Parkplatz[]> {
     return this.wrapRetryAndCatchError(
-      this.http.post<Parkplatz[]>(`${environment.apiServerUrl}/buchung/parkplatz/${parkflaecheID}`, parkplatz)
+      this.http.post<Parkplatz[]>(`${environment.apiServerUrl}/buchung/parkplatz`, parkplatz)
     );
   }
 
+  public getBuchungenForMitarbeiter(mitarbeiterID: number): Observable<BuchungDto[]> {
+      return this.wrapRetryAndCatchError(
+        this.http.get<BuchungDto[]>(`${environment.apiServerUrl}/buchungen/${mitarbeiterID}`)
+        );
+    }
+
+  public getKennzeichenForMitarbeiter(mitarbeiterID: number): Observable<Kennzeichen[]> {
+    return this.wrapRetryAndCatchError(this.http.get<Kennzeichen[]>(`${environment.apiServerUrl}/buchungen/${mitarbeiterID}/kennzeichen`)
+    );
+  }
+
+  public updateBuchungen(buchung: BuchungDto): Observable<BuchungDto> {
+    return this.wrapRetryAndCatchError(this.http.post<BuchungDto>(`${environment.apiServerUrl}/buchung/test`, buchung)
+    );
+  }
 
   public deleteParkplatz(parkplatzID: number): Observable<Parkplatz> {
     return this.wrapRetryAndCatchError(this.http.delete<Parkplatz>(`${environment.apiServerUrl}/buchung/parkplatz/${parkplatzID}`)

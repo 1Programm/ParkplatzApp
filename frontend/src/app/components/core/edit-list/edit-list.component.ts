@@ -4,6 +4,7 @@ class EditListAttrib {
   public name: string;
   public typ: any;
   public choices?: any[];
+  public choicePropLabel?: string;
   public label: string;
   public value: any;
   public errorMessage: string | undefined;
@@ -13,6 +14,7 @@ export class AttribInfo {
   public name: string;
   public typ?: any;
   public label?: string;
+  public choicePropLabel?: string;
   public validator?: AttributeValidator;
 }
 
@@ -63,6 +65,7 @@ export class EditListComponent {
         info.name = attrib.name;
         info.typ = attrib.typ;
         info.validator = attrib.validator;
+        info.choicePropLabel = attrib.choicePropLabel;
 
         if(attrib.label) {
           info.label = attrib.label;
@@ -155,10 +158,13 @@ export class EditListComponent {
 
   private generateAttribsToItems(){
     this.itemAttribs = [];
-    
-    for(let item of this._items){
-      let attribs = this.getAttributes(item);
-      this.itemAttribs.push(attribs);
+    if(this._items) {
+      for(let item of this._items){
+        let attribs = this.getAttributes(item);
+        this.itemAttribs.push(attribs);
+      }
+      console.log(this._attributes);
+      
     }
   }
 
@@ -171,7 +177,7 @@ export class EditListComponent {
 
         let value = item[attrib.name];
 
-        attrs.push({name: attrib.name, typ: attrib.typ, choices: attrib["choices"], label: attrib.label, value, errorMessage: undefined});
+        attrs.push({name: attrib.name, typ: attrib.typ, choices: attrib["choices"], choicePropLabel: attrib.choicePropLabel, label: attrib.label, value, errorMessage: undefined});
       }
     }
 
@@ -260,7 +266,7 @@ export class EditListComponent {
     this.newItemValid = false;
     this.newItemAttribs = [];
     for(let attrib of this.attributes){
-      this.newItemAttribs.push({name: attrib.name, typ: attrib.typ, choices: attrib["choices"], label: attrib.label, value: "", errorMessage: "This field is required!"});
+      this.newItemAttribs.push({name: attrib.name, typ: attrib.typ, choices: attrib["choices"], choicePropLabel: attrib.choicePropLabel, label: attrib.label, value: "", errorMessage: "This field is required!"});
     }
   }
 

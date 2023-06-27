@@ -169,16 +169,34 @@ public class BuchungService {
         return kategorien;
     }
 
-
-    public List<Buchung> isAnyKennzeichenForBuchung(Long kennzeichenID, Long mitarbeiterID) {
-       Date filterDate = new Date();
-       Kennzeichen kennzeichen = kennzeichenRepo.findById(kennzeichenID).get();
-       Mitarbeiter mitarbeiter = mitarbeiterRepo.findById(mitarbeiterID).get();
-       List<Buchung> res = buchungRepo.findByKennzeichenAndMitarbeiter(kennzeichen, mitarbeiter).stream()
-                .filter(buchung -> buchung.getDatum().after(filterDate))
-                .collect(Collectors.toList());
-       return res;
+    public List<Parkplatz> createParkplatz(Parkplatz parkplatz) {
+        List<Parkplatz> parkplaetze = new ArrayList<>();
+        parkplatz.setPreiskategorie(preiskategorieRepo.findById(parkplatz.getPreiskategorie().getKategorieID()).get());
+        parkplatz.setParkplatztyp(parkplatztypRepo.findById(parkplatz.getParkplatztyp().getParkplatztypID()).get());
+        parkplatzRepo.save(parkplatz);
+        parkplatzRepo.findAll().iterator().forEachRemaining(parkplaetze::add);
+        return parkplaetze;
     }
 
+    public List<Buchung> isAnyKennzeichenForBuchung(Long kennzeichenID, Long mitarbeiterID) {
+        Date filterDate = new Date();
+        Kennzeichen kennzeichen = kennzeichenRepo.findById(kennzeichenID).get();
+        Mitarbeiter mitarbeiter = mitarbeiterRepo.findById(mitarbeiterID).get();
+        List<Buchung> res = buchungRepo.findByKennzeichenAndMitarbeiter(kennzeichen, mitarbeiter).stream()
+                .filter(buchung -> buchung.getDatum().after(filterDate))
+                .collect(Collectors.toList());
+        return res;
+    }
+
+    public void updateBuchungen(BuchungDto buchung) {
+        log.info("TESTTTTTTTT", buchung);
+        System.out.println(buchung.getParkplatzKennung());
+        /*buchungsList.forEach(buchungDto -> {
+            Buchung buchung = new Buchung();
+            buchung.setKennzeichen(buchungDto.getKennzeichen());
+            buchung.setDatum(buchungDto.getDatum());
+            buchung.setTagespreis(buchungDto.getTagespreis());
+        });*/
+    }
 
 }
