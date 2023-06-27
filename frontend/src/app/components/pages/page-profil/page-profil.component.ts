@@ -18,14 +18,13 @@ public attr = [
   {name: 'kennzeichen', validator: this.kennzeichenValidator}
 ]
 mitarbeiter: Mitarbeiter = {
-  id: 0,
+  mitarbeiterID: 0,
   vorname: '',
   nachname: '',
   mail: '',
   kennzeichenList: [],
   verstossList: []
 }
-
 
   public kennzeichenDeleteCallback: Function | undefined;
 
@@ -41,14 +40,14 @@ mitarbeiter: Mitarbeiter = {
 
   public deleteKennzeichen(toDelete: any): void {
 
-    this.profilService.getBuchungForKennzeichen(toDelete.kennzeichenID, this.mitarbeiter.id).subscribe(buchungen => {
+    this.profilService.getBuchungForKennzeichen(toDelete.kennzeichenID, this.mitarbeiter.mitarbeiterID).subscribe(buchungen => {
 
       if(buchungen.length != 0) {
 
         this.luxDialogService.open(new DialogConfigFactory().setDeclineAction(null).setWidth('30%').setContent("Das Kennzeichen kann nicht gelöscht werden, da es in einer aktiven Buchung genutzt wird").build());
       } else {
 
-      this.profilService.deleteKennzeichenFromMitarbeiter(this.mitarbeiter.id, toDelete.kennzeichenID).subscribe(updated => {
+      this.profilService.deleteKennzeichenFromMitarbeiter(this.mitarbeiter.mitarbeiterID, toDelete.kennzeichenID).subscribe(updated => {
         this.mitarbeiter = updated;
       });
       }
@@ -56,7 +55,7 @@ mitarbeiter: Mitarbeiter = {
     }
     
   public saveKennzeichen(toSave: any) {
-    this.profilService.createKennzeichenForMitarbeiter(this.mitarbeiter.id, toSave.kennzeichen).subscribe(updated => {
+    this.profilService.createKennzeichenForMitarbeiter(this.mitarbeiter.mitarbeiterID, toSave.kennzeichen).subscribe(updated => {
       this.mitarbeiter = updated;
     });
   }

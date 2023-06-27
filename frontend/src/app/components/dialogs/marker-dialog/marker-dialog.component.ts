@@ -25,7 +25,7 @@ export class MarkerDialogComponent implements OnInit {
   parkplatz: Parkplatz;
   parkplatzMitStatus: ParkplatzMitStatusDto
   title: string;
-  isAdmin: boolean = this.accountService.isAdmin();;
+  isAdmin: boolean = this.accountService.isAdmin;
 
 
   constructor(private buchenService: BuchungService, public luxDialogRef: LuxDialogRef, public accountService: AccountService) { }

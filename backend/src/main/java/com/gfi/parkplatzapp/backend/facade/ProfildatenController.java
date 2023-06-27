@@ -59,9 +59,9 @@ public class ProfildatenController {
      * @return der aktualisierte Mitarbeiter nach dem Hinzufügen des Kennzeichens
      */
     @PostMapping(path = "/{mitarbeiterID}", consumes = "application/json")
-    public Mitarbeiter createKennzeichenForMitarbeiter(@PathVariable long mitarbeiterID, @RequestBody Kennzeichen kennzeichen)
+    public Mitarbeiter createKennzeichenForMitarbeiter(@PathVariable long mitarbeiterID, @RequestBody String kennzeichen)
     {
-        return mitarbeiterService.createKennzeichenForMitarbeiter(mitarbeiterID, kennzeichen.getKennzeichen());
+        return mitarbeiterService.createKennzeichenForMitarbeiter(mitarbeiterID, kennzeichen);
     }
 
     @GetMapping(path = "/{kennzeichenID}/{mitarbeiterID}")

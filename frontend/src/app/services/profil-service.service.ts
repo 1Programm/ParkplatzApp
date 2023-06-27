@@ -12,7 +12,8 @@ import { Buchung } from '../facade/Buchung';
 })
 export class ProfilServiceService extends ServiceBase {
 
-  constructor(private http: HttpClient, private accountService: AccountService) {
+  mitarbeiterID: number;
+  constructor(private http: HttpClient) {
     super();
   }
   
@@ -24,7 +25,7 @@ export class ProfilServiceService extends ServiceBase {
 
   public createKennzeichenForMitarbeiter(mitarbeiterID: number, kennzeichen: string): Observable<Mitarbeiter> {
     return this.wrapRetryAndCatchError(
-      this.http.post<Mitarbeiter>(`${environment.apiServerUrl}/profil/${mitarbeiterID}`, {kennzeichen: kennzeichen})
+      this.http.post<Mitarbeiter>(`${environment.apiServerUrl}/profil/${mitarbeiterID}`, kennzeichen)
     );
   }
 

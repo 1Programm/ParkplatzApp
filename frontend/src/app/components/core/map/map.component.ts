@@ -43,7 +43,7 @@ export class MapComponent implements OnInit {
   constructor(private dialogService: LuxDialogService, private buchungService: BuchungService, private accountService: AccountService) { }
 
   ngOnInit(): void {
-    this.reloadData();
+    this.reloadData();;
   }
 
   ngOnChanges() {
@@ -88,8 +88,7 @@ export class MapComponent implements OnInit {
   handleUserMarkerClick(event: MouseEvent, spot: ParkplatzMitStatusDto) {
     event.stopPropagation();
     const dialogRef = this.dialogService.openComponent(MarkerDialogComponent, this.dialogConfig, spot);
-    let newSpot: Parkplatz
-    
+
     dialogRef.dialogClosed.subscribe((result) => {
       if(result != null) {
        {
