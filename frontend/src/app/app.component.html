@@ -1,4 +1,4 @@
-<div class="lux-app-container">
+<div class="lux-app-container" *ngIf="accountService.loggedIn">
   <lux-app-header luxAppTitle="Parkplatz App" luxAppTitleShort="PA" luxUserName="Test" (luxClicked)="router.navigate(['/'])">
     <lux-side-nav>
       <lux-side-nav-header>

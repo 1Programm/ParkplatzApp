@@ -11,6 +11,7 @@ import { ServiceBase } from './service-utils';
   providedIn: 'root'
 })
 export class BuchungsuebersichtService extends ServiceBase {
+
   constructor(private http: HttpClient, private accountService: AccountService) {
     super();
   }

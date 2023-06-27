@@ -15,24 +15,17 @@ export class PageProfilComponent implements OnInit {
     {name: 'kennzeichen', validator: this.kennzeichenValidator}
   ];
 
-  mitarbeiter: Mitarbeiter = {
-    mitarbeiterID: 0,
-    vorname: '',
-    nachname: '',
-    mail: '',
-    kennzeichenList: [],
-    verstossList: []
-  };
+  public mitarbeiter: Mitarbeiter;
 
   public kennzeichenDeleteCallback: Function | undefined;
 
   constructor(private accountService: AccountService, private profilService: ProfilServiceService) {}
 
   ngOnInit(): void {
-    this.accountService.getMitarbeiterIDAsObservable().subscribe(mitarbeiterID => {
-      this.profilService.getMitarbeiter(mitarbeiterID).subscribe((data: Mitarbeiter) => {
-        this.mitarbeiter = data;   
-      });
+    let mitarbeiterID = this.accountService.getMitarbeiterID();
+    
+    this.profilService.getMitarbeiter(mitarbeiterID).subscribe((data: Mitarbeiter) => {
+      this.mitarbeiter = data;
     });
   }
 

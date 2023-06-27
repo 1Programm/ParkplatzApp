@@ -13,8 +13,6 @@ export class AccountService {
   private account: AccountDto;
   private _isAdmin: boolean;
 
-  private mitarbeiterIdSubject: Subject<number> = new Subject<number>();
-
   constructor(private http: HttpClient) { }
 
   public setup(){
@@ -25,8 +23,6 @@ export class AccountService {
 
       this._isAdmin = this.containsRole(this.account.roles, "PA_ADMIN");
       console.log("###", this.isAdmin);
-
-      this.mitarbeiterIdSubject.next(this.getMitarbeiterID());
     });
   }
   
@@ -41,7 +37,7 @@ export class AccountService {
   }
 
   public logout(): void {
-    this.http.post<string>(window.location.origin + '/logout', null).subscribe(data => {
+    this.http.post<string>(window.location.origin + '/logout?test=1', null).subscribe(data => {
       window.location.href = data[ 'url' ];
     });
   }
@@ -54,16 +50,7 @@ export class AccountService {
     return this._isAdmin;
   }
 
-  private getMitarbeiterID(): number {
+  public getMitarbeiterID(): number {
     return this.account.mitarbeiterId;
-  }
-
-  public getMitarbeiterIDAsObservable() : Observable<number> {
-    if(this.loggedIn){
-      return of(this.getMitarbeiterID());
-    }
-    else {
-      return this.mitarbeiterIdSubject;
-    }
   }
 }
