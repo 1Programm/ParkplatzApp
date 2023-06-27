@@ -6,7 +6,6 @@ import { BuchungDto } from 'src/app/facade/dto/BuchungDto';
 import { Parkflaeche } from 'src/app/facade/Parkflaeche';
 import { Parkplatz } from 'src/app/facade/Parkplatz';
 import { ParkplatzMitStatusDto } from 'src/app/facade/dto/ParkplatzMitStatusDto';
-import { AccountService } from 'src/app/services/account.service';
 import { Kennzeichen } from 'src/app/facade/Kennzeichen';
 import { formatDate } from '@angular/common';
 import { AttribInfo } from '../../core/edit-list/edit-list.component';
@@ -19,11 +18,11 @@ import { AttribInfo } from '../../core/edit-list/edit-list.component';
 export class BuchenPageComponent implements OnInit {
   public parkplaetze: ParkplatzMitStatusDto[];
   public parkanlagen : ParkflaecheAuswahlDto[] ;
-  selectedParkanlage: ParkflaecheAuswahlDto = {parkflaecheID: 1};
-  selectedDatum: string = new Date().toISOString();
-  isAdmin: boolean = this.accountService.isAdmin;
-  kennzeichen: string[] = [];
-  buchungen: any[] = [];
+  public selectedParkanlage: ParkflaecheAuswahlDto = {parkflaecheID: 1};
+  public selectedDatum: string = new Date().toISOString();
+  public isAdmin: boolean = this.accountService.isAdmin;
+  public kennzeichen: string[] = [];
+  public buchungen: any[] = [];
   public mitarbeiterID: number = 0;
   public buchungAttribs: AttribInfo[];
 
@@ -102,6 +101,6 @@ export class BuchenPageComponent implements OnInit {
   }
 
   addSpotToBasket(buchung: BuchungDto) {
-    console.log("bla", )
+    
   }
 }

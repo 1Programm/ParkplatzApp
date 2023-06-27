@@ -169,15 +169,6 @@ public class BuchungService {
         return kategorien;
     }
 
-    public List<Parkplatz> createParkplatz(Parkplatz parkplatz) {
-        List<Parkplatz> parkplaetze = new ArrayList<>();
-        parkplatz.setPreiskategorie(preiskategorieRepo.findById(parkplatz.getPreiskategorie().getKategorieID()).get());
-        parkplatz.setParkplatztyp(parkplatztypRepo.findById(parkplatz.getParkplatztyp().getParkplatztypID()).get());
-        parkplatzRepo.save(parkplatz);
-        parkplatzRepo.findAll().iterator().forEachRemaining(parkplaetze::add);
-        return parkplaetze;
-    }
-
     public List<Buchung> isAnyKennzeichenForBuchung(Long kennzeichenID, Long mitarbeiterID) {
         Date filterDate = new Date();
         Kennzeichen kennzeichen = kennzeichenRepo.findById(kennzeichenID).get();

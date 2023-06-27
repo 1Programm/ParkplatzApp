@@ -52,9 +52,9 @@ export class BuchungService extends ServiceBase{
     );
   }
 
-  public saveParkplatz(parkplatz: Parkplatz): Observable<Parkplatz[]> {
+  public saveParkplatz(parkplatz: Parkplatz, parkflaecheID: number): Observable<Parkplatz[]> {
     return this.wrapRetryAndCatchError(
-      this.http.post<Parkplatz[]>(`${environment.apiServerUrl}/buchung/parkplatz`, parkplatz)
+      this.http.post<Parkplatz[]>(`${environment.apiServerUrl}/buchung/parkplatz/${parkflaecheID}`, parkplatz)
     );
   }
 
