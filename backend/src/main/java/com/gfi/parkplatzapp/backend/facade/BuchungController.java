@@ -56,6 +56,7 @@ public class BuchungController {
     }
     @DeleteMapping(path = "/parkplatz/{parkplatzID}")
     public Parkplatz deleteParkplatz(@PathVariable Long parkplatzID) {
+
         return parkplatzService.deleteParkplatz(parkplatzID);
     }
 

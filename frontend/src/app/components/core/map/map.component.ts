@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges, ViewChild } from '@angular/core';
 import { ILuxDialogConfig, ILuxDialogPresetConfig, LuxDialogService } from '@ihk-gfi/lux-components';
 import { Parkplatz } from 'src/app/facade/Parkplatz';
 import { MarkerDialogComponent } from '../../dialogs/marker-dialog/marker-dialog.component';
@@ -58,7 +58,6 @@ export class MapComponent implements OnInit {
          });
       } else {
         let datum = new Date(this.date).toLocaleDateString();
-        console.log("date", this.date);
 
         this.buchungService.getParkplaetzeOfParkflaecheAndDate(this.parkflaecheID, datum).subscribe( data => {
           this.parkplaetzeForDate = data;
@@ -66,7 +65,7 @@ export class MapComponent implements OnInit {
     
     }
   }
-  handleAdminMarkerClick(event: MouseEvent, spot: Parkplatz) {
+  handleAdminMarkerClick(event: MouseEvent, spot: ParkplatzMitStatusDto) {
     event.stopPropagation();
     const dialogRef = this.dialogService.openComponent(MarkerDialogComponent, this.dialogConfig, spot);
     let newSpot: Parkplatz
@@ -86,9 +85,8 @@ export class MapComponent implements OnInit {
     });
   }
 
-  handleUserMarkerClick(event: MouseEvent, spot: Parkplatz) {
+  handleUserMarkerClick(event: MouseEvent, spot: ParkplatzMitStatusDto) {
     event.stopPropagation();
-    this.dialogConfig.title = "Details"
     const dialogRef = this.dialogService.openComponent(MarkerDialogComponent, this.dialogConfig, spot);
     let newSpot: Parkplatz
     
@@ -114,16 +112,13 @@ export class MapComponent implements OnInit {
   this.showNewMarker = true;
   const container = event.currentTarget as HTMLElement;
   const boundingRect = container.getBoundingClientRect();
-    
-  this.newMarkerX=event.clientX - boundingRect.left;
-  this.newMarkerY =event.clientY - boundingRect.top;
+  this.newMarkerX = event.clientX - boundingRect.left;
+ this.newMarkerY = event.clientY - boundingRect.top;
 
   }
 
   public addNewMarker() {
-    
     const dialogRef = this.dialogService.openComponent(MarkerDialogComponent, this.dialogConfig);
- 
     let newSpot: Parkplatz
     dialogRef.dialogClosed.subscribe((result: Parkplatz) => {
         newSpot = result;
@@ -138,9 +133,17 @@ export class MapComponent implements OnInit {
   }
 
   public getMarkerColor(marker) {
-    console.log("marker:", marker.status)
     if(marker.status =="FREI")
       return 'green'  
     return 'red'
+  }
+
+  toParkplatzMitStatusDto(spot: Parkplatz): ParkplatzMitStatusDto {
+    let res: ParkplatzMitStatusDto = {
+      parkplatz: spot,
+      status: undefined
+    }
+
+    return res;
   }
 }

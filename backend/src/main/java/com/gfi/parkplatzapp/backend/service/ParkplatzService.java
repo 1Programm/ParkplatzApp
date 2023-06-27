@@ -1,18 +1,18 @@
 package com.gfi.parkplatzapp.backend.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.gfi.parkplatzapp.backend.persistence.entities.Buchung;
 import com.gfi.parkplatzapp.backend.persistence.entities.Mitarbeiter;
 import com.gfi.parkplatzapp.backend.persistence.entities.Parkflaeche;
 import com.gfi.parkplatzapp.backend.persistence.entities.Parkplatz;
-import com.gfi.parkplatzapp.backend.persistence.repos.ParkflaecheRepo;
-import com.gfi.parkplatzapp.backend.persistence.repos.ParkplatzRepo;
-import com.gfi.parkplatzapp.backend.persistence.repos.ParkplatztypRepo;
-import com.gfi.parkplatzapp.backend.persistence.repos.PreiskategorieRepo;
+import com.gfi.parkplatzapp.backend.persistence.repos.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ParkplatzService {
@@ -29,6 +29,9 @@ public class ParkplatzService {
 
     @Autowired
     ParkflaecheRepo parkflaecheRepo;
+
+    @Autowired
+    BuchungRepo buchungRepo;
     public List<Parkplatz> saveParkplatz(Parkplatz parkplatz, Long parkflaecheID) {
         List<Parkplatz> parkplaetze = new ArrayList<>();
         boolean id = parkplatz.getParkplatzID() == null;
@@ -45,11 +48,24 @@ public class ParkplatzService {
     }
 
     public Parkplatz deleteParkplatz(Long parkplatzID) {
+        Optional<Parkplatz> parkplatzOptional = parkplatzRepo.findById(parkplatzID);
 
-        Parkplatz parkplatz = parkplatzRepo.findById(parkplatzID)
-                .orElseThrow(() -> new IllegalArgumentException("Mitarbeiter mit ID " + parkplatzID + " wurde nicht gefunden."));
+        if (parkplatzOptional.isPresent()) {
+            Parkplatz parkplatz = parkplatzOptional.get();
 
-        parkplatzRepo.delete(parkplatz);
-        return parkplatz;
+            // Setze den Parkplatz aller Buchungen auf "null"
+            List<Buchung> buchungen = buchungRepo.findByParkplatz(parkplatz);
+            for (Buchung buchung : buchungen) {
+                buchung.setParkplatz(null);
+                buchungRepo.save(buchung);
+            }
+
+            // Lösche den Parkplatz
+            parkplatzRepo.delete(parkplatz);
+
+        }
+       return parkplatzOptional.get();
+
     }
+
 }
