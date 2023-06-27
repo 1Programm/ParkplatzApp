@@ -73,8 +73,11 @@ export class MapComponent implements OnInit {
     dialogRef.dialogClosed.subscribe((result) => {
       if(result != null) {
         if(result.nummer == undefined) {
-          this.buchungService.deleteParkplatz(result).subscribe()
-
+          this.buchungService.deleteParkplatz(result).subscribe(parkplatz => {
+            if(parkplatz != null) {
+              this.reloadData();  
+            }});
+         
         } else {
           
         newSpot = result;

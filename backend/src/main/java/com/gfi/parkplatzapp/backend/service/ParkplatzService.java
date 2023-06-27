@@ -1,10 +1,7 @@
 package com.gfi.parkplatzapp.backend.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.gfi.parkplatzapp.backend.persistence.entities.Buchung;
-import com.gfi.parkplatzapp.backend.persistence.entities.Mitarbeiter;
-import com.gfi.parkplatzapp.backend.persistence.entities.Parkflaeche;
-import com.gfi.parkplatzapp.backend.persistence.entities.Parkplatz;
+import com.gfi.parkplatzapp.backend.persistence.entities.*;
 import com.gfi.parkplatzapp.backend.persistence.repos.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -60,6 +57,23 @@ public class ParkplatzService {
                 buchungRepo.save(buchung);
             }
 
+           Parkflaeche parkflaeche = parkflaecheRepo.findByParkplatzList_parkplatzID(parkplatzID);
+            List<Parkplatz> parkplatzList = parkflaeche.getParkplatzList();
+            boolean found = false;
+            int i = 0;
+            while (i < parkplatzList.size()) {
+                Parkplatz park = parkplatzList.get(i);
+                if (park.equals(parkplatz)) {
+                    parkplatzList.remove(i);
+                    found = true;
+                } else {
+                    i++;
+                }
+            }
+
+                parkflaeche.setParkplatzList(parkplatzList);
+
+                 parkflaecheRepo.save(parkflaeche);
             // Lösche den Parkplatz
             parkplatzRepo.delete(parkplatz);
 
