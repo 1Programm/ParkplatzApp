@@ -7,7 +7,7 @@
   <div class="marker" *ngFor="let spot of alleParkplaetze"  [style.background-color]="'blue'" [ngStyle]="getPositionStyle(spot)" (click)="handleAdminMarkerClick($event, toParkplatzMitStatusDto(spot))">
   </div>
 
-  <div class="new-marker" *ngIf="showNewMarker" [style.left.px]="newMarkerX" [style.top.px]="newMarkerY" (click)="addNewMarker()">
+  <div class="new-marker" *ngIf="showNewMarker" [style.left.px]="newMarkerX" [style.top.px]="newMarkerY" (click)="handleNewMarkerClicked($event)">
       +
   </div>
 

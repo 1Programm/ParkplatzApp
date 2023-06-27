@@ -25,13 +25,9 @@ export class BuchenPageComponent implements OnInit {
 
 
     setTimeout(() => {
-      console.log("Test add item after time in parent component!");
       this.testData.push({name: "Arnold", age: 100});
     }, 2000);
 
-    setTimeout(() => {
-      console.log("++++", this.testData[0].name);
-    }, 5000);
   }
 
   public getParkAnlagen() : ParkflaecheAuswahlDto[] {
@@ -77,4 +73,7 @@ export class BuchenPageComponent implements OnInit {
     return "The age must be a number from 1-99!";
   }
 
+  addSpotToBasket(buchung: BuchungDto) {
+    console.log("bla", )
+  }
 }

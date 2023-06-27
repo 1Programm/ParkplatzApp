@@ -23,22 +23,47 @@ public class BuchungsuebersichtController {
     @Autowired
     private MitarbeiterService mitarbeiterService;
 
+    /**
+     * Gibt eine Liste von Buchung-DTOs für einen bestimmten Mitarbeiter zurück.
+     *
+     * @param mitarbeiterID Die ID des Mitarbeiters.
+     * @return Die Liste von Buchung-DTOs.
+     */
     @GetMapping("/{mitarbeiterID}")
-    public List<BuchungDto> getBuchungenForMitarbeiter(@PathVariable("mitarbeiterID") Long mitarbeiterID)
-    {
+    public List<BuchungDto> getBuchungenForMitarbeiter(@PathVariable("mitarbeiterID") Long mitarbeiterID) {
         return this.buchungService.getBuchungenForMitarbeiter(mitarbeiterID);
     }
 
+    /**
+     * Gibt eine Liste von Kennzeichen für einen bestimmten Mitarbeiter zurück.
+     *
+     * @param mitarbeiterID Die ID des Mitarbeiters.
+     * @return Die Liste von Kennzeichen.
+     */
     @GetMapping("/{mitarbeiterID}/kennzeichen")
     public List<Kennzeichen> getKennzeichenForMitarbeiter(@PathVariable("mitarbeiterID") Long mitarbeiterID) {
         return this.mitarbeiterService.getKennzeichenForMitarbeiter(mitarbeiterID);
     }
 
+    /**
+     * Speichert ein Kennzeichen für eine Buchung.
+     *
+     * @param buchungID     Die ID der Buchung.
+     * @param kennzeichenID Die ID des Kennzeichens.
+     * @return Die Liste von aktualisierten Buchung-DTOs.
+     */
     @PostMapping("/{buchungID}/kennzeichen/{kennzeichenID}")
     public List<BuchungDto> saveKennzeichenForBuchung(@PathVariable("buchungID") Long buchungID, @PathVariable("kennzeichenID") Long kennzeichenID) {
         return this.buchungService.updateKennzeichenForBuchung(buchungID, kennzeichenID);
     }
 
+    /**
+     * Löscht eine Buchung für einen bestimmten Mitarbeiter.
+     *
+     * @param mitarbeiterID Die ID des Mitarbeiters.
+     * @param buchungID     Die ID der zu löschenden Buchung.
+     * @return Die Liste von Buchung-DTOs nach der Löschung.
+     */
     @DeleteMapping(path = "/{mitarbeiterID}/buchung/{buchungID}")
     public List<BuchungDto> deleteBuchungFromMitarbeiter(@PathVariable Long mitarbeiterID, @PathVariable Long buchungID) {
         return buchungService.deleteBuchungFromMitarbeiter(mitarbeiterID, buchungID);

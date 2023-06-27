@@ -1,6 +1,6 @@
 package com.gfi.parkplatzapp.backend.facade.dto;
 
-import Utils.StatusEnum;
+import com.gfi.parkplatzapp.backend.utils.StatusEnum;
 import com.gfi.parkplatzapp.backend.persistence.entities.Parkplatz;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

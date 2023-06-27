@@ -1,151 +1,151 @@
-import { Component, ElementRef, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges, ViewChild } from '@angular/core';
-import { ILuxDialogConfig, ILuxDialogPresetConfig, LuxDialogService } from '@ihk-gfi/lux-components';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { ILuxDialogPresetConfig, LuxDialogService } from '@ihk-gfi/lux-components';
+import { BuchungDto } from 'src/app/facade/dto/BuchungDto';
+import { ParkflaecheAuswahlDto } from 'src/app/facade/dto/parkflaeche-auswahl.dto';
 import { Parkplatz } from 'src/app/facade/Parkplatz';
-import { MarkerDialogComponent } from '../../dialogs/marker-dialog/marker-dialog.component';
-import { BuchungService } from 'src/app/services/buchung.service';
 import { ParkplatzMitStatusDto } from 'src/app/facade/dto/ParkplatzMitStatusDto';
 import { AccountService } from 'src/app/services/account.service';
-import { ParkflaecheAuswahlDto } from 'src/app/facade/dto/parkflaeche-auswahl.dto';
-import { string32 } from 'pdfjs-dist/types/src/shared/util';
+import { BuchungService } from 'src/app/services/buchung.service';
+import { MarkerDialogComponent } from '../../dialogs/marker-dialog/marker-dialog.component';
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
-export class MapComponent implements OnInit {
+export class MapComponent implements OnInit, OnChanges {
+  public showNewMarker = false;
+  public newMarkerX = 0;
+  public newMarkerY = 0;
 
-  public showNewMarker: boolean = false;
-  public newMarkerX: number = 0;
-  public newMarkerY: number = 0;
-
-  @Input()
-  public date: string;
-
-  @Input()
-  public parkflaecheID: number;
-
-  @Output()
-  buchung: any;
+  @Input() date: string;
+  @Input() parkflaecheID: number;
+  @Output() buchung = new EventEmitter<BuchungDto>();
 
   dialogConfig: ILuxDialogPresetConfig = {
     disableClose: true,
     width: 'auto',
     height: 'auto',
-    panelClass: [],
-    
+    panelClass: []
   };
 
   alleParkplaetze: Parkplatz[];
   parkplaetzeForDate: ParkplatzMitStatusDto[];
-  isAdmin: boolean = this.accountService.isAdmin;
+  isAdmin = this.accountService.isAdmin;
 
-  constructor(private dialogService: LuxDialogService, private buchungService: BuchungService, private accountService: AccountService) { }
+  constructor(
+    private dialogService: LuxDialogService,
+    private buchungService: BuchungService,
+    private accountService: AccountService
+  ) {}
 
   ngOnInit(): void {
-    this.reloadData();;
+    this.reloadData();
   }
 
-  ngOnChanges() {
-    this.reloadData()
+  ngOnChanges(): void {
+    this.reloadData();
   }
 
-  reloadData() {
+  reloadData(): void {
     
-    if(this.isAdmin) {
-        this.buchungService.getParkplaetzeOfParkflaeche(this.parkflaecheID).subscribe( data => {
-          this.alleParkplaetze = data;
-         });
-      } else {
-        let datum = new Date(this.date).toLocaleDateString();
-
-        this.buchungService.getParkplaetzeOfParkflaecheAndDate(this.parkflaecheID, datum).subscribe( data => {
-          this.parkplaetzeForDate = data;
+    if (this.isAdmin) {
+      this.buchungService.getParkplaetzeOfParkflaeche(this.parkflaecheID).subscribe((data) => {
+        this.alleParkplaetze = data;
       });
-    
+    } else {
+      const datum = new Date(this.date).toLocaleDateString();
+
+      this.buchungService.getParkplaetzeOfParkflaecheAndDate(this.parkflaecheID, datum).subscribe((data) => {
+        this.parkplaetzeForDate = data;
+      });
     }
   }
-  handleAdminMarkerClick(event: MouseEvent, spot: ParkplatzMitStatusDto) {
-    event.stopPropagation();
-    const dialogRef = this.dialogService.openComponent(MarkerDialogComponent, this.dialogConfig, spot);
-    let newSpot: Parkplatz
-    
-    dialogRef.dialogClosed.subscribe((result) => {
-      if(result != null) {
-        if(result.nummer == undefined) {
-          this.buchungService.deleteParkplatz(result).subscribe(parkplatz => {
-            if(parkplatz != null) {
-              this.reloadData();  
-            }});
-         
-        } else {
-          
-        newSpot = result;
-        this.buchungService.saveParkplatz(newSpot, this.parkflaecheID).subscribe(parkplaetze => this.alleParkplaetze = parkplaetze);
-        }
-      }
-    this.showNewMarker = false;
-    });
-  }
 
-  handleUserMarkerClick(event: MouseEvent, spot: ParkplatzMitStatusDto) {
+  
+  //wird ausgeführt, wenn der User auf einen Marker klickt
+  handleUserMarkerClick(event: MouseEvent, spot: ParkplatzMitStatusDto): void {
     event.stopPropagation();
     const dialogRef = this.dialogService.openComponent(MarkerDialogComponent, this.dialogConfig, spot);
 
     dialogRef.dialogClosed.subscribe((result) => {
-      if(result != null) {
-       {
+      if (result != null) {
         this.buchung.emit(result);
-        }
       }
-    this.showNewMarker = false;
+      this.showNewMarker = false;
     });
   }
 
- public getPositionStyle(spot: Parkplatz) {                        
+  //wird ausgeführt, wenn der Admin auf einen bestehenden Marker klickt
+  handleAdminMarkerClick(event: MouseEvent, spot: ParkplatzMitStatusDto): void {
+    event.stopPropagation();
+    const dialogRef = this.dialogService.openComponent(MarkerDialogComponent, this.dialogConfig, spot);
+    let newSpot: Parkplatz;
+
+    dialogRef.dialogClosed.subscribe((result) => {
+      if (result != null) {
+        if (result.nummer == undefined) {
+          this.buchungService.deleteParkplatz(result).subscribe((parkplatz) => {
+            if (parkplatz != null) {
+              this.reloadData();
+            }
+          });
+        } else {
+          newSpot = result;
+          this.buchungService.saveParkplatz(newSpot, this.parkflaecheID).subscribe((parkplaetze) => {
+            this.alleParkplaetze = parkplaetze;
+          });
+        }
+      }
+      this.showNewMarker = false;
+    });
+  }
+
+  //wird ausgeführt, wenn der Admin auf die Karte klickt; fügt einen temporären Marker hinzu
+  handleMapClick(event: MouseEvent): void {
+    this.showNewMarker = true;
+    const container = event.currentTarget as HTMLElement;
+    const boundingRect = container.getBoundingClientRect();
+    this.newMarkerX = event.clientX - boundingRect.left;
+    this.newMarkerY = event.clientY - boundingRect.top;
+  }
+
+  //wird ausgeführt, wenn der Admin auf den temporären neuen Marker klickt (noch nicht ausgefüllt)
+  handleNewMarkerClicked(event): void {
+    event.stopPropagation();
+    const dialogRef = this.dialogService.openComponent(MarkerDialogComponent, this.dialogConfig);
+    let newSpot: Parkplatz;
+
+    dialogRef.dialogClosed.subscribe((result: Parkplatz) => {
+      newSpot = result;
+      newSpot.xkoordinate = this.newMarkerX;
+      newSpot.ykoordinate = this.newMarkerY;
+      this.buchungService.saveParkplatz(newSpot, this.parkflaecheID).subscribe((parkplaetze) => {
+        this.alleParkplaetze = parkplaetze;
+      });
+
+      this.showNewMarker = false;
+    });
+  }
+
+  getPositionStyle(spot: Parkplatz): any {
     return {
       left: `${spot.xkoordinate}px`,
-      top: `${spot.ykoordinate}px`,
-      
+      top: `${spot.ykoordinate}px`
     };
   }
 
-  public handleMapClick(event: MouseEvent) {
-  this.showNewMarker = true;
-  const container = event.currentTarget as HTMLElement;
-  const boundingRect = container.getBoundingClientRect();
-  this.newMarkerX = event.clientX - boundingRect.left;
- this.newMarkerY = event.clientY - boundingRect.top;
-
-  }
-
-  public addNewMarker() {
-    const dialogRef = this.dialogService.openComponent(MarkerDialogComponent, this.dialogConfig);
-    let newSpot: Parkplatz
-    dialogRef.dialogClosed.subscribe((result: Parkplatz) => {
-        newSpot = result;
-        newSpot.xkoordinate = this.newMarkerX;
-        newSpot.ykoordinate = this.newMarkerY
-        this.buchungService.saveParkplatz(newSpot, this.parkflaecheID).subscribe(parkplaetze => this.alleParkplaetze = parkplaetze);
-        
-    this.showNewMarker = false;
-    });
-  
-    
-  }
-
-  public getMarkerColor(marker) {
-    if(marker.status =="FREI")
-      return 'green'  
-    return 'red'
+  getMarkerColor(marker: any): string {
+    if (marker.status === 'FREI') {
+      return 'green';
+    }
+    return 'red';
   }
 
   toParkplatzMitStatusDto(spot: Parkplatz): ParkplatzMitStatusDto {
-    let res: ParkplatzMitStatusDto = {
+    return {
       parkplatz: spot,
       status: undefined
-    }
-
-    return res;
+    };
   }
 }
