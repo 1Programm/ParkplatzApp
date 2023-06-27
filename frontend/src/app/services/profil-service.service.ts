@@ -16,7 +16,6 @@ export class ProfilServiceService extends ServiceBase {
     super();
   }
   
-
   public getMitarbeiter(mitarbeiterID: number): Observable<Mitarbeiter> {
     return this.wrapRetryAndCatchError(
       this.http.get<Mitarbeiter>(`${environment.apiServerUrl}/profil/${mitarbeiterID}`)
@@ -41,13 +40,9 @@ export class ProfilServiceService extends ServiceBase {
     );
   }
 
-  public getBuchungForKennzeichen(kennzeichenID: number): Observable<Buchung[]> {
-      let mitarbeiterID = this.accountService.getMitarbeiterID();
-
-      return this.http.get<Buchung[]>(`${environment.apiServerUrl}/profil/${kennzeichenID}/${mitarbeiterID}`)
-      .pipe(
-        retry(1),
-        catchError(this.handleError)
+  public getBuchungForKennzeichen(kennzeichenID: number, mitarbeiterID: number): Observable<Buchung[]> {
+      return this.wrapRetryAndCatchError(
+        this.http.get<Buchung[]>(`${environment.apiServerUrl}/profil/${kennzeichenID}/${mitarbeiterID}`)
       )
     }
 }

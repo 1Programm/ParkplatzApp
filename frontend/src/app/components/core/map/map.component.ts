@@ -38,7 +38,7 @@ export class MapComponent implements OnInit {
 
   alleParkplaetze: Parkplatz[];
   parkplaetzeForDate: ParkplatzMitStatusDto[];
-  isAdmin: boolean;
+  isAdmin: boolean = this.accountService.isAdmin;
 
   constructor(private dialogService: LuxDialogService, private buchungService: BuchungService, private accountService: AccountService) { }
 
@@ -51,7 +51,6 @@ export class MapComponent implements OnInit {
   }
 
   reloadData() {
-    this.isAdmin = this.accountService.isAdmin();
     
     if(this.isAdmin) {
         this.buchungService.getParkplaetzeOfParkflaeche(this.parkflaecheID).subscribe( data => {

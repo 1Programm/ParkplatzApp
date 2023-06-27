@@ -33,11 +33,8 @@ export class BuchungService extends ServiceBase{
   }
 
   public getParkplaetzeOfParkflaecheAndDate(parkflaecheID:number, datum: string): Observable<ParkplatzMitStatusDto[]> {
-    return this.http.get<ParkplatzMitStatusDto[]>(`${environment.apiServerUrl}/buchung/parkplatz/${parkflaecheID}/${datum}`)
-    .pipe(
-      retry(1),
-      catchError(this.handleError)
-    )
+    return this.wrapRetryAndCatchError(this.http.get<ParkplatzMitStatusDto[]>(`${environment.apiServerUrl}/buchung/parkplatz/${parkflaecheID}/${datum}`)
+    );
   }
 
 
@@ -53,19 +50,15 @@ export class BuchungService extends ServiceBase{
     );
   }
 
-  public saveParkplatz(parkplatz: Parkplatz): Observable<Parkplatz[]> {
+  public saveParkplatz(parkplatz: Parkplatz, parkflaecheID: number): Observable<Parkplatz[]> {
     return this.wrapRetryAndCatchError(
-      this.http.post<Parkplatz[]>(`${environment.apiServerUrl}/buchung/parkplatz`, parkplatz)
+      this.http.post<Parkplatz[]>(`${environment.apiServerUrl}/buchung/parkplatz/${parkflaecheID}`, parkplatz)
     );
   }
 
 
   public deleteParkplatz(parkplatzID: number): Observable<Parkplatz> {
-
-    return this.http.delete<Parkplatz>(`${environment.apiServerUrl}/buchung/parkplatz/${parkplatzID}`)
-      .pipe(
-        retry(1),
-        catchError(this.handleError)
-      )
+    return this.wrapRetryAndCatchError(this.http.delete<Parkplatz>(`${environment.apiServerUrl}/buchung/parkplatz/${parkplatzID}`)
+    );
   }
 }

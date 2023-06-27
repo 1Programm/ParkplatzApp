@@ -14,10 +14,10 @@ import { AccountService } from 'src/app/services/account.service';
 })
 export class BuchenPageComponent implements OnInit {
   public parkplaetze: ParkplatzMitStatusDto[];
-  parkanlagen : ParkflaecheAuswahlDto[] ;
+  protected parkanlagen : ParkflaecheAuswahlDto[] ;
   selectedParkanlage: ParkflaecheAuswahlDto = {parkflaecheID: 1};
   selectedDatum: string = new Date().toISOString();
-
+  isAdmin: boolean = this.accountService.isAdmin;
   constructor(private buchungService: BuchungService, private accountService: AccountService) {}
 
   ngOnInit(): void {
@@ -77,7 +77,4 @@ export class BuchenPageComponent implements OnInit {
     return "The age must be a number from 1-99!";
   }
 
-  public isAdmin() {
-    return this.accountService.isAdmin()
-}
 }
