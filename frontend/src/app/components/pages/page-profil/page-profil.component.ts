@@ -1,11 +1,9 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ILuxDialogConfig, LuxDialogService } from '@ihk-gfi/lux-components';
-import { Kennzeichen } from 'src/app/facade/Kennzeichen';
 import { Mitarbeiter } from 'src/app/facade/Mitarbeiter';
 import { AccountService } from 'src/app/services/account.service';
 import { ProfilServiceService } from 'src/app/services/profil-service.service';
-import { DialogConfigFactory } from 'src/app/utils/dialogConfigFactory';
 
 @Component({
   selector: 'app-page-profil',
@@ -13,46 +11,29 @@ import { DialogConfigFactory } from 'src/app/utils/dialogConfigFactory';
   styleUrls: ['./page-profil.component.scss']
 })
 export class PageProfilComponent implements OnInit {
+  public attr = [
+    {name: 'kennzeichen', validator: this.kennzeichenValidator}
+  ];
 
-public attr = [
-  {name: 'kennzeichen', validator: this.kennzeichenValidator}
-]
-mitarbeiter: Mitarbeiter = {
-  mitarbeiterID: 0,
-  vorname: '',
-  nachname: '',
-  mail: '',
-  kennzeichenList: [],
-  verstossList: []
-}
+  public mitarbeiter: Mitarbeiter;
 
   public kennzeichenDeleteCallback: Function | undefined;
 
-  constructor(private accountService: AccountService, private profilService: ProfilServiceService, private luxDialogService: LuxDialogService) {}
+  constructor(private accountService: AccountService, private profilService: ProfilServiceService) {}
 
   ngOnInit(): void {
-    this.accountService.getMitarbeiterIDAsObservable().subscribe(mitarbeiterID => {
-      this.profilService.getMitarbeiter(mitarbeiterID).subscribe((data: Mitarbeiter) => {
-        this.mitarbeiter = data;   
-      });
+    let mitarbeiterID = this.accountService.getMitarbeiterID();
+
+    this.profilService.getMitarbeiter(mitarbeiterID).subscribe((data: Mitarbeiter) => {
+      this.mitarbeiter = data;
     });
   }
 
   public deleteKennzeichen(toDelete: any): void {
-
-    this.profilService.getBuchungForKennzeichen(toDelete.kennzeichenID, this.mitarbeiter.mitarbeiterID).subscribe(buchungen => {
-
-      if(buchungen.length != 0) {
-
-        this.luxDialogService.open(new DialogConfigFactory().setDeclineAction(null).setWidth('30%').setContent("Das Kennzeichen kann nicht gelöscht werden, da es in einer aktiven Buchung genutzt wird").build());
-      } else {
-
-      this.profilService.deleteKennzeichenFromMitarbeiter(this.mitarbeiter.mitarbeiterID, toDelete.kennzeichenID).subscribe(updated => {
-        this.mitarbeiter = updated;
-      });
-      }
+    this.profilService.deleteKennzeichenFromMitarbeiter(this.mitarbeiter.mitarbeiterID, toDelete.kennzeichenID).subscribe(updated => {
+      this.mitarbeiter = updated;
     });
-    }
+  }
     
   public saveKennzeichen(toSave: any) {
     this.profilService.createKennzeichenForMitarbeiter(this.mitarbeiter.mitarbeiterID, toSave.kennzeichen).subscribe(updated => {

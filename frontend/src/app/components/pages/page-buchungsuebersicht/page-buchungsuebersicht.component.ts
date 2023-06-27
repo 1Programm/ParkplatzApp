@@ -29,18 +29,16 @@ export class PageBuchungsuebersichtComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.accountService.getMitarbeiterIDAsObservable().subscribe(mitarbeiterID => {
-      this.mitarbeiterID = mitarbeiterID;
+    this.mitarbeiterID = this.accountService.getMitarbeiterID();
 
-      // Abrufen der Buchungen für den Mitarbeiter
-      this.buchungenService.getBuchungenForMitarbeiter(mitarbeiterID).subscribe((data: BuchungDto[]) => {
-        this.buchungen = data;
-      });
+    // Abrufen der Buchungen für den Mitarbeiter
+    this.buchungenService.getBuchungenForMitarbeiter(this.mitarbeiterID).subscribe((data: BuchungDto[]) => {
+      this.buchungen = data;
+    });
 
-      // Abrufen der Kennzeichen für den Mitarbeiter
-      this.buchungenService.getKennzeichenForMitarbeiter(mitarbeiterID).subscribe((data: Kennzeichen[]) => {
-        this.kennzeichen = data;
-      });
+    // Abrufen der Kennzeichen für den Mitarbeiter
+    this.buchungenService.getKennzeichenForMitarbeiter(this.mitarbeiterID).subscribe((data: Kennzeichen[]) => {
+      this.kennzeichen = data;
     });
   }
 
