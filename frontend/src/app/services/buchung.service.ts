@@ -8,6 +8,9 @@ import { Parkflaeche } from '../facade/Parkflaeche';
 import { Parkplatz } from '../facade/Parkplatz';
 import { Parkplatztyp } from '../facade/Parkplatztyp';
 import { Preiskategorie } from '../facade/Preiskategorie';
+import { ServiceBase } from './service-utils';
+import { BuchungDto } from '../facade/dto/BuchungDto';
+import { Kennzeichen } from '../facade/Kennzeichen';
 
 @Injectable({
   providedIn: 'root'
@@ -48,30 +51,19 @@ export class BuchungService extends ServiceBase{
     );
   }
 
-  public getBuchungenForMitarbeiter(): Observable<BuchungDto[]> {
-
-      return this.http.get<BuchungDto[]>(`${environment.apiServerUrl}/buchungen/${mitarbeiterID}`)
-        .pipe(
-          retry(1),
-          catchError(this.handleError)
-        )
+  public getBuchungenForMitarbeiter(mitarbeiterID: number): Observable<BuchungDto[]> {
+      return this.wrapRetryAndCatchError(
+        this.http.get<BuchungDto[]>(`${environment.apiServerUrl}/buchungen/${mitarbeiterID}`)
+        );
     }
 
-public getKennzeichenForMitarbeiter(): Observable<Kennzeichen[]> {
-    let mitarbeiterID = this.accountService.getMitarbeiterID();
-
-    return this.http.get<Kennzeichen[]>(`${environment.apiServerUrl}/buchungen/${mitarbeiterID}/kennzeichen`)
-    .pipe(
-      retry(1),
-      catchError(this.handleError)
-    )
+  public getKennzeichenForMitarbeiter(mitarbeiterID: number): Observable<Kennzeichen[]> {
+    return this.wrapRetryAndCatchError(this.http.get<Kennzeichen[]>(`${environment.apiServerUrl}/buchungen/${mitarbeiterID}/kennzeichen`)
+    );
   }
 
   public updateBuchungen(buchung: BuchungDto): Observable<BuchungDto> {
-      return this.http.post<BuchungDto>(`${environment.apiServerUrl}/buchung/test`, buchung)
-      .pipe(
-        retry(1),
-        catchError(this.handleError)
-      )
-    }
+    return this.wrapRetryAndCatchError(this.http.post<BuchungDto>(`${environment.apiServerUrl}/buchung/test`, buchung)
+    );
+  }
 }

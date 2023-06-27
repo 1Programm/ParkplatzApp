@@ -5,6 +5,7 @@ import {ParkflaecheAuswahlDto } from '../../../facade/dto/parkflaeche-auswahl.dt
 import { BuchungDto } from 'src/app/facade/dto/BuchungDto';
 import { Kennzeichen } from 'src/app/facade/Kennzeichen';
 import { formatDate } from '@angular/common';
+import { AttribInfo } from '../../core/edit-list/edit-list.component';
 
 @Component({
   selector: 'app-buchen-page',
@@ -18,16 +19,18 @@ export class BuchenPageComponent implements OnInit {
   selectedDatum: string = new Date().toLocaleDateString();
   buchungen: any[] = [];
   kennzeichen: string[] = [];
-  public testAttribs = []
+  public mitarbeiterID: number = 0;
+  public buchungAttribs: AttribInfo[];
+
 
   constructor(private buchungService: BuchungService, private accountService: AccountService) {}
 
   ngOnInit(): void {
+    this.mitarbeiterID = this.accountService.getMitarbeiterID()
     this.getParkAnlagen();
 
-    this.accountService.getMitarbeiterIDAsObservable().subscribe(mitarbeiterID => {  
       // Abrufen der Buchungen für den Mitarbeiter
-      this.buchungService.getBuchungenForMitarbeiter().subscribe((data: BuchungDto[]) => {
+      this.buchungService.getBuchungenForMitarbeiter(this.mitarbeiterID).subscribe((data: BuchungDto[]) => {
         this.buchungen.length = 0;
         for(let item of data) {
           this.buchungen.push({
@@ -41,18 +44,18 @@ export class BuchenPageComponent implements OnInit {
       });
 
       // Abrufen der Kennzeichen für den Mitarbeiter
-      this.buchungService.getKennzeichenForMitarbeiter().subscribe((data: Kennzeichen[]) => {
+      this.buchungService.getKennzeichenForMitarbeiter(this.mitarbeiterID).subscribe((data: Kennzeichen[]) => {
         this.kennzeichen.length = 0;
         
         for(let item of data) {
-          console.log(item);
           this.kennzeichen.push(item.kennzeichen);
         }
       });
-      this.testAttribs = [{name: 'datum'},
-      {name: 'parkplatzKennung', label: "Parkfläche"},
-      {name: 'kennzeichen', typ: this.kennzeichen}];
-    });
+      this.buchungAttribs =  [
+        {name: 'datum'},
+        {name: 'parkplatzKennung', label: "Parkfläche"},
+        {name: 'kennzeichen', typ: this.kennzeichen}
+        ];
   }
 
   public getParkAnlagen() : ParkflaecheAuswahlDto[] {
@@ -94,17 +97,4 @@ export class BuchenPageComponent implements OnInit {
     return formatDate(datum, 'dd/MM/YYYY', "de-DE");
   }
 
-  private parseDateString(dateString: string): Date {
-    const parts = dateString.split('/'); // Trenne Tag, Monat und Jahr
-  
-    // Extrahiere Datumsteile
-    const day = Number(parts[0]);
-    const month = Number(parts[1]) - 1; // Beachte, dass Monate in JavaScript von 0 bis 11 gehen
-    const year = Number(parts[2]);
-  
-    // Erstelle das Date-Objekt
-    const date = new Date(year, month, day);
-  
-    return date;
-  }
 }
