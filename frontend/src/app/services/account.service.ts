@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Subject, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AccountDto } from '../facade/dto/Account.dto';
 
@@ -17,12 +16,10 @@ export class AccountService {
 
   public setup(){
     this.http.get<any>(`${environment.apiServerUrl}/account`).subscribe(acc => {
-      console.log("#########", acc);
       this.account = acc;
       this._loggedIn = true;
 
       this._isAdmin = this.containsRole(this.account.roles, "PA_ADMIN");
-      console.log("###", this.isAdmin);
     });
   }
   
@@ -36,10 +33,30 @@ export class AccountService {
     return false;
   }
 
+  post(path, params, method='post') {
+    // The rest of this code assumes you are not using a library.
+    // It can be made less verbose if you use one.
+    const form = document.createElement('form');
+    form.method = method;
+    form.action = path;
+  
+    for (const key in params) {
+      if (params.hasOwnProperty(key)) {
+        const hiddenField = document.createElement('input');
+        hiddenField.type = 'hidden';
+        hiddenField.name = key;
+        hiddenField.value = params[key];
+  
+        form.appendChild(hiddenField);
+      }
+    }
+  
+    document.body.appendChild(form);
+    form.submit();
+  }
+
   public logout(): void {
-    this.http.post<string>(window.location.origin + '/logout?test=1', null).subscribe(data => {
-      window.location.href = data[ 'url' ];
-    });
+    this.post(window.location.origin + "/logout", null);
   }
 
   public get loggedIn(): boolean {

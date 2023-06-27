@@ -4,35 +4,22 @@ import io.netty.resolver.DefaultAddressResolverGroup;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.oauth2.client.oidc.web.server.logout.OidcClientInitiatedServerLogoutSuccessHandler;
+import org.springframework.security.oauth2.client.registration.ReactiveClientRegistrationRepository;
 import org.springframework.security.web.server.SecurityWebFilterChain;
-import org.springframework.security.web.server.csrf.CookieServerCsrfTokenRepository;
-import org.springframework.security.web.server.header.ReferrerPolicyServerHttpHeadersWriter;
-import org.springframework.security.web.server.header.XFrameOptionsServerHttpHeadersWriter;
+import org.springframework.security.web.server.authentication.logout.ServerLogoutSuccessHandler;
 import reactor.netty.http.client.HttpClient;
 
 @Configuration
 public class SecurityConfig {
 
-    private static final String appId = "PA";
-    private static final String csp = """
-    default-src 'self' 'unsafe-eval' https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.2.228/pdf.worker.min.js;
-    style-src 'self' 'unsafe-inline' https://use.fontawesome.com https://fonts.googleapis.com;
-    font-src 'self' data: https://use.fontawesome.com https://fonts.googleapis.com https://fonts.gstatic.com;
-    worker-src 'self' blob:;
-    connect-src http://localhost:8080 http://localhost:8081 http://localhost:4200 ws://localhost:4200 blob:;
-    img-src 'self' data: blob:""";
-
     @Bean
-    public SecurityWebFilterChain springSecurityFilterChain (ServerHttpSecurity http) {
+    public SecurityWebFilterChain springSecurityFilterChain (ServerHttpSecurity http, ServerLogoutSuccessHandler logoutSuccessHandler) {
         http
-            .authorizeExchange()
-            .anyExchange()
-            .authenticated()
-            .and()
-                .csrf().disable()
-            .oauth2Login(); // to redirect to oauth2 login page.
-//        http.authorizeExchange().anyExchange().permitAll();
-
+                .authorizeExchange((exchange) -> exchange.anyExchange().authenticated())
+                .csrf(ServerHttpSecurity.CsrfSpec::disable)
+                .oauth2Login(login -> {})
+                .logout((logout) -> logout.logoutSuccessHandler(logoutSuccessHandler));
     
         return http.build();
     }
@@ -40,6 +27,14 @@ public class SecurityConfig {
     @Bean
     public HttpClient createHttpClient(){
         return HttpClient.create().resolver(DefaultAddressResolverGroup.INSTANCE);
+    }
+
+    @Bean
+    public ServerLogoutSuccessHandler keycloakLogoutSuccessHandler(ReactiveClientRegistrationRepository repository){
+        OidcClientInitiatedServerLogoutSuccessHandler handler = new OidcClientInitiatedServerLogoutSuccessHandler(repository);
+        handler.setPostLogoutRedirectUri("{baseUrl}/buchen");
+
+        return handler;
     }
 
 }
