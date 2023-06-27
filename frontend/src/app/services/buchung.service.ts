@@ -9,27 +9,27 @@ import { Parkplatz } from '../facade/Parkplatz';
 import { Parkplatztyp } from '../facade/Parkplatztyp';
 import { Preiskategorie } from '../facade/Preiskategorie';
 import { ParkplatzMitStatusDto } from '../facade/dto/ParkplatzMitStatusDto';
+import { ServiceBase } from './service-utils';
 
 @Injectable({
   providedIn: 'root'
 })
-export class BuchungService {
+export class BuchungService extends ServiceBase{
 
-  constructor(private http: HttpClient){}
+  constructor(private http: HttpClient){
+    super();
+  }
 
   public getParkanlagen(): Observable<ParkflaecheAuswahlDto[]> {
-    return this.http.get<ParkflaecheAuswahlDto[]>(`${environment.apiServerUrl}/buchung/parkanlagen`).pipe(
-      retry(1),
-      catchError(this.handleError)
-    )
+    return this.wrapRetryAndCatchError(
+      this.http.get<ParkflaecheAuswahlDto[]>(`${environment.apiServerUrl}/buchung/parkanlagen`)
+    );
   }
 
   public getParkplaetzeOfParkflaeche(parkflaecheID:number): Observable<Parkplatz[]> {
-    return this.http.get<Parkplatz[]>(`${environment.apiServerUrl}/buchung/parkplatz/${parkflaecheID}`)
-    .pipe(
-      retry(1),
-      catchError(this.handleError)
-    )
+    return this.wrapRetryAndCatchError(
+      this.http.get<Parkplatz[]>(`${environment.apiServerUrl}/buchung/parkplatz/${parkflaecheID}`)
+    );
   }
 
   public getParkplaetzeOfParkflaecheAndDate(parkflaecheID:number, datum: string): Observable<ParkplatzMitStatusDto[]> {
@@ -42,51 +42,30 @@ export class BuchungService {
 
 
   public getParkplatztypen(): Observable<Parkplatztyp[]> {
-    return this.http.get<Parkplatztyp[]>(`${environment.apiServerUrl}/buchung/parkplatztypen`)
-    .pipe(
-      retry(1),
-      catchError(this.handleError)
-    )
+    return this.wrapRetryAndCatchError(
+      this.http.get<Parkplatztyp[]>(`${environment.apiServerUrl}/buchung/parkplatztypen`)
+    );
   }
 
   public getPreiskategorien(): Observable<Preiskategorie[]> {
-    return this.http.get<Preiskategorie[]>(`${environment.apiServerUrl}/buchung/preiskategorien`)    
-    .pipe(
-      retry(1),
-      catchError(this.handleError)
-    )
+    return this.wrapRetryAndCatchError(
+      this.http.get<Preiskategorie[]>(`${environment.apiServerUrl}/buchung/preiskategorien`)
+    );
   }
 
-  public saveParkplatz(parkplatz: Parkplatz, parkflaecheID: number): Observable<Parkplatz[]> {
-
-    return this.http.post<Parkplatz[]>(`${environment.apiServerUrl}/buchung/parkplatz/${parkflaecheID}`, parkplatz)
-    .pipe(
-      retry(1),
-      catchError(this.handleError)
-    )
+  public saveParkplatz(parkplatz: Parkplatz): Observable<Parkplatz[]> {
+    return this.wrapRetryAndCatchError(
+      this.http.post<Parkplatz[]>(`${environment.apiServerUrl}/buchung/parkplatz`, parkplatz)
+    );
   }
+
 
   public deleteParkplatz(parkplatzID: number): Observable<Parkplatz> {
-    
+
     return this.http.delete<Parkplatz>(`${environment.apiServerUrl}/buchung/parkplatz/${parkplatzID}`)
       .pipe(
         retry(1),
         catchError(this.handleError)
       )
   }
-
-  // Error handling
-  handleError(error: any) {
-    let errorMessage = '';
-    if (error.error instanceof ErrorEvent) {
-      // Get client-side error
-      errorMessage = error.error.message;
-    } else {
-      // Get server-side error
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
-    window.alert(errorMessage);
-    return throwError(errorMessage);
-  }
-
 }

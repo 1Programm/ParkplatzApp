@@ -27,7 +27,8 @@ mitarbeiter: Mitarbeiter = {
 }
 
 
-public kennzeichenDeleteCallback: Function | undefined;
+  public kennzeichenDeleteCallback: Function | undefined;
+
   constructor(private accountService: AccountService, private profilService: ProfilServiceService, private luxDialogService: LuxDialogService) {}
 
   ngOnInit(): void {
@@ -39,14 +40,14 @@ public kennzeichenDeleteCallback: Function | undefined;
   }
 
   public deleteKennzeichen(toDelete: any): void {
-    
+
     this.profilService.getBuchungForKennzeichen(toDelete.kennzeichenID).subscribe(buchungen => {
-    
+
       if(buchungen.length != 0) {
-        
+
         this.luxDialogService.open(new DialogConfigFactory().setDeclineAction(null).setWidth('30%').setContent("Das Kennzeichen kann nicht gelöscht werden, da es in einer aktiven Buchung genutzt wird").build());
       } else {
-    
+
       this.profilService.deleteKennzeichenFromMitarbeiter(toDelete.kennzeichenID).subscribe(updated => {
         this.mitarbeiter = updated;
       });
@@ -67,9 +68,5 @@ public kennzeichenDeleteCallback: Function | undefined;
   private kennzeichenValidator(kennzeichen: string){
     if(kennzeichen.match('^[A-ZÄÖÜ]{1,3}\-[ ]{0,1}[A-Z]{0,2}[0-9]{1,4}[H]{0,1}')) return undefined;
     return "Das angegebene Kennzeichen entspricht nicht der Form XXX-YY1111";
-  }
-
-  private kennzeichenInActiveBuchung(kennzeichenID: number) {
-     
   }
 }

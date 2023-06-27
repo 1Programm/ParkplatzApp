@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface MitarbeiterRepo extends CrudRepository<Mitarbeiter, Long> {
 
+    Mitarbeiter findByUid(String uid);
+
 }
