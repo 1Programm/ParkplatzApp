@@ -55,11 +55,13 @@ public class AccountService {
             log.info("Found mapped Mitarbeiter [{}] in database!", mitarbeiterId);
         }
 
+        String name = (String) claims.get("name");
+
         //Get all roles for this Mitarbeiter
         Map<String, Object> realmAccess = (Map<String, Object>) claims.get("realm_access");
         List<String> roles = (List<String>) realmAccess.get("roles");
 
-        return new AccountDto(uid, mitarbeiterId, roles);
+        return new AccountDto(uid, mitarbeiterId, name, roles);
     }
 
 
