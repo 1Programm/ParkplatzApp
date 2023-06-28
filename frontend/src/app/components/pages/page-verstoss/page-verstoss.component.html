@@ -1,0 +1,16 @@
+<lux-layout>
+    <lux-layout-card-row [luxGap]="{ row: '2px', rowItem: '5px', column: '2px'}" [luxMargin]="{ xs: '5%', lg: '5%', xl: '5%', marginLeft: true, marginRight: true}">
+        <lux-card luxTitle="Verstoß melden" *luxLayoutRowItem="{}">
+            <lux-card-content>
+                <lux-datepicker luxLabel="Datum" [(luxValue)]="selectedDatum" [luxTouchUi]="true" luxPlaceholder="Bitte ein Datum auswählen"></lux-datepicker>
+                <lux-textarea luxLabel="Beschreibung" [(luxValue)]="beschreibung" luxPlaceholder="Die Beschreibung des Verstoßes" luxHint="Bitte tragen Sie hier die Beschreibung des Verstoßes ein" [luxMaxRows]="5" [luxMinRows]="1">
+                </lux-textarea>
+            </lux-card-content>
+            <lux-card-actions>
+                <lux-button luxLabel="Verstoß schicken" (luxClicked)="speichernVerstoss()" [luxRaised]="true" luxColor="primary"></lux-button>
+            </lux-card-actions>
+        </lux-card>
+    </lux-layout-card-row>
+    <lux-layout>
+
+

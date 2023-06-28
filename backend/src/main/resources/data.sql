@@ -45,14 +45,14 @@ INSERT INTO Preiskategorie (kategorieID, bezeichnung, preis)
 VALUES(2, 'Premium', 15.00);
 
 -- Verstoss
-INSERT INTO Verstoss (meldeID, bemerkung, datum)
-VALUES(1, 'Falschparken', '2023-06-01');
+INSERT INTO Verstoss (datum, bemerkung, status)
+VALUES('2023-06-01', 'Falschparken', 'IN_BEARBEITUNG');
 
-INSERT INTO Verstoss (meldeID, bemerkung, datum)
-VALUES(2, 'Geschwindigkeitsüberschreitung', '2023-06-02');
+INSERT INTO Verstoss (datum, bemerkung, status)
+VALUES('2023-06-02', 'Geschwindigkeitsüberschreitung', 'IN_BEARBEITUNG');
 
-INSERT INTO Verstoss (meldeID, bemerkung, datum)
-VALUES(3, 'Parken auf Behindertenparkplatz', '2023-06-03');
+INSERT INTO Verstoss (datum, bemerkung, status)
+VALUES('2023-06-03', 'Parken auf Behindertenparkplatz', 'IN_BEARBEITUNG');
 
 --Kennzeichen
 INSERT INTO Kennzeichen (kennzeichenID, kennzeichen)

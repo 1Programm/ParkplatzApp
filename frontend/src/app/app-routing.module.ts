@@ -7,6 +7,7 @@ import { BuchenPageComponent } from './components/pages/buchen-page/buchen-page.
 import { PageProfilComponent } from './components/pages/page-profil/page-profil.component';
 import { PageTestComponent } from './components/pages/page-test/page-test.component';
 import { PageBuchungsuebersichtComponent } from './components/pages/page-buchungsuebersicht/page-buchungsuebersicht.component';
+import { PageVerstossComponent } from './components/pages/page-verstoss/page-verstoss.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'test', component: PageTestComponent },
   { path: 'buchungen', component: PageBuchungsuebersichtComponent },
   { path: 'buchen', component: BuchenPageComponent },
+  { path: 'verstoss', component: PageVerstossComponent },
   { path: '**', component: PageErrorComponent } // Immer als letzte Route !! -> 404!
 ];
 
