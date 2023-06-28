@@ -42,6 +42,7 @@ public class ParkplatzService {
      * @throws NoSuchElementException, wenn die Preiskategorie oder der Parkplatztyp mit den angegebenen IDs nicht gefunden wurden.
      */
     public List<Parkplatz> saveParkplatz(Parkplatz parkplatz, Long parkflaecheID) throws NoSuchElementException {
+        Long id = parkplatz.getParkplatzID();
 
         parkplatz.setPreiskategorie(preiskategorieRepo.findById(parkplatz.getPreiskategorie().getKategorieID())
                 .orElseThrow(NoSuchElementException::new));
@@ -51,7 +52,7 @@ public class ParkplatzService {
 
         parkplatzRepo.save(parkplatz);
 
-        if (parkplatz.getParkplatzID() == null) {
+        if (id == null) {
             Parkflaeche parkflaeche = parkflaecheRepo.findById(parkflaecheID)
                     .orElseThrow(NoSuchElementException::new);
             parkflaeche.getParkplatzList().add(parkplatz);
