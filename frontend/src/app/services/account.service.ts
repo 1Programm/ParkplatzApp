@@ -33,7 +33,7 @@ export class AccountService {
     return false;
   }
 
-  post(path, params, method='post') {
+  private post(path, params, method='post') {
     // The rest of this code assumes you are not using a library.
     // It can be made less verbose if you use one.
     const form = document.createElement('form');
@@ -65,6 +65,10 @@ export class AccountService {
 
   public get isAdmin(): boolean {
     return this._isAdmin;
+  }
+
+  public get name(): string {
+    return this.account.name;
   }
 
   public getMitarbeiterID(): number {
