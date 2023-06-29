@@ -17,8 +17,9 @@ import java.util.List;
 public class Mitarbeiter {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long mitarbeiterID;
+    private String uid;
 
     private String vorname;
     private String nachname;

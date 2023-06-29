@@ -1,0 +1,40 @@
+logging.level:
+  root: INFO
+  org.springframework: DEBUG
+
+spring:
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: https://venuflibis.de/auth/realms/SpringBootKeyCloak_ParkplatzApp
+        registration:
+          keycloak-spring-gateway-client:
+            provider: keycloak
+            client-id: login-app
+            client-secret:
+            scope: openid
+            authorization-grant-type: authorization_code
+            redirect-uri: '{baseUrl}/login/oauth2/code/keycloak'
+  cloud:
+    gateway:
+      default-filters:
+        - TokenRelay
+      forwarded:
+        enabled: true
+      x-forwarded:
+        for-enabled: true
+        host-enabled: true
+      routes:
+        - id: backend-server
+          uri: http://localhost:8081
+          predicates:
+            - Path=/fb/api/**
+        - id: angular-client
+          uri: http://localhost:4200
+          predicates:
+            - Path=/**
+
+server:
+  port: 8080
