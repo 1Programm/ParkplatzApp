@@ -32,6 +32,7 @@ import { PageTestComponent } from './components/pages/page-test/page-test.compon
 import { EditListComponent } from './components/core/edit-list/edit-list.component';
 import { PageBuchungsuebersichtComponent } from './components/pages/page-buchungsuebersicht/page-buchungsuebersicht.component';
 import { MapComponent } from './components/core/map/map.component';
+import { PageVerstossComponent } from './components/pages/page-verstoss/page-verstoss.component';
 import { MarkerDialogComponent } from './components/dialogs/marker-dialog/marker-dialog.component';
 import { JsonDateInterceptor } from './interceptors/json-date.interceptor';
 
@@ -53,6 +54,7 @@ const luxComponentsConfig: LuxComponentsConfigParameters = {
     EditListComponent,
     BuchenPageComponent,
     MapComponent,
+    PageVerstossComponent,
     MarkerDialogComponent,
   ],
   imports: [
