@@ -1,6 +1,6 @@
 <lux-layout *ngIf="selectedParkflaeche">
     <lux-layout-card-row [luxGap]="{ row: '2px', rowItem: '5px', column: '2px'}" [luxMargin]="{ xs: '5%', lg: '5%', xl: '5%', marginLeft: true, marginRight: true}">
-        <lux-card *luxLayoutRowItem="{}">
+        <lux-card luxTagId="datum_ebene_auswahl" *luxLayoutRowItem="{}">
             <lux-card-content>
                 <lux-layout class="m70">
                     <lux-layout-form-row [luxGap]="{ row: '2px', rowItem: '25px', column: '10px'}">
@@ -17,7 +17,7 @@
         </lux-card>
     </lux-layout-card-row>
     <lux-layout-card-row [luxGap]="{ row: '2px', rowItem: '2px', column: '2px'}" [luxMargin]="{ xs: '5%', lg: '5%', xl: '5%', marginLeft: true, marginRight: true}">
-        <lux-card *luxLayoutRowItem="{ colSpan: 4 }" class="map-card">
+        <lux-card luxTagId="map" *luxLayoutRowItem="{ colSpan: 4 }" class="map-card">
             <lux-card-content>
                 <app-map [date]="selectedDatum" [parkflaecheID]="selectedParkflaeche.parkflaecheID" (parkplatzSelected)="addSpotToBasket($event)" ></app-map>
             </lux-card-content>
@@ -85,7 +85,7 @@
                                 <div *ngFor="let buchung of abschlussBuchungen; index as i">
                                     <div style="margin-bottom: 10px;"><h4>{{buchung.parkplatzKennung}}</h4></div>
                                     <lux-layout-form-row>
-                                        <lux-datepicker luxLabel="Datum" [luxValue]="buchung['_datum']" [luxDisabled]="true" *luxLayoutRowItem="{}"></lux-datepicker>
+                                        <lux-datepicker luxLabel="Datum" [luxValue]="buchung.datum" [luxDisabled]="true" *luxLayoutRowItem="{}"></lux-datepicker>
                                         <!-- <lux-input luxLabel="Parkplatz" [luxValue]="buchung.parkplatzKennung" *luxLayoutRowItem="{}"></lux-input> -->
                                         <lux-select luxLabel="Kennzeichen" [luxOptions]="kennzeichenList" [luxSelected]="buchung['_selectedKennzeichen']" luxOptionLabelProp="kennzeichen" *luxLayoutRowItem="{}"></lux-select>
                                         <!-- <lux-button luxLabel="Löschen" [luxRaised]="true" luxColor="warn" *luxLayoutRowItem="{flex: 'none'}"></lux-button> -->
