@@ -1,7 +1,6 @@
 package com.gfi.parkplatzapp.backend.facade;
 
 import com.gfi.parkplatzapp.backend.persistence.entities.Buchung;
-import com.gfi.parkplatzapp.backend.persistence.entities.Kennzeichen;
 import com.gfi.parkplatzapp.backend.persistence.entities.Mitarbeiter;
 import com.gfi.parkplatzapp.backend.service.BuchungService;
 import com.gfi.parkplatzapp.backend.service.MitarbeiterService;
