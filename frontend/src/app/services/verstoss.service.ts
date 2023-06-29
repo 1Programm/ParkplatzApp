@@ -1,36 +1,28 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, retry, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { VerstossDto } from '../facade/dto/verstoss.dto';
+import { ServiceBase } from '../services/service-utils';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class VerstossService {
+export class VerstossService extends ServiceBase {
 
-  constructor(private http: HttpClient) { }
-
-
-  public saveKennzeichenForBuchung(verstossDto: VerstossDto) {
-    return this.http.post<VerstossDto>(`${environment.apiServerUrl}/verstoss/update`, verstossDto)
-    .pipe(
-      retry(1),
-      catchError(this.handleError)
-    )
+  constructor(private http: HttpClient) { 
+    super();
   }
 
-  // Error handling
-  handleError(error: any) {
-    let errorMessage = '';
-    if (error.error instanceof ErrorEvent) {
-      // Get client-side error
-      errorMessage = error.error.message;
-    } else {
-      // Get server-side error
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
-    window.alert(errorMessage);
-    return throwError(errorMessage);
+
+  public speichernVerstoss(verstossDto: VerstossDto) : Observable<VerstossDto> {
+    return this.wrapRetryAndCatchError(this.http.post<VerstossDto>(`${environment.apiServerUrl}/verstoss/update`, verstossDto)
+    );
+  }
+
+  public getVerstoesse(mitarbeiterID: number) : Observable<VerstossDto[]> {
+    return this.wrapRetryAndCatchError(
+      this.http.get<VerstossDto[]>(`${environment.apiServerUrl}/verstoss/verstoesse/${mitarbeiterID}`)
+    );
   }
 }

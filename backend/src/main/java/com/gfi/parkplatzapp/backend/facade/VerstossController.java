@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @CrossOrigin(origins = "*")
 @RestController
@@ -18,5 +20,10 @@ public class VerstossController {
     @PostMapping(path = "/update", consumes = "application/json")
     public Verstoss speichernVerstoss(@RequestBody VerstossDto verstossDto) {
         return verstossService.speichernVerstoss(verstossDto);
+    }
+
+    @GetMapping(path = "/verstoesse/{mitarbeiterID}")
+    public List<Verstoss> getVerstoesse(@PathVariable("mitarbeiterID") Long mitarbeiterID) {
+        return this.verstossService.getVerstoesse(mitarbeiterID);
     }
 }

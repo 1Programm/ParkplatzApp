@@ -39,4 +39,11 @@ public class VerstossService {
 
         return verstoss;
     }
+
+    public List<Verstoss> getVerstoesse(Long mitarbeiterID) {
+        Mitarbeiter mitarbeiter = mitarbeiterRepo.findById(mitarbeiterID)
+                .orElseThrow(() -> new IllegalArgumentException("Mitarbeiter mit ID " + mitarbeiterID + " wurde nicht gefunden."));
+
+        return mitarbeiter.getVerstossList();
+    }
 }
