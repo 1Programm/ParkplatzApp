@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Mitarbeiter } from 'src/app/facade/Mitarbeiter';
 import { VerstossDto } from 'src/app/facade/dto/verstoss.dto';
 import { AccountService } from 'src/app/services/account.service';
-import { ProfilServiceService } from 'src/app/services/profil-service.service';
 import { VerstossService } from 'src/app/services/verstoss.service';
 import { VerstossStatus } from 'src/app/utils/verstossStatus.enum';
+import { DateUtils } from 'src/app/utils/date.utils';
 
 @Component({
   selector: 'app-page-verstoss',
@@ -13,10 +12,11 @@ import { VerstossStatus } from 'src/app/utils/verstossStatus.enum';
 })
 export class PageVerstossComponent implements OnInit {
 
-  selectedDatum: string = '';
-  beschreibung: string = '';
-  verstoesse: VerstossDto[];
-  verstoss: VerstossDto = {
+  public selectedDatum: string = '';
+  public bemerkung: string = '';
+  public verstoesse: VerstossDto[];
+  
+  private verstoss: VerstossDto = {
     mitarbeiterID: 1,
     verstossID: 1,
     datum: new Date(),
@@ -24,21 +24,26 @@ export class PageVerstossComponent implements OnInit {
     status: VerstossStatus.IN_BEARBEITUNG
   };
 
-  constructor(private accountService: AccountService, private profilService: ProfilServiceService, private verstossService: VerstossService) { }
+  constructor(private accountService: AccountService, private verstossService: VerstossService) { }
 
   ngOnInit(): void {
-    this.accountService.getMitarbeiterIDAsObservable().subscribe(mitarbeiterID => {
-      this.profilService.getMitarbeiter(mitarbeiterID).subscribe((data: Mitarbeiter) => {
-        this.verstoss.mitarbeiterID = mitarbeiterID; 
-          console.log(data.verstossList);
-      });
+    this.verstoss.mitarbeiterID = this.accountService.getMitarbeiterID();
+    this.getVertoesse(this.verstoss.mitarbeiterID);
+  }
+
+  public speichernVerstoss(): void {
+    this.verstoss.bemerkung = this.bemerkung;
+    this.verstoss.datum = new Date(this.selectedDatum);
+    this.verstossService.speichernVerstoss(this.verstoss).subscribe();
+  }
+
+  private getVertoesse(mitarbeiterID: number) : void {
+    this.verstossService.getVerstoesse(mitarbeiterID).subscribe(data => {
+      this.verstoesse = data;
     });
   }
 
-  speichernVerstoss() {
-    this.verstoss.bemerkung = this.beschreibung;
-    this.verstoss.datum = new Date(this.selectedDatum);
-    console.log("Verstoss: ", this.verstoss);
-    this.verstossService.saveKennzeichenForBuchung(this.verstoss).subscribe();
+  public changeDateFormat(datum: Date) : string {
+    return DateUtils.toVisibleString(datum);
   }
 }
