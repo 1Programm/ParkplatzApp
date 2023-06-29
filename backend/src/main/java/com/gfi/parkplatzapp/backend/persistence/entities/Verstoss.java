@@ -1,5 +1,6 @@
 package com.gfi.parkplatzapp.backend.persistence.entities;
 
+import com.gfi.parkplatzapp.backend.util.VerstossStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,4 +25,5 @@ public class Verstoss {
 
     private Date datum;
     private String bemerkung;
+    private String status;
 }
