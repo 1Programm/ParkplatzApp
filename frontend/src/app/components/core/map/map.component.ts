@@ -18,9 +18,9 @@ export class MapComponent implements OnInit, OnChanges {
   public newMarkerX = 0;
   public newMarkerY = 0;
 
-  @Input() date: string;
+  @Input() date: Date;
   @Input() parkflaecheID: number;
-  @Output() buchung = new EventEmitter<BuchungDto>();
+  @Output() parkplatzSelected = new EventEmitter<Parkplatz>();
 
   dialogConfig: ILuxDialogPresetConfig = {
     disableClose: true,
@@ -48,15 +48,18 @@ export class MapComponent implements OnInit, OnChanges {
   }
 
   reloadData(): void {
+    if(this.date === undefined) return;
+    console.log(this.date);
     
     if (this.isAdmin) {
       this.buchungService.getParkplaetzeOfParkflaeche(this.parkflaecheID).subscribe((data) => {
         this.alleParkplaetze = data;
       });
     } else {
-      const datum = new Date(this.date).toLocaleDateString();
+      // const datum = new Date(this.date).toLocaleDateString();
+      console.log(this.date, this.date.toLocaleDateString());
 
-      this.buchungService.getParkplaetzeOfParkflaecheAndDate(this.parkflaecheID, datum).subscribe((data) => {
+      this.buchungService.getParkplaetzeOfParkflaecheAndDate(this.parkflaecheID, this.date).subscribe((data) => {
         this.parkplaetzeForDate = data;
       });
     }
@@ -68,9 +71,9 @@ export class MapComponent implements OnInit, OnChanges {
     event.stopPropagation();
     const dialogRef = this.dialogService.openComponent(MarkerDialogComponent, this.dialogConfig, spot);
 
-    dialogRef.dialogClosed.subscribe((result) => {
+    dialogRef.dialogClosed.subscribe((result: Parkplatz) => {
       if (result != null) {
-        this.buchung.emit(result);
+        this.parkplatzSelected.emit(result);
       }
       this.showNewMarker = false;
     });

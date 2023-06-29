@@ -1,1 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+
+//Removes warning in console
+//We dont actually need this because we use lux-components and their own theme
+@import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";

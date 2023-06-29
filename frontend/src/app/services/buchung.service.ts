@@ -12,6 +12,7 @@ import { ParkplatzMitStatusDto } from '../facade/dto/ParkplatzMitStatusDto';
 import { ServiceBase } from './service-utils';
 import { BuchungDto } from '../facade/dto/BuchungDto';
 import { Kennzeichen } from '../facade/Kennzeichen';
+import { BuchungAbschlussDto } from '../facade/dto/BuchungAbschluss.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -22,9 +23,9 @@ export class BuchungService extends ServiceBase{
     super();
   }
 
-  public getParkanlagen(): Observable<ParkflaecheAuswahlDto[]> {
+  public getParkflaechen(): Observable<ParkflaecheAuswahlDto[]> {
     return this.wrapRetryAndCatchError(
-      this.http.get<ParkflaecheAuswahlDto[]>(`${environment.apiServerUrl}/buchung/parkanlagen`)
+      this.http.get<ParkflaecheAuswahlDto[]>(`${environment.apiServerUrl}/buchung/parkflaechen`)
     );
   }
 
@@ -34,8 +35,10 @@ export class BuchungService extends ServiceBase{
     );
   }
 
-  public getParkplaetzeOfParkflaecheAndDate(parkflaecheID:number, datum: string): Observable<ParkplatzMitStatusDto[]> {
-    return this.wrapRetryAndCatchError(this.http.get<ParkplatzMitStatusDto[]>(`${environment.apiServerUrl}/buchung/parkplatz/${parkflaecheID}/${datum}`)
+  public getParkplaetzeOfParkflaecheAndDate(parkflaecheID:number, date: Date): Observable<ParkplatzMitStatusDto[]> {
+    let datumString = date.toLocaleDateString();
+    return this.wrapRetryAndCatchError(
+      this.http.get<ParkplatzMitStatusDto[]>(`${environment.apiServerUrl}/buchung/parkplatz/${parkflaecheID}/${datumString}`)
     );
   }
 
@@ -71,6 +74,12 @@ export class BuchungService extends ServiceBase{
 
   public updateBuchungen(buchung: BuchungDto): Observable<BuchungDto> {
     return this.wrapRetryAndCatchError(this.http.post<BuchungDto>(`${environment.apiServerUrl}/buchung/test`, buchung)
+    );
+  }
+
+  public saveBuchungen(buchungen: BuchungAbschlussDto[]){
+    return this.wrapRetryAndCatchError(
+      this.http.post<void>(`${environment.apiServerUrl}/buchung/abschliessen`, buchungen)
     );
   }
 

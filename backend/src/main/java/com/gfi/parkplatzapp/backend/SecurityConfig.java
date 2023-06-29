@@ -1,11 +1,16 @@
 package com.gfi.parkplatzapp.backend;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 @Configuration
-@EnableWebSecurity
+//@EnableWebSecurity
 public class SecurityConfig {
+
+//    @Bean
+//    public SecurityFilterChain security(HttpSecurity http) throws Exception{
+//        return http
+//                .authorizeHttpRequests(request -> request.anyRequest().permitAll())
+//                .build();
+//    }
 
 }

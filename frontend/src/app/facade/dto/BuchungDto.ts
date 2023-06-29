@@ -2,10 +2,10 @@ import { Kennzeichen } from "../Kennzeichen";
 
 export class BuchungDto {
     
-    buchungID: number
+    buchungID: number;
 
-    datum: Date
+    datum: Date;
     tagespreis: number;
-    parkplatzKennung: string
+    parkplatzKennung: string;
     kennzeichen: Kennzeichen;
 }

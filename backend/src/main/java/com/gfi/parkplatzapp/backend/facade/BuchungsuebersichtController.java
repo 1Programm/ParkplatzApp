@@ -1,7 +1,7 @@
 package com.gfi.parkplatzapp.backend.facade;
 
 
-import com.gfi.parkplatzapp.backend.facade.dto.BuchungDto;
+import com.gfi.parkplatzapp.backend.facade.dto.BuchungDetailsDto;
 import com.gfi.parkplatzapp.backend.persistence.entities.Kennzeichen;
 import com.gfi.parkplatzapp.backend.service.BuchungService;
 import com.gfi.parkplatzapp.backend.service.MitarbeiterService;
@@ -30,7 +30,7 @@ public class BuchungsuebersichtController {
      * @return Die Liste von Buchung-DTOs.
      */
     @GetMapping("/{mitarbeiterID}")
-    public List<BuchungDto> getBuchungenForMitarbeiter(@PathVariable("mitarbeiterID") Long mitarbeiterID) {
+    public List<BuchungDetailsDto> getBuchungenForMitarbeiter(@PathVariable("mitarbeiterID") Long mitarbeiterID) {
         return this.buchungService.getBuchungenForMitarbeiter(mitarbeiterID);
     }
 
@@ -53,7 +53,7 @@ public class BuchungsuebersichtController {
      * @return Die Liste von aktualisierten Buchung-DTOs.
      */
     @PostMapping("/{buchungID}/kennzeichen/{kennzeichenID}")
-    public List<BuchungDto> saveKennzeichenForBuchung(@PathVariable("buchungID") Long buchungID, @PathVariable("kennzeichenID") Long kennzeichenID) {
+    public List<BuchungDetailsDto> saveKennzeichenForBuchung(@PathVariable("buchungID") Long buchungID, @PathVariable("kennzeichenID") Long kennzeichenID) {
         return this.buchungService.updateKennzeichenForBuchung(buchungID, kennzeichenID);
     }
 
@@ -65,7 +65,7 @@ public class BuchungsuebersichtController {
      * @return Die Liste von Buchung-DTOs nach der Löschung.
      */
     @DeleteMapping(path = "/{mitarbeiterID}/buchung/{buchungID}")
-    public List<BuchungDto> deleteBuchungFromMitarbeiter(@PathVariable Long mitarbeiterID, @PathVariable Long buchungID) {
+    public List<BuchungDetailsDto> deleteBuchungFromMitarbeiter(@PathVariable Long mitarbeiterID, @PathVariable Long buchungID) {
         return buchungService.deleteBuchungFromMitarbeiter(mitarbeiterID, buchungID);
     }
 

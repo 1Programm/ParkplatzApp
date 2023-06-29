@@ -1,14 +1,13 @@
 package com.gfi.parkplatzapp.backend.facade;
 
-import com.gfi.parkplatzapp.backend.facade.dto.BuchungDto;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.gfi.parkplatzapp.backend.facade.dto.BuchungAbschlussDto;
+import com.gfi.parkplatzapp.backend.facade.dto.BuchungDetailsDto;
 import com.gfi.parkplatzapp.backend.facade.dto.ParkflaecheAuswahlDto;
 import com.gfi.parkplatzapp.backend.persistence.entities.Kennzeichen;
 import com.gfi.parkplatzapp.backend.persistence.entities.Parkplatz;
 import com.gfi.parkplatzapp.backend.persistence.entities.Parkplatztyp;
 import com.gfi.parkplatzapp.backend.persistence.entities.Preiskategorie;
 import com.gfi.parkplatzapp.backend.facade.dto.ParkplatzMitStatusDto;
-import com.gfi.parkplatzapp.backend.persistence.entities.*;
 import com.gfi.parkplatzapp.backend.service.BuchungService;
 import com.gfi.parkplatzapp.backend.service.MitarbeiterService;
 import com.gfi.parkplatzapp.backend.service.ParkplatzService;
@@ -16,7 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -39,7 +37,7 @@ public class BuchungController {
      *
      * @return Die Liste von Parkanlagen (Parkplatz + Parkhaus).
      */
-    @GetMapping("/parkanlagen")
+    @GetMapping("/parkflaechen")
     public List<ParkflaecheAuswahlDto> getParkflaechen() {
         return this.buchungService.getParkflaechen();
     }
@@ -114,7 +112,7 @@ public class BuchungController {
     }
 
     @GetMapping("/{mitarbeiterID}")
-    public List<BuchungDto> getBuchungenForMitarbeiter(@PathVariable("mitarbeiterID") Long mitarbeiterID)
+    public List<BuchungDetailsDto> getBuchungenForMitarbeiter(@PathVariable("mitarbeiterID") Long mitarbeiterID)
     {
         return this.buchungService.getBuchungenForMitarbeiter(mitarbeiterID);
     }
@@ -125,7 +123,12 @@ public class BuchungController {
     }
 
     @PostMapping(path = "/test", consumes = "application/json")
-    public void updateBuchungen(@RequestBody BuchungDto buchung) {
+    public void updateBuchungen(@RequestBody BuchungDetailsDto buchung) {
         buchungService.updateBuchungen(buchung);
+    }
+
+    @PostMapping("/abschliessen")
+    public void schliesseBuchungAb(@RequestBody BuchungAbschlussDto[] buchungen){
+        buchungService.schliesseBuchungAb(buchungen);
     }
 }

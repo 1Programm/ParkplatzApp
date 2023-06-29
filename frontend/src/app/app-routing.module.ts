@@ -9,7 +9,7 @@ import { PageTestComponent } from './components/pages/page-test/page-test.compon
 import { PageBuchungsuebersichtComponent } from './components/pages/page-buchungsuebersicht/page-buchungsuebersicht.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '', redirectTo: '/buchen', pathMatch: 'full' },
   { path: 'home', component: PageHomeComponent },
   { path: 'profil', component: PageProfilComponent },
   { path: 'test', component: PageTestComponent },

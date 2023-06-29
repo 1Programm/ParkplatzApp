@@ -1,7 +1,8 @@
 package com.gfi.parkplatzapp.backend.service;
 
+import com.gfi.parkplatzapp.backend.facade.dto.BuchungAbschlussDto;
 import com.gfi.parkplatzapp.backend.utils.StatusEnum;
-import com.gfi.parkplatzapp.backend.facade.dto.BuchungDto;
+import com.gfi.parkplatzapp.backend.facade.dto.BuchungDetailsDto;
 import com.gfi.parkplatzapp.backend.facade.dto.ParkflaecheAuswahlDto;
 import com.gfi.parkplatzapp.backend.facade.dto.ParkplatzMitStatusDto;
 import com.gfi.parkplatzapp.backend.persistence.entities.*;
@@ -46,17 +47,16 @@ public class BuchungService {
     @Autowired
     private KennzeichenRepo kennzeichenRepo;
 
-
     /**
      * Liefert eine Liste von BuchungDto-Objekten für den angegebenen Mitarbeiter.
      *
      * @param mitarbeiterID ID des Mitarbeiters
      * @return Liste von BuchungDto-Objekten
      */
-    public List<BuchungDto> getBuchungenForMitarbeiter(Long mitarbeiterID) {
+    public List<BuchungDetailsDto> getBuchungenForMitarbeiter(Long mitarbeiterID) {
         Mitarbeiter mitarbeiter = mitarbeiterRepo.findById(mitarbeiterID).get();
         List<Buchung> buchungen = buchungRepo.findByMitarbeiter(mitarbeiter, Sort.by("Datum").descending());
-        List<BuchungDto> buchungDtos = new ArrayList<>();
+        List<BuchungDetailsDto> buchungDtos = new ArrayList<>();
 
         for (Buchung buchung : buchungen) {
             buchungDtos.add(createFromBuchung(buchung));
@@ -70,11 +70,11 @@ public class BuchungService {
      * @param buchung die Buchung
      * @return das BuchungDto-Objekt
      */
-    private BuchungDto createFromBuchung(Buchung buchung) {
+    private BuchungDetailsDto createFromBuchung(Buchung buchung) {
         Parkflaeche parkflaeche = parkflaecheRepo.findByParkplatzList_parkplatzID(buchung.getParkplatz().getParkplatzID());
         Parkhaus parkhaus = parkhausRepo.findByParkflaecheList_parkflaecheID(parkflaeche.getParkflaecheID());
         String bezeichnung = parkhaus.getBezeichnung() + "-" + parkflaeche.getBezeichnung() + "-" + buchung.getParkplatz().getNummer();
-        return new BuchungDto(buchung.getBuchungID(), buchung.getDatum(), buchung.getTagespreis(), bezeichnung, buchung.getKennzeichen());
+        return new BuchungDetailsDto(buchung.getBuchungID(), buchung.getDatum(), buchung.getTagespreis(), bezeichnung, buchung.getKennzeichen());
     }
 
     /**
@@ -84,7 +84,7 @@ public class BuchungService {
      * @param kennzeichenID ID des Kennzeichens
      * @return Liste von BuchungDto-Objekten
      */
-    public List<BuchungDto> updateKennzeichenForBuchung(Long buchungID, Long kennzeichenID) {
+    public List<BuchungDetailsDto> updateKennzeichenForBuchung(Long buchungID, Long kennzeichenID) {
         Kennzeichen kennzeichen = kennzeichenRepo.findById(kennzeichenID).get();
         Buchung buchung = buchungRepo.findById(buchungID).get();
         buchung.setKennzeichen(kennzeichen);
@@ -99,7 +99,7 @@ public class BuchungService {
      * @param buchungID     ID der zu löschenden Buchung
      * @return Liste von BuchungDto-Objekten
      */
-    public List<BuchungDto> deleteBuchungFromMitarbeiter(Long mitarbeiterID, Long buchungID) {
+    public List<BuchungDetailsDto> deleteBuchungFromMitarbeiter(Long mitarbeiterID, Long buchungID) {
         buchungRepo.deleteById(buchungID);
         return getBuchungenForMitarbeiter(mitarbeiterID);
     }
@@ -108,8 +108,8 @@ public class BuchungService {
         List<ParkflaecheAuswahlDto> resultList = new ArrayList<>();
         Iterable<Parkhaus> parkhausIterable = parkhausRepo.findAll();
 
-        for(Parkhaus parkhaus : parkhausIterable) {
-            for(Parkflaeche parkflaeche : parkhaus.getParkflaecheList()) {
+        for (Parkhaus parkhaus : parkhausIterable) {
+            for (Parkflaeche parkflaeche : parkhaus.getParkflaecheList()) {
                 ParkflaecheAuswahlDto parkflaecheAuswahlDto = new ParkflaecheAuswahlDto();
                 parkflaecheAuswahlDto.setParkhausID(parkhaus.getParkhausID());
                 parkflaecheAuswahlDto.setParkhausBezeichnung(parkhaus.getBezeichnung());
@@ -130,9 +130,9 @@ public class BuchungService {
         List<Parkplatz> parkplaetze = flaeche.getParkplatzList();
         List<ParkplatzMitStatusDto> res = new ArrayList<>();
         for (Parkplatz parkplatz : parkplaetze) {
-            try{
+            try {
                 date = dateFormat.parse(p_date);
-            } catch(ParseException e) {
+            } catch (ParseException e) {
                 e.printStackTrace();
             }
 
@@ -147,11 +147,13 @@ public class BuchungService {
         boolean found;
         List<Buchung> buchungen = new ArrayList<>();
         this.buchungRepo.findAll().iterator().forEachRemaining(buchungen::add);
-        for(Buchung b:buchungen) {
-            if(b.getDatum().compareTo(date) == 0 && b.getParkplatz().getParkplatzID() == parkplatz.getParkplatzID()) return true;
+        for (Buchung b : buchungen) {
+            if (b.getDatum().compareTo(date) == 0 && b.getParkplatz().getParkplatzID() == parkplatz.getParkplatzID())
+                return true;
         }
         return false;
     }
+
     public List<Parkplatz> getParkplaetzeOfParkflaeche(Long parkflaecheID) {
         Parkflaeche flaeche = parkflaecheRepo.findById(parkflaecheID).get();
         return flaeche.getParkplatzList();
@@ -179,7 +181,7 @@ public class BuchungService {
         return res;
     }
 
-    public void updateBuchungen(BuchungDto buchung) {
+    public void updateBuchungen(BuchungDetailsDto buchung) {
         log.info("TESTTTTTTTT", buchung);
         System.out.println(buchung.getParkplatzKennung());
         /*buchungsList.forEach(buchungDto -> {
@@ -188,6 +190,44 @@ public class BuchungService {
             buchung.setDatum(buchungDto.getDatum());
             buchung.setTagespreis(buchungDto.getTagespreis());
         });*/
+    }
+
+    public void schliesseBuchungAb(BuchungAbschlussDto[] buchungen){
+        if(buchungen == null || buchungen.length == 0) return;
+
+        Long mitarbeiterID = buchungen[0].getMitarbeiterID();
+        Mitarbeiter mitarbeiter = mitarbeiterRepo.findById(mitarbeiterID)
+                .orElseThrow(() -> new IllegalStateException("Mitarbeiter [" + mitarbeiterID + "] should be found!"));
+
+        for(BuchungAbschlussDto abschlussDto : buchungen){
+            Buchung newBuchung = new Buchung();
+            newBuchung.setDatum(abschlussDto.getDatum());
+
+            Long kennzeichenID = abschlussDto.getKennzeichen().getKennzeichenID();
+            Kennzeichen kennzeichen = kennzeichenRepo.findById(kennzeichenID)
+                    .orElseThrow(() -> new IllegalStateException("Kennzeichen [" + kennzeichenID + "] should be found!"));
+
+            Long parkplatzID = abschlussDto.getParkplatz().getParkplatzID();
+            Parkplatz parkplatz = parkplatzRepo.findById(parkplatzID)
+                    .orElseThrow(() -> new IllegalStateException("Parkplatz [" + parkplatzID + "] should be found!"));
+
+
+            double tagespreis = calculateTagespreis(abschlussDto.getParkplatz());
+            newBuchung.setTagespreis(tagespreis);
+            newBuchung.setKennzeichen(kennzeichen);
+            newBuchung.setMitarbeiter(mitarbeiter);
+            newBuchung.setParkplatz(parkplatz);
+
+            buchungRepo.save(newBuchung);
+        }
+
+        log.info("{}", (Object) buchungen);
+    }
+
+
+
+    public double calculateTagespreis(Parkplatz p){
+        return p.getPreiskategorie().getPreis();
     }
 
 }
