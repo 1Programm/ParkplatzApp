@@ -1,7 +1,13 @@
-﻿export class DateUtils {
+﻿import { formatDate } from "@angular/common";
 
-    public static toString(date: Date): string {
+export class DateUtils {
+
+    public static toTechnicalString(date: Date): string {
         return date.toISOString();
+    }
+
+    public static toVisibleString(date: Date): string {
+        return formatDate(date, 'dd/MM/YYYY', "de-DE");
     }
 
     public static getToday(): Date {
@@ -9,7 +15,7 @@
     }
 
     public static getTodayAsString(): string {
-        return this.toString(this.getToday());
+        return this.toTechnicalString(this.getToday());
     }
 
     public static getFuture(daysIntoTheFuture: number): Date {
@@ -19,7 +25,7 @@
     }
 
     public static getFutureAsString(daysIntoTheFuture: number): string {
-        return this.toString(this.getFuture(daysIntoTheFuture));
+        return this.toTechnicalString(this.getFuture(daysIntoTheFuture));
     }
 
     public static getFuture_2Weeks(): Date {
@@ -27,7 +33,7 @@
     }
 
     public static getFuture_2WeeksAsString(): string {
-        return this.toString(this.getFuture_2Weeks());
+        return this.toTechnicalString(this.getFuture_2Weeks());
     }
 
 }
