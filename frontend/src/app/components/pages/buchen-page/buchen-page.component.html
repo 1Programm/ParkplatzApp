@@ -89,7 +89,7 @@
                                         <!-- <lux-input luxLabel="Parkplatz" [luxValue]="buchung.parkplatzKennung" *luxLayoutRowItem="{}"></lux-input> -->
                                         <lux-select luxLabel="Kennzeichen" [luxOptions]="kennzeichenList" [luxSelected]="buchung['_selectedKennzeichen']" luxOptionLabelProp="kennzeichen" *luxLayoutRowItem="{}"></lux-select>
                                         <!-- <lux-button luxLabel="Löschen" [luxRaised]="true" luxColor="warn" *luxLayoutRowItem="{flex: 'none'}"></lux-button> -->
-                                        <lux-button luxIconName="fa-trash" (luxClicked)="cancelBuchung(i)" *luxLayoutRowItem="{flex: 'none'}"></lux-button>
+                                        <lux-button luxTagId="button_cancel_buchung" luxIconName="fa-trash" (luxClicked)="cancelBuchung(i)" *luxLayoutRowItem="{flex: 'none'}"></lux-button>
                                     </lux-layout-form-row>
                                 </div>
 
