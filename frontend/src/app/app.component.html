@@ -39,7 +39,13 @@
       (luxClicked)="router.navigate(['/buchungen'])"
     >
     </lux-side-nav-item>
-    </lux-side-nav>
+    <lux-side-nav-item
+      luxLabel="Verstöße"
+      luxTagId="project-side-nav-item"
+      luxIconName="fas fa-window-close"
+      (luxClicked)="router.navigate(['/verstoss'])">
+    </lux-side-nav-item>
+  </lux-side-nav>
 
     <lux-app-header-right-nav *ngIf="accountService.loggedIn">
       <lux-menu-item luxIconName="fa-power-off" luxLabel="Abmelden" (luxClicked)="accountService.logout()">
