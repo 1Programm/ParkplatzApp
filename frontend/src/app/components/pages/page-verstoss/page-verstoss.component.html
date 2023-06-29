@@ -3,7 +3,7 @@
         <lux-card luxTitle="Verstoß melden" *luxLayoutRowItem="{}">
             <lux-card-content>
                 <lux-layout-form-row>
-                    <lux-datepicker luxLabel="Datum" [(luxValue)]="selectedDatum" [luxTouchUi]="true" luxPlaceholder="Bitte ein Datum auswählen" *luxLayoutRowItem="{ }">
+                    <lux-datepicker luxLabel="Datum" [(luxValue)]="selectedDatum" [luxMinDate] = "getZugelasenesDatum()" [luxMaxDate] = "getZugelasenesDatum()"  [luxTouchUi]="true" luxPlaceholder="Bitte ein Datum auswählen" *luxLayoutRowItem="{ }">
                     </lux-datepicker>
                     <lux-textarea luxLabel="Bemerkung" [(luxValue)]="bemerkung" luxPlaceholder="Bitte tragen Sie hier Ihre Bemerkung ein" 
                         [luxMaxRows]="5" [luxMinRows]="1"  *luxLayoutRowItem="{ colSpan: 3 }">

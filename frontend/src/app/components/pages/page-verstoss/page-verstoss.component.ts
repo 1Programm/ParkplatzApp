@@ -12,10 +12,10 @@ import { DateUtils } from 'src/app/utils/date.utils';
 })
 export class PageVerstossComponent implements OnInit {
 
-  public selectedDatum: string = '';
+  public selectedDatum: string = DateUtils.toVisibleString(new Date());
   public bemerkung: string = '';
   public verstoesse: VerstossDto[];
-  
+
   private verstoss: VerstossDto = {
     mitarbeiterID: 1,
     verstossID: 1,
@@ -34,16 +34,25 @@ export class PageVerstossComponent implements OnInit {
   public speichernVerstoss(): void {
     this.verstoss.bemerkung = this.bemerkung;
     this.verstoss.datum = new Date(this.selectedDatum);
-    this.verstossService.speichernVerstoss(this.verstoss).subscribe();
+    this.verstossService.speichernVerstoss(this.verstoss).subscribe(() => {
+      this.selectedDatum = '';
+      this.bemerkung = '';
+      this.getVertoesse(this.verstoss.mitarbeiterID);
+    });
+    
   }
 
-  private getVertoesse(mitarbeiterID: number) : void {
+  private getVertoesse(mitarbeiterID: number): void {
     this.verstossService.getVerstoesse(mitarbeiterID).subscribe(data => {
       this.verstoesse = data;
     });
   }
 
-  public changeDateFormat(datum: Date) : string {
+  public changeDateFormat(datum: Date): string {
     return DateUtils.toVisibleString(datum);
+  }
+
+  public getZugelasenesDatum(): string {
+    return DateUtils.toTechnicalString(new Date());
   }
 }
