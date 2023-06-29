@@ -10,7 +10,7 @@ import { PageBuchungsuebersichtComponent } from './components/pages/page-buchung
 import { PageVerstossComponent } from './components/pages/page-verstoss/page-verstoss.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '', redirectTo: '/buchen', pathMatch: 'full' },
   { path: 'home', component: PageHomeComponent },
   { path: 'profil', component: PageProfilComponent },
   { path: 'test', component: PageTestComponent },

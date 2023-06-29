@@ -10,7 +10,7 @@
               </lux-input>
             </ng-container>
             <ng-container *ngIf="attr.typ === 'choices'">
-              <lux-select [luxTagId]="attr.label" [luxLabel]="attr.label" [luxOptions]="attr.choices" [luxSelected]="attr.value" (luxSelectedChange)="onAttribChange(i, o, $event)" *luxLayoutRowItem="{}"></lux-select>
+              <lux-select [luxTagId]="attr.label" [luxLabel]="attr.label" [luxOptionLabelProp]="attr.choicePropLabel" [luxOptions]="attr.choices" [luxSelected]="attr.value" (luxSelectedChange)="onAttribChange(i, o, $event)" *luxLayoutRowItem="{}"></lux-select>
             </ng-container>
           </ng-container>
           <lux-button luxTagId="deleteItem" [luxDisabled]="!checkCanDelete(item.data)" luxIconName="fas fa-trash-alt" luxColor="warn" [luxRounded]="true" (luxClicked)="actionDeleteItem(i)" *luxLayoutRowItem="{flex: 'auto'}"></lux-button>

@@ -1,11 +1,15 @@
 package com.gfi.parkplatzapp.backend.facade;
 
+import com.gfi.parkplatzapp.backend.persistence.entities.Buchung;
 import com.gfi.parkplatzapp.backend.persistence.entities.Kennzeichen;
 import com.gfi.parkplatzapp.backend.persistence.entities.Mitarbeiter;
+import com.gfi.parkplatzapp.backend.service.BuchungService;
 import com.gfi.parkplatzapp.backend.service.MitarbeiterService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * Der ProfildatenController ist für die Behandlung von Profildaten zuständig.
@@ -19,6 +23,9 @@ public class ProfildatenController {
 
     @Autowired
     private MitarbeiterService mitarbeiterService;
+
+    @Autowired
+    private BuchungService buchungService;
 
     /**
      * Gibt einen Mitarbeiter anhand der Mitarbeiter-ID zurück.
@@ -52,8 +59,15 @@ public class ProfildatenController {
      * @return der aktualisierte Mitarbeiter nach dem Hinzufügen des Kennzeichens
      */
     @PostMapping(path = "/{mitarbeiterID}", consumes = "application/json")
-    public Mitarbeiter createKennzeichenForMitarbeiter(@PathVariable long mitarbeiterID, @RequestBody Kennzeichen kennzeichen)
+    public Mitarbeiter createKennzeichenForMitarbeiter(@PathVariable long mitarbeiterID, @RequestBody String kennzeichen)
     {
-        return mitarbeiterService.createKennzeichenForMitarbeiter(mitarbeiterID, kennzeichen.getKennzeichen());
+        return mitarbeiterService.createKennzeichenForMitarbeiter(mitarbeiterID, kennzeichen);
     }
+
+    @GetMapping(path = "/{kennzeichenID}/{mitarbeiterID}")
+    public List<Buchung> isAnyBuchungForKennzeichen(@PathVariable Long kennzeichenID, @PathVariable Long mitarbeiterID) {
+        return buchungService.isAnyKennzeichenForBuchung(kennzeichenID, mitarbeiterID);
+    }
+
+
 }

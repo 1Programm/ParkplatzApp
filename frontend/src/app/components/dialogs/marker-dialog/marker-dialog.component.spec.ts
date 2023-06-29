@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddMarkerDialogComponent } from './add-marker-dialog.component';
+import { MarkerDialogComponent } from './marker-dialog.component';
 
 describe('AddMarkerDialogComponent', () => {
-  let component: AddMarkerDialogComponent;
-  let fixture: ComponentFixture<AddMarkerDialogComponent>;
+  let component: MarkerDialogComponent;
+  let fixture: ComponentFixture<MarkerDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AddMarkerDialogComponent ]
+      declarations: [ MarkerDialogComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AddMarkerDialogComponent);
+    fixture = TestBed.createComponent(MarkerDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
