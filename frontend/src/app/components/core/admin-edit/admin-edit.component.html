@@ -1,0 +1,10 @@
+<lux-accordion luxMode="default" [luxMulti]="true" [luxMulti]="false">
+    <lux-panel *ngFor="let parkhaus of parkhaeuser">
+      <lux-panel-header-title>{{parkhaus.bezeichnung}}</lux-panel-header-title>
+      <lux-panel-content>
+        <app-edit-list [items]="parkhaus.parkflaecheList" [doAutoChange]="false" [attributes]="attr" [canDelete]="true" [canEdit]="false" [canAdd]="true" (onDelete)="deleteParkflaeche($event)" (onAdd)="saveParkflaeche($event)"></app-edit-list>
+      </lux-panel-content>
+    </lux-panel>
+</lux-accordion>
+
+<lux-button luxLabel="Parkhaus hinzufügen"></lux-button>

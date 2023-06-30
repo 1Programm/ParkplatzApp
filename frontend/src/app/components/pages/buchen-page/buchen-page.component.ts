@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BuchungService } from 'src/app/services/buchung.service';
 import {ParkflaecheAuswahlDto } from '../../../facade/dto/parkflaeche-auswahl.dto';
 import { BuchungDto } from 'src/app/facade/dto/BuchungDto';
+import { AccountService } from 'src/app/services/account.service';
 
 @Component({
   selector: 'app-buchen-page',
@@ -13,8 +14,9 @@ export class BuchenPageComponent implements OnInit {
   parkanlagen : ParkflaecheAuswahlDto[];
   selectedParkanlage: ParkflaecheAuswahlDto;
   selectedDatum: string = new Date().toLocaleDateString();
+  isAdmin: boolean = this.accountService.isAdmin;
 
-  constructor(private buchungService: BuchungService) {}
+  constructor(private buchungService: BuchungService, private accountService: AccountService) {}
 
   ngOnInit(): void {
     this.getParkAnlagen();
