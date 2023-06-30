@@ -1,5 +1,5 @@
 <div class="lux-app-container" *ngIf="accountService.loggedIn">
-  <lux-app-header luxAppTitle="Parkplatz App" luxAppTitleShort="PA" luxUserName="Test" (luxClicked)="router.navigate(['/'])">
+  <lux-app-header luxAppTitle="Parkplatz App" luxAppTitleShort="PA" [luxUserName]="accountService.roleName" (luxClicked)="router.navigate(['/'])">
     <lux-side-nav>
       <lux-side-nav-header>
         <h3 i18n="@@luxapp.welcome">Willkommen!</h3>
@@ -23,6 +23,13 @@
         luxTagId="project-side-nav-item"
         luxIconName="lux-interface-user-single"
         (luxClicked)="router.navigate(['/profil'])"
+      >
+      </lux-side-nav-item>
+      <lux-side-nav-item
+        luxLabel="Buchen"
+        luxTagId="project-side-nav-item"
+        luxIconName="lux-home-1"
+        (luxClicked)="router.navigate(['/buchen'])"
       >
       </lux-side-nav-item>
       <lux-side-nav-item

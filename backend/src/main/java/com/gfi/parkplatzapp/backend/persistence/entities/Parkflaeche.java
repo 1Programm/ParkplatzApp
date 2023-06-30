@@ -21,6 +21,10 @@ public class Parkflaeche {
     private Long parkflaecheID;
 
     private String bezeichnung;
+
+    @ManyToOne
+    private DBImage image;
+
     @OneToMany
     private List<Parkplatz> parkplatzList;
 

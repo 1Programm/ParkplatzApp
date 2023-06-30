@@ -34,6 +34,9 @@ import { PageBuchungsuebersichtComponent } from './components/pages/page-buchung
 import { MapComponent } from './components/core/map/map.component';
 import { AddMarkerDialogComponent } from './components/dialogs/add-marker-dialog/add-marker-dialog.component';
 import { AdminEditComponent } from './components/core/admin-edit/admin-edit.component';
+import { PageVerstossComponent } from './components/pages/page-verstoss/page-verstoss.component';
+import { MarkerDialogComponent } from './components/dialogs/marker-dialog/marker-dialog.component';
+import { JsonDateInterceptor } from './interceptors/json-date.interceptor';
 
 registerLocaleData(localeDE, localeDeExtra);
 
@@ -55,6 +58,8 @@ const luxComponentsConfig: LuxComponentsConfigParameters = {
     MapComponent,
     AddMarkerDialogComponent,
     AdminEditComponent,
+    PageVerstossComponent,
+    MarkerDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -74,7 +79,9 @@ const luxComponentsConfig: LuxComponentsConfigParameters = {
     FlexLayoutModule,
     LuxComponentsConfigModule.forRoot(luxComponentsConfig)
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JsonDateInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

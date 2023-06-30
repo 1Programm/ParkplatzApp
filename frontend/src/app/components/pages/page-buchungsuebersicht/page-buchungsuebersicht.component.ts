@@ -1,12 +1,10 @@
-import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { LuxDialogService, LuxSnackbarService } from '@ihk-gfi/lux-components';
-import { Buchung } from 'src/app/facade/Buchung';
 import { Kennzeichen } from 'src/app/facade/Kennzeichen';
 import { BuchungDto } from 'src/app/facade/dto/BuchungDto';
 import { AccountService } from 'src/app/services/account.service';
 import { BuchungsuebersichtService } from 'src/app/services/buchungsuebersicht.service';
+import { DateUtils } from 'src/app/utils/date.utils';
 import { DialogConfigFactory } from 'src/app/utils/dialogConfigFactory';
 
 @Component({
@@ -66,9 +64,9 @@ export class PageBuchungsuebersichtComponent implements OnInit {
     return new Date(date).valueOf() > new Date().valueOf();
   }
 
-  getTitle(datum: Date): string {
+  getTitle(date: Date): string {
     // Formatieren des Datums im gewünschten Format
-    return formatDate(datum, 'dd/MM/YYYY', "de-DE");
+    return DateUtils.toVisibleString(date);
   }
 
   getSelected(buchung: BuchungDto) {

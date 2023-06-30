@@ -13,6 +13,7 @@ public class AccountDto {
 
     private String uid;
     private Long mitarbeiterId;
+    private String name;
     private List<String> roles;
 
 }

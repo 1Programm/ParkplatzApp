@@ -23,7 +23,7 @@ export class PageProfilComponent implements OnInit {
 
   ngOnInit(): void {
     let mitarbeiterID = this.accountService.getMitarbeiterID();
-    
+
     this.profilService.getMitarbeiter(mitarbeiterID).subscribe((data: Mitarbeiter) => {
       this.mitarbeiter = data;
     });
