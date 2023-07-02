@@ -2,9 +2,39 @@
     <lux-panel *ngFor="let parkhaus of parkhaeuser">
       <lux-panel-header-title>{{parkhaus.bezeichnung}}</lux-panel-header-title>
       <lux-panel-content>
-        <app-edit-list [items]="parkhaus.parkflaecheList" [doAutoChange]="false" [attributes]="attr" [canDelete]="true" [canEdit]="false" [canAdd]="true" (onDelete)="deleteParkflaeche($event)" (onAdd)="saveParkflaeche($event)"></app-edit-list>
+        <lux-layout-form-row *ngFor="let parkflaeche of parkhaus.parkflaecheList">
+          <lux-input luxLabel="Bezeichnung der Parkfläche" [(luxValue)]="parkflaeche.bezeichnung" (luxFocusOut)="saveParkflaeche(parkflaeche)" *luxLayoutRowItem="{}"></lux-input>
+          
+          <lux-file-input luxLabel="Bild zur Parkfläche"
+          [luxContentsAsBlob]="true"
+          [luxSelected]="selectedImage"
+          [luxDnDActive]="true"
+          (luxSelectedChange)="onSelectedFilesChange(parkflaeche, $event)"
+          *luxLayoutRowItem="{colSpan:2}">
+          </lux-file-input>
+
+          <lux-button luxTagId="deleteItem" luxIconName="fas fa-trash-alt" luxColor="warn" [luxRounded]="true" *luxLayoutRowItem="{flex: 'auto'}"></lux-button>
+        </lux-layout-form-row>
+
+        <lux-layout-form-row *ngIf="showNewParkflaeche">
+          <lux-input luxLabel="Bezeichnung der Parkfläche" [(luxValue)]="newBezeichnung" *luxLayoutRowItem="{}" ></lux-input>
+          
+          <lux-file-input luxLabel="Bild zur Parkfläche"
+          [luxContentsAsBlob]="true"
+          [luxSelected]="selectedImage"
+          [luxDnDActive]="true"
+          (luxSelectedChange)="onNewParkflaecheFileChange($event)"
+          *luxLayoutRowItem="{colSpan:2}">
+          </lux-file-input>
+
+          <lux-button luxTagId="saveItem" luxIconName="fas fa-save" luxColor="primary" [luxRounded]="true" [luxDisabled]="newBezeichnung === ''" *luxLayoutRowItem="{flex: 'auto'}"></lux-button>
+          
+        </lux-layout-form-row>
+        
+        <lux-button [luxDisabled]="showNewParkflaeche" luxTagId="addButton" luxIconName="fas fa-plus" luxColor="primary" [luxRounded]="true" (luxClicked)="showNewParkflaecheRow()"></lux-button>
       </lux-panel-content>
+      
     </lux-panel>
 </lux-accordion>
 
-<lux-button luxLabel="Parkhaus hinzufügen"></lux-button>
+<lux-button [luxRaised]="true" luxColor="primary" (luxClicked)="addParkhaus()" luxLabel="Parkhaus hinzufügen"></lux-button>

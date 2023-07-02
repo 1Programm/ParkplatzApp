@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ILuxFileObject } from '@ihk-gfi/lux-components';
 import { Parkplatz } from 'src/app/facade/Parkplatz';
+import { AdminService } from 'src/app/services/admin.service';
 import { BuchungService } from 'src/app/services/buchung.service';
 import { MapService } from 'src/app/services/map.service';
 import { ImageUtils } from 'src/app/utils/image.utils';
@@ -22,7 +23,7 @@ export class PageHomeComponent implements OnInit {
 
   public selected: ILuxFileObject;
 
-  constructor(private mapService: MapService, private http: HttpClient) {
+  constructor(private mapService: MapService, private http: HttpClient, private adminService: AdminService ) {
     // this.loadFileFromAssets();
   }
 
@@ -30,7 +31,7 @@ export class PageHomeComponent implements OnInit {
   }
 
   public loadImage(){
-    this.mapService.getImageForParkflaeche(+this.parkflaecheID).subscribe(data => {
+    this.adminService.getImageForParkflaeche(+this.parkflaecheID).subscribe(data => {
       ImageUtils.readAsDataUrl(data).subscribe(image => {
         this.image = image;
       })
@@ -76,14 +77,14 @@ export class PageHomeComponent implements OnInit {
     console.log("1", this.selected);
     console.log("2", this.selected.content);
 
-    this.mapService.uploadImageForParkflaeche(+this.parkflaecheID, this.selected.content as Blob, this.selected.name).subscribe(() => {
+    this.adminService.uploadImageForParkflaeche(+this.parkflaecheID, this.selected.content as Blob, this.selected.name).subscribe(() => {
       console.log("SADBABWDKADW");
     });
   }
 
   public uploadImage2(event){
     let file = event.target.files[0];
-    this.mapService.uploadImageForParkflaeche(+this.parkflaecheID, file, file.name).subscribe(() => {
+    this.adminService.uploadImageForParkflaeche(+this.parkflaecheID, file, file.name).subscribe(() => {
       console.log("SADBABWDKADW");
     });
   }

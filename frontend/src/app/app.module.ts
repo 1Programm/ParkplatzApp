@@ -2,7 +2,7 @@ import { registerLocaleData } from '@angular/common';
 import localeDE from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -32,10 +32,9 @@ import { PageTestComponent } from './components/pages/page-test/page-test.compon
 import { EditListComponent } from './components/core/edit-list/edit-list.component';
 import { PageBuchungsuebersichtComponent } from './components/pages/page-buchungsuebersicht/page-buchungsuebersicht.component';
 import { MapComponent } from './components/core/map/map.component';
-import { AddMarkerDialogComponent } from './components/dialogs/add-marker-dialog/add-marker-dialog.component';
+import { MarkerDialogComponent } from './components/dialogs/marker-dialog/marker-dialog.component';
 import { AdminEditComponent } from './components/core/admin-edit/admin-edit.component';
 import { PageVerstossComponent } from './components/pages/page-verstoss/page-verstoss.component';
-import { MarkerDialogComponent } from './components/dialogs/marker-dialog/marker-dialog.component';
 import { JsonDateInterceptor } from './interceptors/json-date.interceptor';
 
 registerLocaleData(localeDE, localeDeExtra);
@@ -56,10 +55,9 @@ const luxComponentsConfig: LuxComponentsConfigParameters = {
     EditListComponent,
     BuchenPageComponent,
     MapComponent,
-    AddMarkerDialogComponent,
+    MarkerDialogComponent,
     AdminEditComponent,
     PageVerstossComponent,
-    MarkerDialogComponent,
   ],
   imports: [
     BrowserModule,

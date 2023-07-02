@@ -3,7 +3,7 @@ export class ParkhausParkflaecheDto {
     parkflaecheList: ParkflaecheDto[];
 }
 
-class ParkflaecheDto {
+export class ParkflaecheDto {
     parkflaecheID: number;
     bezeichnung: string;
 }

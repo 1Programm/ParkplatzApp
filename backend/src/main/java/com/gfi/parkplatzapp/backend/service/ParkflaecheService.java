@@ -2,20 +2,26 @@ package com.gfi.parkplatzapp.backend.service;
 
 import com.gfi.parkplatzapp.backend.persistence.entities.DBImage;
 import com.gfi.parkplatzapp.backend.persistence.entities.Parkflaeche;
+import com.gfi.parkplatzapp.backend.persistence.entities.Parkhaus;
 import com.gfi.parkplatzapp.backend.persistence.repos.DBImageRepo;
 import com.gfi.parkplatzapp.backend.persistence.repos.ParkflaecheRepo;
+import com.gfi.parkplatzapp.backend.persistence.repos.ParkhausRepo;
 import com.gfi.parkplatzapp.backend.utils.ImageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 public class ParkflaecheService {
 
     @Autowired
     private ParkflaecheRepo parkflaecheRepo;
+
+    @Autowired
+    private ParkhausRepo parkhausRepo;
 
     @Autowired
     private DBImageRepo imageRepo;
@@ -33,5 +39,23 @@ public class ParkflaecheService {
         parkflaeche.setImage(image);
         parkflaecheRepo.save(parkflaeche);
     }
+
+    public void deleteParkflaeche(long parkflaecheID) {
+        Parkflaeche parkflaeche = getParkflaecheById(parkflaecheID);
+        parkflaecheRepo.delete(parkflaeche);
+        List<Parkhaus> parkhaeuser = parkhausRepo.findAll();
+        parkhaeuser.forEach(parkhaus -> {
+            parkhaus.getParkflaechenList().remove(parkflaeche);
+            parkhausRepo.save(parkhaus);
+        });
+        parkhausRepo.findById().ifPresent(parkhaus -> {
+            parkhaus.getParkflaechen().remove(parkflaeche);
+            parkhausRepo.save(parkhaus);
+        });
+
+    }
+
+
+
 
 }

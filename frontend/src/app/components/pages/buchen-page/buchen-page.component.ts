@@ -2,6 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { BuchungService } from 'src/app/services/buchung.service';
 import {ParkflaecheAuswahlDto } from '../../../facade/dto/parkflaeche-auswahl.dto';
 import { BuchungDto } from 'src/app/facade/dto/BuchungDto';
+import { BuchungAbschlussDto } from 'src/app/facade/dto/BuchungAbschluss.dto';
+import { Parkplatz } from 'src/app/facade/Parkplatz';
+import { Kennzeichen } from 'src/app/facade/Kennzeichen';
+import { DateUtils } from 'src/app/utils/date.utils';
+import { AccountService } from 'src/app/services/account.service';
+import { LuxSnackbarService } from '@ihk-gfi/lux-components';
 
 @Component({
   selector: 'app-buchen-page',
@@ -14,18 +20,13 @@ export class BuchenPageComponent implements OnInit {
   public isAdmin: boolean = this.accountService.isAdmin;
 
   public parkflaechen : ParkflaecheAuswahlDto[];
+  public selectedParkflaeche: ParkflaecheAuswahlDto;
   public kennzeichenList: Kennzeichen[];
-  parkanlagen : ParkflaecheAuswahlDto[];
-  selectedParkanlage: ParkflaecheAuswahlDto;
-  selectedDatum: string = new Date().toLocaleDateString();
-  isAdmin: boolean = this.accountService.isAdmin;
-
-  constructor(private buchungService: BuchungService, private accountService: AccountService) {}
+  
+  public selectedDatum: Date = DateUtils.getToday();
   public minDate: string = DateUtils.getTodayAsString();
   public maxDate: string = DateUtils.getFuture_2WeeksAsString();
 
-  public selectedParkflaeche: ParkflaecheAuswahlDto;
-  public selectedDatum: Date = DateUtils.getToday();
   public abschlussBuchungen: BuchungAbschlussDto[] = [];
 
   constructor(private buchungService: BuchungService, private accountService: AccountService, private snackbarService: LuxSnackbarService) {}
