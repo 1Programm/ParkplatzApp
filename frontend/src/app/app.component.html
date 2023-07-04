@@ -37,8 +37,17 @@
       luxTagId="project-side-nav-item"
       luxIconName="fas fa-calendar"
       (luxClicked)="router.navigate(['/buchungen'])"
-    >
-    </lux-side-nav-item>
+      *ngIf="!accountService.isAdmin"
+      >
+      </lux-side-nav-item>
+      <lux-side-nav-item
+      luxLabel="Alle Buchungen"
+      luxTagId="project-side-nav-item"
+      luxIconName="fas fa-calendar"
+      (luxClicked)="router.navigate(['/admin/buchungen'])"
+      *ngIf="accountService.isAdmin"
+      >
+      </lux-side-nav-item>
     </lux-side-nav>
 
     <lux-app-header-right-nav *ngIf="accountService.loggedIn">

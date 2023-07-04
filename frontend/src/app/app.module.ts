@@ -35,7 +35,11 @@ import { MapComponent } from './components/core/map/map.component';
 import { PageVerstossComponent } from './components/pages/page-verstoss/page-verstoss.component';
 import { MarkerDialogComponent } from './components/dialogs/marker-dialog/marker-dialog.component';
 import { JsonDateInterceptor } from './interceptors/json-date.interceptor';
+import { PageBuchungsuebersichtAdminComponent } from './components/pages/page-buchungsuebersicht-admin/page-buchungsuebersicht-admin.component';
 import { ParkplatzDatePipe } from './pipes/pa-date.pipe';
+import { BuchungsuebersichtAdminViewDateComponent } from './components/pages/page-buchungsuebersicht-admin/view-date/view-date.component';
+import { BuchungsuebersichtAdminViewAllComponent } from './components/pages/page-buchungsuebersicht-admin/view-all/view-all.component';
+import { BuchungsuebersichtAdminViewMitarbeiterComponent } from './components/pages/page-buchungsuebersicht-admin/view-mitarbeiter/view-mitarbeiter.component';
 
 registerLocaleData(localeDE, localeDeExtra);
 
@@ -57,7 +61,11 @@ const luxComponentsConfig: LuxComponentsConfigParameters = {
     MapComponent,
     PageVerstossComponent,
     MarkerDialogComponent,
+    PageBuchungsuebersichtAdminComponent,
     ParkplatzDatePipe,
+    BuchungsuebersichtAdminViewDateComponent,
+    BuchungsuebersichtAdminViewAllComponent,
+    BuchungsuebersichtAdminViewMitarbeiterComponent,
   ],
   imports: [
     BrowserModule,

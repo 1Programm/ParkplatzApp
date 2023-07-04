@@ -1,12 +1,9 @@
 package com.gfi.parkplatzapp.backend.service;
 
-import com.gfi.parkplatzapp.backend.facade.dto.BuchungAbschlussDto;
-import com.gfi.parkplatzapp.backend.utils.StatusEnum;
-import com.gfi.parkplatzapp.backend.facade.dto.BuchungDetailsDto;
-import com.gfi.parkplatzapp.backend.facade.dto.ParkflaecheAuswahlDto;
-import com.gfi.parkplatzapp.backend.facade.dto.ParkplatzMitStatusDto;
+import com.gfi.parkplatzapp.backend.facade.dto.*;
 import com.gfi.parkplatzapp.backend.persistence.entities.*;
 import com.gfi.parkplatzapp.backend.persistence.repos.*;
+import com.gfi.parkplatzapp.backend.utils.StatusEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -14,9 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -62,6 +57,54 @@ public class BuchungService {
             buchungDtos.add(createFromBuchung(buchung));
         }
         return buchungDtos;
+    }
+
+    public List<BuchungUebersichtDto> getAllBuchungen(){
+        return buchungRepo.findAll(Sort.by("datum").descending())
+                .stream()
+                .map(this::createUebersichtFromBuchung)
+                .collect(Collectors.toList());
+    }
+
+    public List<BuchungUebersichtMappedDto<Date>> getAllBuchungenMappedByDate(){
+        List<BuchungUebersichtDto> buchungen = getAllBuchungen();
+
+        Map<Date, List<BuchungUebersichtDto>> map = new HashMap<>();
+        for(BuchungUebersichtDto dto : buchungen){
+            map.computeIfAbsent(dto.getDatum(), d -> new ArrayList<>()).add(dto);
+        }
+
+        return map.entrySet()
+                .stream()
+                .map(e -> new BuchungUebersichtMappedDto<>(e.getKey(), e.getValue()))
+                .sorted((b1, b2) -> b2.getKey().compareTo(b1.getKey()))
+                .collect(Collectors.toList());
+    }
+
+    public List<BuchungUebersichtMappedDto<String>> getAllBuchungenMappedByMitarbeiter(){
+        List<BuchungUebersichtDto> buchungen = getAllBuchungen();
+
+        Map<String, List<BuchungUebersichtDto>> map = new HashMap<>();
+        for(BuchungUebersichtDto dto : buchungen){
+            map.computeIfAbsent(dto.getMitarbeiterName(), d -> new ArrayList<>()).add(dto);
+        }
+
+        return map.entrySet()
+                .stream()
+                .map(e -> new BuchungUebersichtMappedDto<>(e.getKey(), e.getValue()))
+                .sorted(Comparator.comparing(BuchungUebersichtMappedDto::getKey))
+                .collect(Collectors.toList());
+    }
+
+    private BuchungUebersichtDto createUebersichtFromBuchung(Buchung buchung){
+        Mitarbeiter mitarbeiter = buchung.getMitarbeiter();
+        String name = mitarbeiter.getVorname() + " " + mitarbeiter.getNachname();
+
+        Parkflaeche parkflaeche = parkflaecheRepo.findByParkplatzList_parkplatzID(buchung.getParkplatz().getParkplatzID());
+        Parkhaus parkhaus = parkhausRepo.findByParkflaecheList_parkflaecheID(parkflaeche.getParkflaecheID());
+        String bezeichnung = parkhaus.getBezeichnung() + "-" + parkflaeche.getBezeichnung() + "-" + buchung.getParkplatz().getNummer();
+
+        return new BuchungUebersichtDto(buchung.getDatum(), name, bezeichnung, buchung.getTagespreis(), buchung.getKennzeichen());
     }
 
     /**

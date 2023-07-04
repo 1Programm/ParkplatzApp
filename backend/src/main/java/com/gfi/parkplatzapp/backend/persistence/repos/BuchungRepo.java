@@ -11,6 +11,7 @@ import java.util.List;
 
 public interface BuchungRepo extends CrudRepository<Buchung, Long> {
 
+    List<Buchung> findAll(Sort sort);
     List<Buchung> findByMitarbeiter(Mitarbeiter mitarbeiter, Sort sort);
     List<Buchung> findByKennzeichenAndMitarbeiter(Kennzeichen kennzeichen, Mitarbeiter mitarbeiter);
 
