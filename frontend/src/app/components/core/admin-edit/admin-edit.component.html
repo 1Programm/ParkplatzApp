@@ -1,5 +1,5 @@
 <lux-accordion luxMode="default" [luxMulti]="true" [luxMulti]="false">
-    <lux-panel *ngFor="let parkhaus of parkhaeuser; let indexOfElement=index" [(luxExpanded)]="expanded[indexOfElement]">
+    <lux-panel *ngFor="let parkhaus of parkhaeuser; let indexOfElement=index" [(luxExpanded)]="expanded[indexOfElement]" (luxExpandedChange)="showNewParkflaeche=false;">
       <lux-panel-header-title>{{parkhaus.bezeichnung}}</lux-panel-header-title>
       <lux-panel-content>
         <lux-layout-form-row *ngFor="let parkflaeche of parkhaus.parkflaecheList">
@@ -9,6 +9,7 @@
           [luxContentsAsBlob]="true"
           [luxSelected]="parkflaeche.image"
           [luxDnDActive]="true"
+          [luxDeleteActionConfig]="deleteConfig"
           (luxSelectedChange)="onSelectedFilesChange(parkflaeche, $event)"
           *luxLayoutRowItem="{colSpan:2}">
           </lux-file-input>
@@ -23,10 +24,11 @@
           [luxContentsAsBlob]="true"
           [(luxSelected)]="selectedImage"
           [luxDnDActive]="true"
+          [luxDeleteActionConfig]="deleteConfig"
           *luxLayoutRowItem="{colSpan:2}">
           </lux-file-input>
 
-          <lux-button luxTagId="saveItem" luxIconName="fas fa-save" luxColor="primary" [luxRounded]="true" [luxDisabled]="newBezeichnung === ''" (luxClicked)="saveNewParkflaeche(parkhaus)" *luxLayoutRowItem="{flex: 'auto'}"></lux-button>
+          <lux-button luxTagId="saveItem" luxIconName="fas fa-save" luxColor="primary" [luxRounded]="true" [luxDisabled]="isFilledOut()" (luxClicked)="saveNewParkflaeche(parkhaus)" *luxLayoutRowItem="{flex: 'auto'}"></lux-button>
           
         </lux-layout-form-row>
         
@@ -35,5 +37,5 @@
       
     </lux-panel>
 </lux-accordion>
-
-<lux-button [luxRaised]="true" luxColor="primary" (luxClicked)="addParkhaus()" luxLabel="Parkhaus hinzufügen"></lux-button>
+ 
+<lux-button [ngStyle]="{ 'margin-top.px': 100 }" [luxRaised]="true" luxColor="primary" (luxClicked)="addParkhaus()" luxLabel="Parkhaus hinzufügen"></lux-button>

@@ -8,6 +8,8 @@ import { AccountService } from 'src/app/services/account.service';
 import { BuchungService } from 'src/app/services/buchung.service';
 import { MarkerDialogComponent } from '../../dialogs/marker-dialog/marker-dialog.component';
 import { AdminService } from 'src/app/services/admin.service';
+import { ImageUtils } from 'src/app/utils/image.utils';
+
 
 @Component({
   selector: 'app-map',
@@ -18,6 +20,7 @@ export class MapComponent implements OnInit, OnChanges {
   public showNewMarker = false;
   public newMarkerX = 0;
   public newMarkerY = 0;
+  public image;
 
   @Input() date: Date;
   @Input() parkflaecheID: number;
@@ -51,8 +54,12 @@ export class MapComponent implements OnInit, OnChanges {
 
   reloadData(): void {
     if(this.date === undefined) return;
-    console.log(this.date);
-    
+
+    this.adminService.getImageForParkflaeche(this.parkflaecheID).subscribe(image => {
+      ImageUtils.readAsDataUrl(image).subscribe(image => {
+        this.image = image;
+      });
+    })
     if (this.isAdmin) {
       this.buchungService.getParkplaetzeOfParkflaeche(this.parkflaecheID).subscribe((data) => {
         this.alleParkplaetze = data;
@@ -67,7 +74,7 @@ export class MapComponent implements OnInit, OnChanges {
     }
   }
 
-  
+ 
   //wird ausgeführt, wenn der User auf einen Marker klickt
   handleUserMarkerClick(event: MouseEvent, spot: ParkplatzMitStatusDto): void {
     event.stopPropagation();

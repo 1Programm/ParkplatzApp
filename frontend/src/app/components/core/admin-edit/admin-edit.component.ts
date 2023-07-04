@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ILuxFileObject } from '@ihk-gfi/lux-components';
+import { ILuxFileActionConfig, ILuxFileObject } from '@ihk-gfi/lux-components';
 import { Parkflaeche } from 'src/app/facade/Parkflaeche';
 import { ParkflaecheDto, ParkhausParkflaecheDto } from 'src/app/facade/dto/ParkhausParkflaecheDto';
 import { AdminService } from 'src/app/services/admin.service';
@@ -14,10 +14,16 @@ export class AdminEditComponent implements OnInit {
   constructor(private adminService: AdminService) { }
 
   public parkhaeuser: ParkhausParkflaecheDto[]; 
-  public selectedImage: ILuxFileObject;
+  public selectedImage: ILuxFileObject | undefined;
   public showNewParkflaeche: boolean;
   public newBezeichnung: string = "";
   public expanded: boolean[] = [];
+  public deleteConfig: ILuxFileActionConfig	= {
+    disabled: true,
+    hidden: true,
+    iconName: 'fas fa-trash',
+    label: 'Löschen'
+  }
 
   public attr = [
     {name: 'bezeichnung'}
@@ -50,9 +56,11 @@ export class AdminEditComponent implements OnInit {
     }
       this.adminService.saveParkflaeche(parkhaus.parkhausID, toSave).subscribe((parkflaeche) => {
         
-        this.adminService.uploadImageForParkflaeche(parkflaeche.parkflaecheID, this.selectedImage.content as Blob, this.selectedImage.name).subscribe(() => {
+        this.adminService.uploadImageForParkflaeche(parkflaeche.parkflaecheID, this.selectedImage?.content as Blob, this.selectedImage?.name).subscribe(() => {
           this.adminService.getAllParkhausAndParkflaeche().subscribe(parkhaeuser => {this.parkhaeuser = parkhaeuser});
           this.showNewParkflaeche = false;
+          this.newBezeichnung = "";
+          this.selectedImage = undefined;
         });
         
       });
@@ -72,5 +80,9 @@ export class AdminEditComponent implements OnInit {
   public showNewParkflaecheRow() {
     this.showNewParkflaeche = true;
 
+  }
+
+  public isFilledOut() {
+    return this.selectedImage === undefined || this.newBezeichnung === "";
   }
 }
