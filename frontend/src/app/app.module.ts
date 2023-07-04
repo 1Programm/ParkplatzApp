@@ -35,6 +35,7 @@ import { MapComponent } from './components/core/map/map.component';
 import { PageVerstossComponent } from './components/pages/page-verstoss/page-verstoss.component';
 import { MarkerDialogComponent } from './components/dialogs/marker-dialog/marker-dialog.component';
 import { JsonDateInterceptor } from './interceptors/json-date.interceptor';
+import { ParkplatzDatePipe } from './pipes/pa-date.pipe';
 
 registerLocaleData(localeDE, localeDeExtra);
 
@@ -56,6 +57,7 @@ const luxComponentsConfig: LuxComponentsConfigParameters = {
     MapComponent,
     PageVerstossComponent,
     MarkerDialogComponent,
+    ParkplatzDatePipe,
   ],
   imports: [
     BrowserModule,
