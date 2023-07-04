@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { ILuxFileActionConfig, ILuxFileObject } from '@ihk-gfi/lux-components';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ILuxDialogPresetConfig, ILuxFileActionConfig, ILuxFileObject, LuxDialogRef, LuxDialogService } from '@ihk-gfi/lux-components';
 import { Parkflaeche } from 'src/app/facade/Parkflaeche';
 import { ParkflaecheDto, ParkhausParkflaecheDto } from 'src/app/facade/dto/ParkhausParkflaecheDto';
 import { AdminService } from 'src/app/services/admin.service';
+import { EditParkhausDialogComponent } from '../../dialogs/edit-parkhaus-dialog/edit-parkhaus-dialog.component';
+import { ParkhausEditierenDto } from 'src/app/facade/dto/ParkhausEditierenDto';
+import { DialogConfigFactory } from 'src/app/utils/dialogConfigFactory';
 
 @Component({
   selector: 'app-admin-edit',
@@ -11,7 +14,9 @@ import { AdminService } from 'src/app/services/admin.service';
 })
 export class AdminEditComponent implements OnInit {
 
-  constructor(private adminService: AdminService) { }
+  constructor(private adminService: AdminService, private dialogService: LuxDialogService) { }
+  @Output() selectedParkhausChanged = new EventEmitter<boolean>();
+
 
   public parkhaeuser: ParkhausParkflaecheDto[]; 
   public selectedImage: ILuxFileObject | undefined;
@@ -25,6 +30,14 @@ export class AdminEditComponent implements OnInit {
     label: 'Löschen'
   }
 
+  
+ public editParkhausDialogConfig: ILuxDialogPresetConfig = {
+    disableClose: true,
+    width: 'auto',
+    height: 'auto',
+    panelClass: []
+  };
+
   public attr = [
     {name: 'bezeichnung'}
   ];
@@ -37,15 +50,17 @@ export class AdminEditComponent implements OnInit {
     this.adminService.saveParkflaeche(parkhaus.parkhausID, parkflaeche).subscribe(() => {
       this.adminService.getAllParkhausAndParkflaeche().subscribe(parkhaeuser => {this.parkhaeuser = parkhaeuser});
     });
+    
+    this.selectedParkhausChanged.emit(true);
   }
 
   public deleteParkflaeche(parkhaus, parkflaeche) {
     this.adminService.deleteParkflaeche(parkflaeche.parkflaecheID, parkhaus.parkhausID, ).subscribe(() => {
       this.adminService.getAllParkhausAndParkflaeche().subscribe(parkhaeuser => {this.parkhaeuser = parkhaeuser});
+      
+      this.selectedParkhausChanged.emit(true);
     });
-
-
-    console.log("expanded ", this.expanded)
+    
   }
 
   public saveNewParkflaeche(parkhaus) {
@@ -63,7 +78,9 @@ export class AdminEditComponent implements OnInit {
           this.selectedImage = undefined;
         });
         
+      this.selectedParkhausChanged.emit(true);
       });
+      
   }
   
   public onSelectedFilesChange(parkflaeche: ParkflaecheDto, file: ILuxFileObject) {
@@ -71,11 +88,53 @@ export class AdminEditComponent implements OnInit {
     });
   }
 
-  public addNewParkhaus() {
+  public saveParkhaus(parkhausID?: number) {
+    if(parkhausID === undefined) {
+    let toSave = {
+        parkhausID: undefined,
+        bezeichnung: "",
+        strasse: "",
+        hausnummer: 0,
+        plz: 0,
+        ort: "",
+      }
+      this.openParkhausDialog(toSave)
+    }
+    else {
+      this.adminService.getParkhaus(parkhausID).subscribe(parkhaus => {
+        this.openParkhausDialog(parkhaus);});
+    
+      }
+      
+  
+    
   }
 
-  public addParkhaus() {
+  public deleteParkhaus(parkhausID: number) {
+      // Öffnen eines Dialogs zur Bestätigung der Buchungslöschung
+      const dialogRef = this.dialogService.open(new DialogConfigFactory().setWidth('30%').setContent("Wollen Sie das Parkhaus inkl Parkhaus und Parkplätze wirklich löschen?").build());
+        dialogRef.dialogConfirmed.subscribe(() => {
+        this.adminService.deleteParkhaus(parkhausID).subscribe(() => {
+        this.adminService.getAllParkhausAndParkflaeche().subscribe(parkhaeuser => {
+            this.parkhaeuser = parkhaeuser;
+            this.selectedParkhausChanged.emit(true); 
+          });
+        });
+      });
   }
+
+  openParkhausDialog(parkhaus: ParkhausEditierenDto) {
+    const dialogRef = this.dialogService.openComponent(EditParkhausDialogComponent, this.editParkhausDialogConfig, parkhaus);
+    dialogRef.dialogClosed.subscribe((result) => {
+      if (result != null) {
+        this.adminService.saveParkhaus(parkhaus).subscribe(() =>
+        this.adminService.getAllParkhausAndParkflaeche().subscribe(parkhaeuser => {this.parkhaeuser = parkhaeuser}));
+        this.selectedParkhausChanged.emit(true);
+      }
+    });
+  }
+  
+
 
   public showNewParkflaecheRow() {
     this.showNewParkflaeche = true;

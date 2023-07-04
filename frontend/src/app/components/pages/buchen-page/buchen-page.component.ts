@@ -33,11 +33,7 @@ export class BuchenPageComponent implements OnInit {
 
   ngOnInit(): void {
     // Abrufen der Parkfl
-    this.buchungService.getParkflaechen().subscribe(parkflaechen => {
-      this.parkflaechen = parkflaechen;
-      this.selectedParkflaeche = parkflaechen[0];
-    });
-
+    this.loadParkflaeche();
     // Abrufen der Kennzeichen für den Mitarbeiter
     this.buchungService.getKennzeichenForMitarbeiter(this.mitarbeiterID).subscribe((data: Kennzeichen[]) => {
       this.kennzeichenList = data;
@@ -45,6 +41,18 @@ export class BuchenPageComponent implements OnInit {
 
   }
 
+  private loadParkflaeche(){
+    this.buchungService.getParkflaechen().subscribe(parkflaechen => {
+      console.log("parkflaechen", parkflaechen)
+      this.parkflaechen = [];
+      for(let parkflaeche of parkflaechen){
+        if(parkflaeche.parkflaecheBezeichnung != null) {
+          this.parkflaechen.push(parkflaeche);
+        }
+      }
+      this.selectedParkflaeche = parkflaechen[0];
+    });
+  }
   private setupBuchungForUI(buchung: BuchungAbschlussDto){
     let kennzeichenObj = undefined;
     for(let kenn of this.kennzeichenList){
@@ -86,5 +94,11 @@ export class BuchenPageComponent implements OnInit {
       this.abschlussBuchungen = [];
       this.snackbarService.openText('Buchung erfolgreich!', 3000);
     });
+  }
+
+  public onParkflaecheChange(parkflaeche: any){
+    console.log("parkflaeche changed", parkflaeche)
+    this.loadParkflaeche();
+
   }
 }

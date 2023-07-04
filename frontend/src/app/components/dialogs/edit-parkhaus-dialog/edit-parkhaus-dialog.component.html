@@ -1,0 +1,26 @@
+<lux-dialog-structure>
+    <lux-dialog-title>Parkhaus editieren</lux-dialog-title>
+    <lux-dialog-content>
+      <div class="content">
+        <lux-layout-form-row>
+          <lux-input luxLabel="Bezeichnung" [(luxValue)]="parkhaus.bezeichnung" *luxLayoutRowItem="{}"></lux-input>
+        </lux-layout-form-row>
+
+        <lux-layout-form-row>
+            
+        <lux-input luxLabel="Straße" [(luxValue)]="parkhaus.strasse" *luxLayoutRowItem="{}"></lux-input>
+          <lux-input luxLabel="Hausnummer" [(luxValue)]="parkhaus.hausnummer" *luxLayoutRowItem="{}"></lux-input>
+        </lux-layout-form-row>
+        
+        <lux-layout-form-row>
+          <lux-input luxLabel="Ort" [(luxValue)]="parkhaus.ort" *luxLayoutRowItem="{}"></lux-input>
+          <lux-input luxLabel="Plz" [(luxValue)]="parkhaus.plz" *luxLayoutRowItem="{}"></lux-input>
+        </lux-layout-form-row>
+      </div>
+    </lux-dialog-content>
+  
+    <lux-dialog-actions>
+      <lux-button luxLabel="Abbrechen" luxColor="primary" [luxFlat]="true" (luxClicked)="luxDialogRef.closeDialog(null)"></lux-button>
+      <lux-button luxLabel="Speichern" luxColor="primary" [luxFlat]="true" (luxClicked)="luxDialogRef.closeDialog(parkhaus)"></lux-button>
+    </lux-dialog-actions>
+  </lux-dialog-structure>

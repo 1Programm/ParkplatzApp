@@ -1,5 +1,6 @@
 package com.gfi.parkplatzapp.backend.facade;
 
+import com.gfi.parkplatzapp.backend.facade.dto.ParkhausEditierenDto;
 import com.gfi.parkplatzapp.backend.facade.dto.ParkhausParkflaecheDto;
 import com.gfi.parkplatzapp.backend.persistence.entities.DBImage;
 import com.gfi.parkplatzapp.backend.persistence.entities.Mitarbeiter;
@@ -84,6 +85,21 @@ public class AdminController {
     @PostMapping("/parkflaeche/{parkhausID}")
     public ParkhausParkflaecheDto.ParkflaecheDto saveParkflaeche(@PathVariable("parkhausID") long parkhausID, @RequestBody ParkhausParkflaecheDto.ParkflaecheDto parkflaeche){
        return parkflaecheService.saveParkflaeche(parkhausID, parkflaeche);
+    }
+
+    @PostMapping("/parkhaus")
+    public ParkhausEditierenDto saveParkhaus(@RequestBody ParkhausEditierenDto parkhaus){
+        return parkhausService.saveParkhaus(parkhaus);
+    }
+
+    @GetMapping("/parkhaus/{parkhausID}")
+    public ParkhausEditierenDto getParkhaus(@PathVariable("parkhausID") long parkhausID){
+        return parkhausService.getParkhaus(parkhausID);
+    }
+
+    @DeleteMapping("/parkhaus/{parkhausID}")
+    public void deleteParkhaus(@PathVariable("parkhausID") long parkhausID){
+        parkhausService.deleteParkhaus(parkhausID);
     }
 
 }

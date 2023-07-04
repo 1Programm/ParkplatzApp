@@ -36,6 +36,7 @@ import { MarkerDialogComponent } from './components/dialogs/marker-dialog/marker
 import { AdminEditComponent } from './components/core/admin-edit/admin-edit.component';
 import { PageVerstossComponent } from './components/pages/page-verstoss/page-verstoss.component';
 import { JsonDateInterceptor } from './interceptors/json-date.interceptor';
+import { EditParkhausDialogComponent } from './components/dialogs/edit-parkhaus-dialog/edit-parkhaus-dialog.component';
 
 registerLocaleData(localeDE, localeDeExtra);
 
@@ -58,6 +59,7 @@ const luxComponentsConfig: LuxComponentsConfigParameters = {
     MarkerDialogComponent,
     AdminEditComponent,
     PageVerstossComponent,
+    EditParkhausDialogComponent
   ],
   imports: [
     BrowserModule,

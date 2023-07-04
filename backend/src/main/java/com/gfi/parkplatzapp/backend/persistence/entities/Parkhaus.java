@@ -21,7 +21,7 @@ public class Parkhaus {
     private Long parkhausID;
 
     private String bezeichnung;
-    private String straße;
+    private String strasse;
     private int hausnummer;
     private int plz;
     private String ort;

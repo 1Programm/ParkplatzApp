@@ -34,8 +34,12 @@
         
         <lux-button [luxDisabled]="showNewParkflaeche" luxTagId="addButton" luxIconName="fas fa-plus" luxColor="primary" [luxRounded]="true" (luxClicked)="showNewParkflaecheRow()"></lux-button>
       </lux-panel-content>
-      
+      <lux-panel-action>
+        <lux-button luxTagId="deleteItem" luxIconName="fas fa-trash-alt" luxColor="warn" [luxRounded]="true" (luxClicked)="deleteParkhaus(parkhaus.parkhausID)"></lux-button>
+        <lux-button luxTagId="editItem" luxIconName="fas fa-edit" luxColor="primary" [luxRounded]="true" (luxClicked)="saveParkhaus(parkhaus.parkhausID)"></lux-button>
+      </lux-panel-action>
+
     </lux-panel>
 </lux-accordion>
  
-<lux-button [ngStyle]="{ 'margin-top.px': 100 }" [luxRaised]="true" luxColor="primary" (luxClicked)="addParkhaus()" luxLabel="Parkhaus hinzufügen"></lux-button>
+<lux-button [luxRaised]="true" luxColor="primary" (luxClicked)="saveParkhaus()" luxLabel="Parkhaus hinzufügen"></lux-button>

@@ -64,7 +64,7 @@
         <ng-container *ngIf="isAdmin">
             <lux-card luxTitle="Parkhaus und Parkfläche editieren" *luxLayoutRowItem="{colSpan:4}">
                 <lux-card-content>
-                    <app-admin-edit></app-admin-edit>
+                    <app-admin-edit (selectedParkhausChanged)="onParkflaecheChange($event)"></app-admin-edit>
                 </lux-card-content>
             </lux-card>
         </ng-container>
