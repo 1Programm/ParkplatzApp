@@ -16,23 +16,6 @@ import java.io.IOException;
 @RequestMapping("/map")
 public class MapController {
 
-    @Autowired
-    private ParkflaecheService parkflaecheService;
 
-    @GetMapping("/parkflaeche/{parkflaecheID}")
-    public ResponseEntity<byte[]> getImageForParkflaeche(@PathVariable("parkflaecheID") long parkflaecheID) throws IOException {
-        Parkflaeche parkflaeche = parkflaecheService.getParkflaecheById(parkflaecheID);
-        DBImage image = parkflaeche.getImage();
-
-        return ResponseEntity
-                .ok()
-                .contentType(MediaType.valueOf(image.getType()))
-                .body(ImageUtils.decompressImage(image.getImage()));
-    }
-
-    @PostMapping("/parkflaeche/{parkflaecheID}/upload")
-    public void uploadImageForParkflaeche(@PathVariable("parkflaecheID") long parkflaecheID, @RequestParam("image") MultipartFile file) throws IOException {
-        parkflaecheService.updateImageForParkflaeche(parkflaecheID, file);
-    }
 
 }

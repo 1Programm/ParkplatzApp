@@ -23,6 +23,7 @@
         luxTagId="project-side-nav-item"
         luxIconName="lux-interface-user-single"
         (luxClicked)="router.navigate(['/profil'])"
+        *ngIf="!accountService.isAdmin"
       >
       </lux-side-nav-item>
       <lux-side-nav-item

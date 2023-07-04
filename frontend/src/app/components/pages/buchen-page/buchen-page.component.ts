@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { BuchungService } from 'src/app/services/buchung.service';
-import { AccountService } from 'src/app/services/account.service';
 import {ParkflaecheAuswahlDto } from '../../../facade/dto/parkflaeche-auswahl.dto';
+import { BuchungDto } from 'src/app/facade/dto/BuchungDto';
+import { BuchungAbschlussDto } from 'src/app/facade/dto/BuchungAbschluss.dto';
 import { Parkplatz } from 'src/app/facade/Parkplatz';
 import { Kennzeichen } from 'src/app/facade/Kennzeichen';
-import { BuchungAbschlussDto } from 'src/app/facade/dto/BuchungAbschluss.dto';
-import { LuxSnackbarService } from '@ihk-gfi/lux-components';
 import { DateUtils } from 'src/app/utils/date.utils';
+import { AccountService } from 'src/app/services/account.service';
+import { LuxSnackbarService } from '@ihk-gfi/lux-components';
 
 @Component({
   selector: 'app-buchen-page',
@@ -19,13 +20,13 @@ export class BuchenPageComponent implements OnInit {
   public isAdmin: boolean = this.accountService.isAdmin;
 
   public parkflaechen : ParkflaecheAuswahlDto[];
+  public selectedParkflaeche: ParkflaecheAuswahlDto;
   public kennzeichenList: Kennzeichen[];
-
+  
+  public selectedDatum: Date = DateUtils.getToday();
   public minDate: string = DateUtils.getTodayAsString();
   public maxDate: string = DateUtils.getFuture_2WeeksAsString();
 
-  public selectedParkflaeche: ParkflaecheAuswahlDto;
-  public selectedDatum: Date = DateUtils.getToday();
   public abschlussBuchungen: BuchungAbschlussDto[] = [];
 
   constructor(private buchungService: BuchungService, private accountService: AccountService, private snackbarService: LuxSnackbarService) {}
@@ -62,7 +63,7 @@ export class BuchenPageComponent implements OnInit {
     this.selectedDatum = new Date(date);
   }
 
-  public addSpotToBasket(parkplatz: Parkplatz) {    
+  public addSpotToBasket(parkplatz: Parkplatz) {
     let newBuchung: BuchungAbschlussDto = {
       parkplatzKennung: this.selectedParkflaeche.parkhausBezeichnung + "-" + this.selectedParkflaeche.parkflaecheBezeichnung + "-" + parkplatz.nummer,
       datum: this.selectedDatum,

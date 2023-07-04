@@ -7,6 +7,7 @@ import { ParkplatzMitStatusDto } from 'src/app/facade/dto/ParkplatzMitStatusDto'
 import { AccountService } from 'src/app/services/account.service';
 import { BuchungService } from 'src/app/services/buchung.service';
 import { MarkerDialogComponent } from '../../dialogs/marker-dialog/marker-dialog.component';
+import { AdminService } from 'src/app/services/admin.service';
 
 @Component({
   selector: 'app-map',
@@ -36,7 +37,8 @@ export class MapComponent implements OnInit, OnChanges {
   constructor(
     private dialogService: LuxDialogService,
     private buchungService: BuchungService,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private adminService: AdminService
   ) {}
 
   ngOnInit(): void {
@@ -88,14 +90,14 @@ export class MapComponent implements OnInit, OnChanges {
     dialogRef.dialogClosed.subscribe((result) => {
       if (result != null) {
         if (result.nummer == undefined) {
-          this.buchungService.deleteParkplatz(result).subscribe((parkplatz) => {
+          this.adminService.deleteParkplatz(result).subscribe((parkplatz) => {
             if (parkplatz != null) {
               this.reloadData();
             }
           });
         } else {
           newSpot = result;
-          this.buchungService.saveParkplatz(newSpot, this.parkflaecheID).subscribe((parkplaetze) => {
+          this.adminService.saveParkplatz(newSpot, this.parkflaecheID).subscribe((parkplaetze) => {
             this.alleParkplaetze = parkplaetze;
           });
         }
@@ -123,7 +125,7 @@ export class MapComponent implements OnInit, OnChanges {
       newSpot = result;
       newSpot.xkoordinate = this.newMarkerX;
       newSpot.ykoordinate = this.newMarkerY;
-      this.buchungService.saveParkplatz(newSpot, this.parkflaecheID).subscribe((parkplaetze) => {
+      this.adminService.saveParkplatz(newSpot, this.parkflaecheID).subscribe((parkplaetze) => {
         this.alleParkplaetze = parkplaetze;
       });
 

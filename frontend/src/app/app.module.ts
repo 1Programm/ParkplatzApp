@@ -32,8 +32,9 @@ import { PageTestComponent } from './components/pages/page-test/page-test.compon
 import { EditListComponent } from './components/core/edit-list/edit-list.component';
 import { PageBuchungsuebersichtComponent } from './components/pages/page-buchungsuebersicht/page-buchungsuebersicht.component';
 import { MapComponent } from './components/core/map/map.component';
-import { PageVerstossComponent } from './components/pages/page-verstoss/page-verstoss.component';
 import { MarkerDialogComponent } from './components/dialogs/marker-dialog/marker-dialog.component';
+import { AdminEditComponent } from './components/core/admin-edit/admin-edit.component';
+import { PageVerstossComponent } from './components/pages/page-verstoss/page-verstoss.component';
 import { JsonDateInterceptor } from './interceptors/json-date.interceptor';
 import { PageBuchungsuebersichtAdminComponent } from './components/pages/page-buchungsuebersicht-admin/page-buchungsuebersicht-admin.component';
 import { ParkplatzDatePipe } from './pipes/pa-date.pipe';
@@ -59,13 +60,14 @@ const luxComponentsConfig: LuxComponentsConfigParameters = {
     EditListComponent,
     BuchenPageComponent,
     MapComponent,
-    PageVerstossComponent,
     MarkerDialogComponent,
     PageBuchungsuebersichtAdminComponent,
     ParkplatzDatePipe,
     BuchungsuebersichtAdminViewDateComponent,
     BuchungsuebersichtAdminViewAllComponent,
     BuchungsuebersichtAdminViewMitarbeiterComponent,
+    AdminEditComponent,
+    PageVerstossComponent,
   ],
   imports: [
     BrowserModule,
