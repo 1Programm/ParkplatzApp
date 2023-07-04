@@ -76,8 +76,14 @@ public class AdminController {
         parkflaecheService.updateImageForParkflaeche(parkflaecheID, file);
     }
 
-    @DeleteMapping("/parkflaeche/{parkflaecheID}/delete") {
-        parkflaecheService.deleteParkflaeche(parkflaecheID);
+    @DeleteMapping("/parkflaeche/{parkflaecheID}/parkhaus/{parkhausID}")
+    public void deleteParkflaeche(@PathVariable("parkflaecheID") long parkflaecheID, @PathVariable("parkhausID") long parkhausID){
+        parkflaecheService.deleteParkflaeche(parkflaecheID, parkhausID);
+    }
+
+    @PostMapping("/parkflaeche/{parkhausID}")
+    public ParkhausParkflaecheDto.ParkflaecheDto saveParkflaeche(@PathVariable("parkhausID") long parkhausID, @RequestBody ParkhausParkflaecheDto.ParkflaecheDto parkflaeche){
+       return parkflaecheService.saveParkflaeche(parkhausID, parkflaeche);
     }
 
 }

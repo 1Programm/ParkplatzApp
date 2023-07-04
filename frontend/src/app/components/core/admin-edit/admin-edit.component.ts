@@ -17,6 +17,8 @@ export class AdminEditComponent implements OnInit {
   public selectedImage: ILuxFileObject;
   public showNewParkflaeche: boolean;
   public newBezeichnung: string = "";
+  public expanded: boolean[] = [];
+
   public attr = [
     {name: 'bezeichnung'}
   ];
@@ -25,24 +27,40 @@ export class AdminEditComponent implements OnInit {
     
   }
 
-  public saveParkflaeche(parkflaeche) {
-    console.log("bla", parkflaeche);
-  }
-
-  public deleteParkflaeche(parkflaeche) {
-  
-  }
-
-  
-  public onSelectedFilesChange(parkflaeche: ParkflaecheDto, file: ILuxFileObject | null) {
-    console.log(file);
-    this.selectedImage = file;
-    this.adminService.uploadImageForParkflaeche(parkflaeche.parkflaecheID, this.selectedImage.content as Blob, this.selectedImage.name).subscribe(() => {
-      console.log("SADBABWDKADW");
+  public saveParkflaeche(parkhaus, parkflaeche) {
+    this.adminService.saveParkflaeche(parkhaus.parkhausID, parkflaeche).subscribe(() => {
+      this.adminService.getAllParkhausAndParkflaeche().subscribe(parkhaeuser => {this.parkhaeuser = parkhaeuser});
     });
   }
 
-  public onNewParkflaecheFileChange(file: ILuxFileObject | null) {
+  public deleteParkflaeche(parkhaus, parkflaeche) {
+    this.adminService.deleteParkflaeche(parkflaeche.parkflaecheID, parkhaus.parkhausID, ).subscribe(() => {
+      this.adminService.getAllParkhausAndParkflaeche().subscribe(parkhaeuser => {this.parkhaeuser = parkhaeuser});
+    });
+
+
+    console.log("expanded ", this.expanded)
+  }
+
+  public saveNewParkflaeche(parkhaus) {
+    let toSave: ParkflaecheDto = {
+      parkflaecheID: undefined,
+      bezeichnung: this.newBezeichnung,
+      image: null
+    }
+      this.adminService.saveParkflaeche(parkhaus.parkhausID, toSave).subscribe((parkflaeche) => {
+        
+        this.adminService.uploadImageForParkflaeche(parkflaeche.parkflaecheID, this.selectedImage.content as Blob, this.selectedImage.name).subscribe(() => {
+          this.adminService.getAllParkhausAndParkflaeche().subscribe(parkhaeuser => {this.parkhaeuser = parkhaeuser});
+          this.showNewParkflaeche = false;
+        });
+        
+      });
+  }
+  
+  public onSelectedFilesChange(parkflaeche: ParkflaecheDto, file: ILuxFileObject) {
+    this.adminService.uploadImageForParkflaeche(parkflaeche.parkflaecheID, file.content as Blob, file.name).subscribe(() => {
+    });
   }
 
   public addNewParkhaus() {

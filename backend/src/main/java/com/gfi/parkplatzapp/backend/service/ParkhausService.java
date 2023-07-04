@@ -29,12 +29,15 @@ public class ParkhausService {
 
         List<ParkhausParkflaecheDto.ParkflaecheDto> parkflaecheDtoList = new ArrayList<>();
         res.setBezeichnung(parkhaus.getBezeichnung());
+        res.setParkhausID(parkhaus.getParkhausID());
         parkhaus.getParkflaecheList().forEach(parkflaeche -> {
 
-            ParkhausParkflaecheDto.ParkflaecheDto parkflaecheDto = res.new ParkflaecheDto();
+            ParkhausParkflaecheDto.ParkflaecheDto parkflaecheDto = new ParkhausParkflaecheDto.ParkflaecheDto();
             parkflaecheDto.setParkflaecheID(parkflaeche.getParkflaecheID());
             parkflaecheDto.setBezeichnung(parkflaeche.getBezeichnung());
+            parkflaecheDto.setImage(parkflaeche.getImage());
             parkflaecheDtoList.add(parkflaecheDto);
+
         });
 
         res.setParkflaecheList(parkflaecheDtoList.toArray(new ParkhausParkflaecheDto.ParkflaecheDto[0]));

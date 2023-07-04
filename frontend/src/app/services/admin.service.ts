@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { ParkflaecheAuswahlDto } from '../facade/dto/parkflaeche-auswahl.dto';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { ParkhausParkflaecheDto } from '../facade/dto/ParkhausParkflaecheDto';
+import { ParkflaecheDto, ParkhausParkflaecheDto } from '../facade/dto/ParkhausParkflaecheDto';
 import { Parkplatz } from '../facade/Parkplatz';
 import { Parkflaeche } from '../facade/Parkflaeche';
 
@@ -24,17 +24,23 @@ export class AdminService extends ServiceBase {
 
   public saveParkplatz(parkplatz: Parkplatz, parkflaecheID: number): Observable<Parkplatz[]> {
     return this.wrapRetryAndCatchError(
-      this.http.post<Parkplatz[]>(`${environment.apiServerUrl}/buchung/parkplatz/${parkflaecheID}`, parkplatz)
+      this.http.post<Parkplatz[]>(`${environment.apiServerUrl}/admin/parkplatz/${parkflaecheID}`, parkplatz)
     );
   }
 
   public deleteParkplatz(parkplatzID: number): Observable<Parkplatz> {
-    return this.wrapRetryAndCatchError(this.http.delete<Parkplatz>(`${environment.apiServerUrl}/buchung/parkplatz/${parkplatzID}`)
+    return this.wrapRetryAndCatchError(this.http.delete<Parkplatz>(`${environment.apiServerUrl}/admin/parkplatz/${parkplatzID}`)
     );
   }
 
-  public deleteParkflaeche(parkflaecheID: number): Observable<void> {
-    return this.wrapRetryAndCatchError(this.http.delete<void>(`${environment.apiServerUrl}/admin/parkflaeche/${parkflaecheID}`)
+  public deleteParkflaeche(parkflaecheID: number, parkhausID: number): Observable<void> {
+    return this.wrapRetryAndCatchError(this.http.delete<void>(`${environment.apiServerUrl}/admin/parkflaeche/${parkflaecheID}/parkhaus/${parkhausID}`)
+    );
+  }
+
+  public saveParkflaeche(parkhausID: number, parkflaeche: ParkflaecheDto): Observable<Parkflaeche> {
+    return this.wrapRetryAndCatchError(
+      this.http.post<Parkflaeche>(`${environment.apiServerUrl}/admin/parkflaeche/${parkhausID}`, parkflaeche)
     );
   }
 
@@ -44,7 +50,7 @@ export class AdminService extends ServiceBase {
     }
 
     return this.wrapRetryAndCatchError(
-      this.http.get<ArrayBuffer>(`${environment.apiServerUrl}/map/parkflaeche/${parkflaecheID}`, options)
+      this.http.get<ArrayBuffer>(`${environment.apiServerUrl}/admin/parkflaeche/${parkflaecheID}`, options)
     );
   }
 
@@ -70,7 +76,7 @@ export class AdminService extends ServiceBase {
 
     
     return this.wrapRetryAndCatchError(
-      this.http.post<void>(`${environment.apiServerUrl}/map/parkflaeche/${parkflaecheID}/upload`, imageFormData)
+      this.http.post<void>(`${environment.apiServerUrl}/admin/parkflaeche/${parkflaecheID}/upload`, imageFormData)
     );
   }
 
