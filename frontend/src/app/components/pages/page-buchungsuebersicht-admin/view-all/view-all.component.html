@@ -1,0 +1,46 @@
+<lux-table [luxData]="buchungen" [luxShowPagination]="true" [luxPageSize]="100">
+    <lux-table-column luxColumnDef="datum">
+        <lux-table-column-header>
+            <ng-template>Datum</ng-template>
+        </lux-table-column-header>
+        <lux-table-column-content>
+            <ng-template let-element>{{ element.datum | paDate }}</ng-template>
+        </lux-table-column-content>
+    </lux-table-column>
+
+    <lux-table-column luxColumnDef="mitarbeiterName">
+        <lux-table-column-header>
+            <ng-template>Mitarbeiter</ng-template>
+        </lux-table-column-header>
+        <lux-table-column-content>
+            <ng-template let-element>{{ element.mitarbeiterName }}</ng-template>
+        </lux-table-column-content>
+    </lux-table-column>
+
+    <lux-table-column luxColumnDef="parkplatzKennung">
+        <lux-table-column-header>
+            <ng-template>Parkplatz</ng-template>
+        </lux-table-column-header>
+        <lux-table-column-content>
+            <ng-template let-element>{{ element.parkplatzKennung }}</ng-template>
+        </lux-table-column-content>
+    </lux-table-column>
+
+    <lux-table-column luxColumnDef="Preis">
+        <lux-table-column-header>
+            <ng-template>Preis</ng-template>
+        </lux-table-column-header>
+        <lux-table-column-content>
+            <ng-template let-element>{{ element.tagespreis }},-</ng-template>
+        </lux-table-column-content>
+    </lux-table-column>
+
+    <lux-table-column luxColumnDef="Kennzeichen">
+        <lux-table-column-header>
+            <ng-template>Kennzeichen</ng-template>
+        </lux-table-column-header>
+        <lux-table-column-content>
+            <ng-template let-element>{{ element.kennzeichen.kennzeichen }}</ng-template>
+        </lux-table-column-content>
+    </lux-table-column>
+</lux-table>

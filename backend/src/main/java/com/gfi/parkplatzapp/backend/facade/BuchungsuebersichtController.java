@@ -2,6 +2,8 @@ package com.gfi.parkplatzapp.backend.facade;
 
 
 import com.gfi.parkplatzapp.backend.facade.dto.BuchungDetailsDto;
+import com.gfi.parkplatzapp.backend.facade.dto.BuchungUebersichtDto;
+import com.gfi.parkplatzapp.backend.facade.dto.BuchungUebersichtMappedDto;
 import com.gfi.parkplatzapp.backend.persistence.entities.Kennzeichen;
 import com.gfi.parkplatzapp.backend.service.BuchungService;
 import com.gfi.parkplatzapp.backend.service.MitarbeiterService;
@@ -9,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -32,6 +35,21 @@ public class BuchungsuebersichtController {
     @GetMapping("/{mitarbeiterID}")
     public List<BuchungDetailsDto> getBuchungenForMitarbeiter(@PathVariable("mitarbeiterID") Long mitarbeiterID) {
         return this.buchungService.getBuchungenForMitarbeiter(mitarbeiterID);
+    }
+
+    @GetMapping("/all")
+    public List<BuchungUebersichtDto> getAllBuchungen() {
+        return this.buchungService.getAllBuchungen();
+    }
+
+    @GetMapping("/all/datum")
+    public List<BuchungUebersichtMappedDto<Date>> getAllBuchungenMappedByDate() {
+        return this.buchungService.getAllBuchungenMappedByDate();
+    }
+
+    @GetMapping("/all/mitarbeiter")
+    public List<BuchungUebersichtMappedDto<String>> getAllBuchungenMappedByMitarbeiter() {
+        return this.buchungService.getAllBuchungenMappedByMitarbeiter();
     }
 
     /**

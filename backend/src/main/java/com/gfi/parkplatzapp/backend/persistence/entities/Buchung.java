@@ -5,10 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 @Entity
@@ -22,7 +19,9 @@ public class Buchung {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long buchungID;
 
+    @Temporal(TemporalType.DATE)
     private Date datum;
+
     private Double tagespreis;
 
     @ManyToOne

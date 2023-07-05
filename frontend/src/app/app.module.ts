@@ -36,6 +36,11 @@ import { MarkerDialogComponent } from './components/dialogs/marker-dialog/marker
 import { AdminEditComponent } from './components/core/admin-edit/admin-edit.component';
 import { PageVerstossComponent } from './components/pages/page-verstoss/page-verstoss.component';
 import { JsonDateInterceptor } from './interceptors/json-date.interceptor';
+import { PageBuchungsuebersichtAdminComponent } from './components/pages/page-buchungsuebersicht-admin/page-buchungsuebersicht-admin.component';
+import { ParkplatzDatePipe } from './pipes/pa-date.pipe';
+import { BuchungsuebersichtAdminViewDateComponent } from './components/pages/page-buchungsuebersicht-admin/view-date/view-date.component';
+import { BuchungsuebersichtAdminViewAllComponent } from './components/pages/page-buchungsuebersicht-admin/view-all/view-all.component';
+import { BuchungsuebersichtAdminViewMitarbeiterComponent } from './components/pages/page-buchungsuebersicht-admin/view-mitarbeiter/view-mitarbeiter.component';
 import { EditParkhausDialogComponent } from './components/dialogs/edit-parkhaus-dialog/edit-parkhaus-dialog.component';
 
 registerLocaleData(localeDE, localeDeExtra);
@@ -57,6 +62,11 @@ const luxComponentsConfig: LuxComponentsConfigParameters = {
     BuchenPageComponent,
     MapComponent,
     MarkerDialogComponent,
+    PageBuchungsuebersichtAdminComponent,
+    ParkplatzDatePipe,
+    BuchungsuebersichtAdminViewDateComponent,
+    BuchungsuebersichtAdminViewAllComponent,
+    BuchungsuebersichtAdminViewMitarbeiterComponent,
     AdminEditComponent,
     PageVerstossComponent,
     EditParkhausDialogComponent

@@ -1,0 +1,15 @@
+<lux-card luxTitle="Alle Buchungen"
+    luxSubTitle="Hier sind die Buchungen aller Mitarbeiter aufgelistet und sortiert, je nachdem in welchen tab Sie sind.">
+    <lux-icon luxIconName="fas fa-calendar"></lux-icon>
+    <lux-card-content>
+      <lux-layout-form-row>
+        <lux-select luxLabel="Ansicht" [luxOptions]="stateOptions" [(luxSelected)]="viewState" *luxLayoutRowItem="{}"></lux-select>
+        <div *luxLayoutRowItem="{colSpan: 5, empty: true}"></div>
+      </lux-layout-form-row>
+
+      <app-buchungsuebersicht-admin-view-all *ngIf="viewState === 'Alle'"></app-buchungsuebersicht-admin-view-all>
+      <app-buchungsuebersicht-admin-view-date *ngIf="viewState === 'Datum'"></app-buchungsuebersicht-admin-view-date>
+      <app-buchungsuebersicht-admin-view-mitarbeiter *ngIf="viewState === 'Mitarbeiter'"></app-buchungsuebersicht-admin-view-mitarbeiter>
+         
+    </lux-card-content>
+</lux-card>
