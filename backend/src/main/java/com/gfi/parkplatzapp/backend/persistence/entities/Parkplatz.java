@@ -19,8 +19,8 @@ public class Parkplatz {
     private int xKoordinate;
     private int yKoordinate;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Parkplatztyp parkplatztyp;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Preiskategorie preiskategorie;
 }

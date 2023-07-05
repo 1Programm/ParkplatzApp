@@ -5,16 +5,18 @@ import { PageHomeComponent } from './components/pages/page-home/page-home.compon
 import { PageErrorComponent } from './components/pages/page-error/page-error.component';
 import { BuchenPageComponent } from './components/pages/buchen-page/buchen-page.component';
 import { PageProfilComponent } from './components/pages/page-profil/page-profil.component';
-import { PageTestComponent } from './components/pages/page-test/page-test.component';
 import { PageBuchungsuebersichtComponent } from './components/pages/page-buchungsuebersicht/page-buchungsuebersicht.component';
+import { PageVerstossComponent } from './components/pages/page-verstoss/page-verstoss.component';
+import { PageBuchungsuebersichtAdminComponent } from './components/pages/page-buchungsuebersicht-admin/page-buchungsuebersicht-admin.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '', redirectTo: '/buchen', pathMatch: 'full' },
   { path: 'home', component: PageHomeComponent },
   { path: 'profil', component: PageProfilComponent },
-  { path: 'test', component: PageTestComponent },
   { path: 'buchungen', component: PageBuchungsuebersichtComponent },
+  { path: 'admin/buchungen', component: PageBuchungsuebersichtAdminComponent },
   { path: 'buchen', component: BuchenPageComponent },
+  { path: 'verstoss', component: PageVerstossComponent },
   { path: '**', component: PageErrorComponent } // Immer als letzte Route !! -> 404!
 ];
 

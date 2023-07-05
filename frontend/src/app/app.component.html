@@ -1,28 +1,31 @@
-<div class="lux-app-container">
-  <lux-app-header luxAppTitle="Parkplatz App" luxAppTitleShort="PA" luxUserName="Test" (luxClicked)="router.navigate(['/'])">
+<div class="lux-app-container" *ngIf="accountService.loggedIn">
+  <lux-app-header luxAppTitle="Parkplatz App" luxAppTitleShort="PA" [luxUserName]="accountService.roleName" (luxClicked)="router.navigate(['/'])">
     <lux-side-nav>
       <lux-side-nav-header>
         <h3 i18n="@@luxapp.welcome">Willkommen!</h3>
       </lux-side-nav-header>
       <lux-side-nav-item
-        luxLabel="Home"
-        luxTagId="project-side-nav-item"
-        luxIconName="lux-home-1"
-        (luxClicked)="router.navigate(['/'])"
-      >
-      </lux-side-nav-item>
-      <lux-side-nav-item
-        luxLabel="Test"
-        luxTagId="project-side-nav-item"
-        luxIconName="lux-home-1"
-        (luxClicked)="router.navigate(['/test'])"
-      >
-      </lux-side-nav-item>
-      <lux-side-nav-item
         luxLabel="Profil"
         luxTagId="project-side-nav-item"
         luxIconName="lux-interface-user-single"
         (luxClicked)="router.navigate(['/profil'])"
+        *ngIf="!accountService.isAdmin"
+      >
+      </lux-side-nav-item>
+      <lux-side-nav-item
+        luxLabel="Buchen"
+        luxTagId="project-side-nav-item"
+        luxIconName="lux-home-1"
+        (luxClicked)="router.navigate(['/buchen'])"
+        *ngIf="!accountService.isAdmin"
+      >
+      </lux-side-nav-item>
+      <lux-side-nav-item
+        luxLabel="Parkhaus verwaltung"
+        luxTagId="project-side-nav-item"
+        luxIconName="lux-home-1"
+        (luxClicked)="router.navigate(['/buchen'])"
+        *ngIf="accountService.isAdmin"
       >
       </lux-side-nav-item>
       <lux-side-nav-item
@@ -30,8 +33,17 @@
       luxTagId="project-side-nav-item"
       luxIconName="fas fa-calendar"
       (luxClicked)="router.navigate(['/buchungen'])"
-    >
-    </lux-side-nav-item>
+      *ngIf="!accountService.isAdmin"
+      >
+      </lux-side-nav-item>
+      <lux-side-nav-item
+      luxLabel="Alle Buchungen"
+      luxTagId="project-side-nav-item"
+      luxIconName="fas fa-calendar"
+      (luxClicked)="router.navigate(['/admin/buchungen'])"
+      *ngIf="accountService.isAdmin"
+      >
+      </lux-side-nav-item>
     </lux-side-nav>
 
     <lux-app-header-right-nav *ngIf="accountService.loggedIn">

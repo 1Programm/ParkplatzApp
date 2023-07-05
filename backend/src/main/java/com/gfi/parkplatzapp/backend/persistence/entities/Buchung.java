@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 @Entity
@@ -17,10 +16,12 @@ import java.util.Date;
 public class Buchung {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long buchungID;
 
+    @Temporal(TemporalType.DATE)
     private Date datum;
+
     private Double tagespreis;
 
     @ManyToOne

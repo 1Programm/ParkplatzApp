@@ -3,7 +3,7 @@ import { Verstoss } from "./Verstoss";
 
 export interface Mitarbeiter {
     
-    id: number;
+    mitarbeiterID: number;
     vorname: string;
     nachname: string;
     mail: string;

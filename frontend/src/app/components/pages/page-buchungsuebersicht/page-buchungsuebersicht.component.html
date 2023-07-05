@@ -1,36 +1,59 @@
 
 
-    
-        <lux-layout-card-row [luxGap]="{ row: '30px', rowItem: '50px', column: '2px'}"
-            [luxMargin]="{ xs: '15%', lg: '15%', xl: '15%', marginLeft: true, marginRight: true}" >
-            <lux-card luxTitle="Meine Buchungen" luxSubTitle="Hier können alle Buchungen eingesehen werden und in der Zukunft liegende Buchungen gelöscht bzw das Kennzeichen geändert werden" *luxLayoutRowItem="{}">
-                <lux-icon luxIconName="fas fa-calendar"></lux-icon>
-                <lux-card-content>
-                    <lux-table [luxData]="buchungen" [luxShowPagination]="true" [luxPageSize]="10">
-                    <lux-table-column luxColumnDef="datum">
-                      <lux-table-column-header><ng-template>Datum</ng-template></lux-table-column-header>
-                      <lux-table-column-content><ng-template let-element>{{getTitle(element.datum)}}</ng-template></lux-table-column-content>
-                    </lux-table-column>
-                    <lux-table-column luxColumnDef="name">
-                      <lux-table-column-header><ng-template>Parkplatznummer</ng-template></lux-table-column-header>
-                      <lux-table-column-content><ng-template let-element>{{element.parkplatzKennung}}</ng-template></lux-table-column-content>
-                    </lux-table-column>
-                    
-                    <lux-table-column luxColumnDef="Preis">
-                      <lux-table-column-header><ng-template>Preis</ng-template></lux-table-column-header>
-                      <lux-table-column-content><ng-template let-element>{{element.tagespreis}},-</ng-template></lux-table-column-content>
-                    </lux-table-column>
-                    <lux-table-column luxColumnDef="Kennzeichen">
-                        <lux-table-column-header><ng-template>Kennzeichen</ng-template></lux-table-column-header>
-                        <lux-table-column-content><ng-template let-element><lux-select (luxSelectedChange)="saveKennzeichenForBuchung($event, element)" [luxReadonly]="!isDateBeforeToday(element.datum)" [luxOptions]="kennzeichen" luxOptionLabelProp="kennzeichen" [luxSelected]="getSelected(element)"></lux-select></ng-template></lux-table-column-content>
-                      </lux-table-column>
-                      
-                      <lux-table-column luxColumnDef="Löschen">
-                        <lux-table-column-header><ng-template></ng-template></lux-table-column-header>
-                        <lux-table-column-content><ng-template let-element><lux-button *ngIf="isDateBeforeToday(element.datum)" luxIconName="fas fa-trash" (luxClicked)="deleteBuchung(element)" luxColor="warn" [luxRounded]="true"></lux-button></ng-template></lux-table-column-content>
-                      </lux-table-column>
-                  </lux-table>
-        
-                </lux-card-content>
-            </lux-card>
-        
+<lux-layout-card-row [luxGap]="{ row: '30px', rowItem: '50px', column: '2px'}"
+  [luxMargin]="{ xs: '15%', lg: '15%', xl: '15%', marginLeft: true, marginRight: true}">
+  <lux-card luxTitle="Meine Buchungen"
+    luxSubTitle="Hier können alle Buchungen eingesehen werden und in der Zukunft liegende Buchungen gelöscht bzw das Kennzeichen geändert werden"
+    *luxLayoutRowItem="{}">
+    <lux-icon luxIconName="fas fa-calendar"></lux-icon>
+    <lux-card-content>
+      <lux-table [luxData]="buchungen" [luxShowPagination]="true"
+        [luxPageSize]="10">
+        <lux-table-column luxColumnDef="datum">
+          <lux-table-column-header><ng-template>Datum</ng-template></lux-table-column-header>
+          <lux-table-column-content><ng-template let-element>{{element.datum | paDate}}</ng-template></lux-table-column-content>
+        </lux-table-column>
+        <lux-table-column luxColumnDef="name">
+          <lux-table-column-header><ng-template>Parkplatznummer</ng-template></lux-table-column-header>
+          <lux-table-column-content>
+            <ng-template let-element>{{element.parkplatzKennung}}</ng-template></lux-table-column-content>
+        </lux-table-column>
+
+        <lux-table-column luxColumnDef="Preis">
+          <lux-table-column-header><ng-template>Preis</ng-template></lux-table-column-header>
+          <lux-table-column-content><ng-template let-element>{{element.tagespreis}},-</ng-template></lux-table-column-content>
+        </lux-table-column>
+        <lux-table-column luxColumnDef="Kennzeichen">
+          <lux-table-column-header><ng-template>Kennzeichen</ng-template></lux-table-column-header>
+          <lux-table-column-content>
+            <ng-template let-element>
+              <lux-select *ngIf="isDateBeforeToday(element.datum) && kennzeichen.length > 1"
+                (luxSelectedChange)="saveKennzeichenForBuchung($event, element)"
+                [luxOptions]="kennzeichen" luxOptionLabelProp="kennzeichen"
+                [luxSelected]="getSelected(element)">
+              </lux-select>
+
+              <lux-input *ngIf="!isDateBeforeToday(element.datum) || kennzeichen.length == 1"
+                [luxReadonly]="true"
+                [luxValue]="element.kennzeichen.kennzeichen">
+
+              </lux-input>
+            </ng-template>
+          </lux-table-column-content>
+        </lux-table-column>
+
+        <lux-table-column luxColumnDef="Löschen">
+          <lux-table-column-header><ng-template></ng-template></lux-table-column-header>
+          <lux-table-column-content>
+            <ng-template let-element>
+              <lux-button *ngIf="isDateBeforeToday(element.datum)"
+                luxIconName="fas fa-trash" (luxClicked)="deleteBuchung(element)"
+                luxColor="warn" [luxRounded]="true"></lux-button>
+            </ng-template>
+          </lux-table-column-content>
+        </lux-table-column>
+
+      </lux-table>
+    </lux-card-content>
+  </lux-card>
+</lux-layout-card-row>

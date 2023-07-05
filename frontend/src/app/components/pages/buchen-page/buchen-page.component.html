@@ -1,41 +1,72 @@
-<lux-layout>
-    <lux-layout-card-row [luxGap]="{ row: '2px', rowItem: '5px', column: '2px'}" [luxMargin]="{ xs: '5%', lg: '5%', xl: '5%', marginLeft: true, marginRight: true}">
-        <lux-card *luxLayoutRowItem="{}">
+<lux-layout *ngIf="selectedParkflaeche">
+    <lux-layout-card-row [luxGap]="{ row: '2px', rowItem: '5px', column: '2px'}"
+        [luxMargin]="{ xs: '5%', lg: '5%', xl: '5%', marginLeft: true, marginRight: true}">
+        <lux-card luxTagId="datum_ebene_auswahl" *luxLayoutRowItem="{}">
             <lux-card-content>
                 <lux-layout class="m70">
                     <lux-layout-form-row [luxGap]="{ row: '2px', rowItem: '25px', column: '10px'}">
-                        <lux-select luxLabel="Parkfläche" [(luxSelected)]="selectedParkanlage" [luxOptions]="parkanlagen" *luxLayoutRowItem="{ empty: true, colSpan: 2 }">
+                        <lux-select luxLabel="Parkfläche" [(luxSelected)]="selectedParkflaeche"
+                            [luxOptions]="parkflaechen" *luxLayoutRowItem="{ colSpan: 2 }">
                             <ng-template let-parkanlage>
-                                {{ parkanlage.parkhausBezeichnung }} - {{ parkanlage.parkflaecheBezeichnung}}
+                                {{ parkanlage.parkhausBezeichnung }} - {{
+                                parkanlage.parkflaecheBezeichnung}}
                             </ng-template>
                         </lux-select>
-                        <lux-datepicker luxLabel="Datum" [luxTouchUi]="true" [(luxValue)]="selectedDatum" luxPlaceholder="Bitte ein Datum auswählen" *luxLayoutRowItem="{ empty: true, colSpan: 2 }"></lux-datepicker>
-                        <div *luxLayoutRowItem="{ colSpan:2, empty: true }"></div>
+                        <lux-datepicker luxLabel="Datum" [luxTouchUi]="true" [luxValue]="selectedDatum"
+                            [luxMinDate]="minDate" [luxMaxDate]="maxDate"
+                            (luxValueChange)="onSelectedDatumChange($event)" [luxDisabled]="isAdmin"
+                            luxPlaceholder="Bitte ein Datum auswählen"
+                            *luxLayoutRowItem="{ colSpan: 2 }"></lux-datepicker>
+                        <div *luxLayoutRowItem="{ colSpan: 3, empty: true }"></div>
                     </lux-layout-form-row>
                 </lux-layout>
             </lux-card-content>
         </lux-card>
     </lux-layout-card-row>
-    <lux-layout-card-row [luxGap]="{ row: '2px', rowItem: '2px', column: '2px'}" [luxMargin]="{ xs: '5%', lg: '5%', xl: '5%', marginLeft: true, marginRight: true}">
-        <lux-card luxTitle="Karte D" *luxLayoutRowItem="{ colSpan: 4 }">
-            
-        </lux-card>
-        <lux-card *luxLayoutRowItem="{ colSpan: 2 }">
+    <lux-layout-card-row [luxGap]="{ row: '2px', rowItem: '2px', column: '2px'}"
+        [luxMargin]="{ xs: '5%', lg: '5%', xl: '5%', marginLeft: true, marginRight: true}">
+        <lux-card luxTagId="map" *luxLayoutRowItem="{ colSpan: 4 }" class="map-card">
             <lux-card-content>
-                <lux-layout>
-                    <lux-layout-card-row fxLayout="column" fxLayoutAlign="center"  [luxMargin]="{ xs: '1%', lg: '1%', xl: '1%', marginLeft: false, marginRight: false}">
-                        <lux-card luxTitle="Buchung" *luxLayoutRowItem="{}">
-                            <lux-card-content>
-                                <app-edit-list [items]="testData" [attributes]="testAttribs" [canDelete]="true" [canEdit]="false" [canAdd]="false" (onDelete)="onDelete($event)" (onAdd)="onAdd($event)"></app-edit-list>
-                            </lux-card-content>
-                        </lux-card>
-                    </lux-layout-card-row>
-                    <lux-layout-card-row fxLayout="column" fxLayoutAlign="start center" [luxMargin]="{ xs: '0.3%', lg: '0.3%', marginLeft: true, marginRight: true}">
-                        <lux-button [luxRaised]="true" luxLabel="Buchen" (luxClicked)="buchenParkanlage()" luxColor="primary" *luxLayoutRowItem="{}"></lux-button>
-                    </lux-layout-card-row>
-                </lux-layout>
-                
-            </lux-card-content>  
+                <app-map [date]="selectedDatum" [parkflaecheID]="selectedParkflaeche.parkflaecheID"
+                    (parkplatzSelected)="addSpotToBasket($event)"></app-map>
+            </lux-card-content>
         </lux-card>
+
+        <ng-container *ngIf="!isAdmin">
+            <lux-card luxTitle="Buchung Abschließen" *luxLayoutRowItem="{ colSpan: 3 }">
+                <lux-card-content>
+                    <div *ngFor="let buchung of abschlussBuchungen; index as i">
+                        <div style="margin-bottom: 10px;">
+                            <h4>{{buchung.parkplatzKennung}}</h4>
+                        </div>
+                        <lux-layout-form-row>
+                            <lux-datepicker luxLabel="Datum" [luxValue]="buchung.datum" [luxDisabled]="true"
+                                *luxLayoutRowItem="{}"></lux-datepicker>
+                            <!-- <lux-input luxLabel="Parkplatz" [luxValue]="buchung.parkplatzKennung" *luxLayoutRowItem="{}"></lux-input> -->
+                            <lux-select luxLabel="Kennzeichen" [luxOptions]="kennzeichenList"
+                                [luxSelected]="buchung['_selectedKennzeichen']" luxOptionLabelProp="kennzeichen"
+                                *luxLayoutRowItem="{}"></lux-select>
+                            <!-- <lux-button luxLabel="Löschen" [luxRaised]="true" luxColor="warn" *luxLayoutRowItem="{flex: 'none'}"></lux-button> -->
+                            <lux-button luxTagId="button_cancel_buchung" luxIconName="fa-trash"
+                                (luxClicked)="cancelBuchung(i)" *luxLayoutRowItem="{flex: 'none'}"></lux-button>
+                        </lux-layout-form-row>
+                    </div>
+
+                </lux-card-content>
+                <lux-card-actions>
+                    <lux-button [luxDisabled]="abschlussBuchungen.length === 0" [luxRaised]="true" luxLabel="Buchen"
+                        (luxClicked)="confirmBuchung()" luxColor="primary"></lux-button>
+                </lux-card-actions>
+            </lux-card>
+
+        </ng-container>
+
+        <ng-container *ngIf="isAdmin">
+            <lux-card luxTitle="Parkhaus und Parkfläche editieren" *luxLayoutRowItem="{colSpan:4}">
+                <lux-card-content>
+                    <app-admin-edit></app-admin-edit>
+                </lux-card-content>
+            </lux-card>
+        </ng-container>
     </lux-layout-card-row>
 </lux-layout>

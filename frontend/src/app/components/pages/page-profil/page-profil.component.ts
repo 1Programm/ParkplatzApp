@@ -11,39 +11,32 @@ import { ProfilServiceService } from 'src/app/services/profil-service.service';
   styleUrls: ['./page-profil.component.scss']
 })
 export class PageProfilComponent implements OnInit {
+  public attr = [
+    {name: 'kennzeichen', validator: this.kennzeichenValidator}
+  ];
 
-public attr = [
-  {name: 'kennzeichen', validator: this.kennzeichenValidator}
-]
-mitarbeiter: Mitarbeiter = {
-  id: 0,
-  vorname: '',
-  nachname: '',
-  mail: '',
-  kennzeichenList: [],
-  verstossList: []
-}
+  public mitarbeiter: Mitarbeiter;
 
+  public kennzeichenDeleteCallback: Function | undefined;
 
-public kennzeichenDeleteCallback: Function | undefined;
   constructor(private accountService: AccountService, private profilService: ProfilServiceService) {}
 
   ngOnInit(): void {
-    this.accountService.getMitarbeiterIDAsObservable().subscribe(mitarbeiterID => {
-      this.profilService.getMitarbeiter(mitarbeiterID).subscribe((data: Mitarbeiter) => {
-        this.mitarbeiter = data;   
-      });
+    let mitarbeiterID = this.accountService.getMitarbeiterID();
+
+    this.profilService.getMitarbeiter(mitarbeiterID).subscribe((data: Mitarbeiter) => {
+      this.mitarbeiter = data;
     });
   }
 
   public deleteKennzeichen(toDelete: any): void {
-      this.profilService.deleteKennzeichenFromMitarbeiter(toDelete.kennzeichenID).subscribe(updated => {
-        this.mitarbeiter = updated;
-      });
-    }
+    this.profilService.deleteKennzeichenFromMitarbeiter(this.mitarbeiter.mitarbeiterID, toDelete.kennzeichenID).subscribe(updated => {
+      this.mitarbeiter = updated;
+    });
+  }
     
   public saveKennzeichen(toSave: any) {
-    this.profilService.createKennzeichenForMitarbeiter(toSave.kennzeichen).subscribe(updated => {
+    this.profilService.createKennzeichenForMitarbeiter(this.mitarbeiter.mitarbeiterID, toSave.kennzeichen).subscribe(updated => {
       this.mitarbeiter = updated;
     });
   }
