@@ -1,6 +1,7 @@
 package com.gfi.parkplatzapp.backend.facade.dto;
 
 import com.gfi.parkplatzapp.backend.persistence.entities.DBImage;
+import com.gfi.parkplatzapp.backend.persistence.entities.Parkflaeche;
 import com.gfi.parkplatzapp.backend.persistence.entities.Parkhaus;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,6 +23,24 @@ public class ParkhausParkflaecheDto {
         Long parkflaecheID;
         String bezeichnung;
         DBImage image;
+
+
+        public static Parkflaeche createFromParkflaecheDto(ParkhausParkflaecheDto.ParkflaecheDto dto) {
+            Parkflaeche parkflaeche = new Parkflaeche();
+            parkflaeche.setParkflaecheID(dto.getParkflaecheID());
+            parkflaeche.setImage(dto.getImage());
+            parkflaeche.setBezeichnung(dto.getBezeichnung());
+            parkflaeche.setParkplatzList(null);
+            return parkflaeche;
+        }
+
+        public static ParkhausParkflaecheDto.ParkflaecheDto createFromParkflaeche(Parkflaeche parkflaeche) {
+            ParkhausParkflaecheDto.ParkflaecheDto parkflaecheDto = new ParkhausParkflaecheDto.ParkflaecheDto();
+            parkflaecheDto.setParkflaecheID(parkflaeche.getParkflaecheID());
+            parkflaecheDto.setBezeichnung(parkflaeche.getBezeichnung());
+            parkflaecheDto.setImage(parkflaeche.getImage());
+            return parkflaecheDto;
+        }
     }
 
     public static ParkhausParkflaecheDto createFromParkhaus(Parkhaus parkhaus) {

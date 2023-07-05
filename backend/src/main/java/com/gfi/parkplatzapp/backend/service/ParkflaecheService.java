@@ -19,6 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 @Slf4j
 @Service
 public class ParkflaecheService {
@@ -47,7 +49,6 @@ public class ParkflaecheService {
     }
 
     public void deleteParkflaeche(long parkflaecheID, long parkhausID) {
-
         Parkflaeche parkflaeche = getParkflaecheById(parkflaecheID);
         Parkhaus parkhaus = parkhausRepo.findById(parkhausID)
                 .orElseThrow(() -> new IllegalStateException("Could not find the Parkhaus with id [" + parkhausID + "]!"));
@@ -57,30 +58,27 @@ public class ParkflaecheService {
     }
 
     public ParkhausParkflaecheDto.ParkflaecheDto saveParkflaeche(long parkhausID, ParkhausParkflaecheDto.ParkflaecheDto _parkflaeche) {
+        Parkflaeche toSave;
+        if(_parkflaeche.getParkflaecheID() != null) {
+            toSave = parkflaecheRepo.findById(_parkflaeche.getParkflaecheID()).get();
+            toSave.setBezeichnung(_parkflaeche.getBezeichnung());
+            toSave.setImage(_parkflaeche.getImage());
+            parkflaecheRepo.save(toSave);
+        } else {
+            toSave = ParkhausParkflaecheDto.ParkflaecheDto.createFromParkflaecheDto(_parkflaeche);
+            parkflaecheRepo.save(toSave);
+            Parkhaus parkhaus = parkhausRepo.findById(parkhausID)
+                    .orElseThrow(() -> new IllegalStateException("Could not find the Parkhaus with id [" + parkhausID + "]!"));
+            parkhaus.getParkflaecheList().add(toSave);
+            parkhausRepo.save(parkhaus);
+        }
 
-        Parkflaeche parkflaeche = parkflaecheRepo.save(createFromParkflaecheDto(_parkflaeche));
-        Parkhaus parkhaus = parkhausRepo.findById(parkhausID)
-                .orElseThrow(() -> new IllegalStateException("Could not find the Parkhaus with id [" + parkhausID + "]!"));
-        parkhaus.getParkflaecheList().add(parkflaeche);
-        parkhausRepo.save(parkhaus);
-        return createFromParkflaeche(parkflaeche);
+
+
+        return ParkhausParkflaecheDto.ParkflaecheDto.createFromParkflaeche(toSave);
     }
 
-    private Parkflaeche createFromParkflaecheDto(ParkhausParkflaecheDto.ParkflaecheDto dto) {
-        Parkflaeche parkflaeche = new Parkflaeche();
-        parkflaeche.setImage(dto.getImage());
-        parkflaeche.setBezeichnung(dto.getBezeichnung());
-        parkflaeche.setParkplatzList(null);
-        return parkflaeche;
-    }
 
-    private ParkhausParkflaecheDto.ParkflaecheDto createFromParkflaeche(Parkflaeche parkflaeche) {
-        ParkhausParkflaecheDto.ParkflaecheDto parkflaecheDto = new ParkhausParkflaecheDto.ParkflaecheDto();
-        parkflaecheDto.setParkflaecheID(parkflaeche.getParkflaecheID());
-        parkflaecheDto.setBezeichnung(parkflaeche.getBezeichnung());
-        parkflaecheDto.setImage(parkflaeche.getImage());
-        return parkflaecheDto;
-    }
 
 
 }

@@ -32,7 +32,7 @@ export class BuchenPageComponent implements OnInit {
   constructor(private buchungService: BuchungService, private accountService: AccountService, private snackbarService: LuxSnackbarService) {}
 
   ngOnInit(): void {
-    // Abrufen der Parkfl
+    // Abrufen der Parkflächen
     this.loadParkflaeche();
     // Abrufen der Kennzeichen für den Mitarbeiter
     this.buchungService.getKennzeichenForMitarbeiter(this.mitarbeiterID).subscribe((data: Kennzeichen[]) => {
@@ -41,9 +41,8 @@ export class BuchenPageComponent implements OnInit {
 
   }
 
-  private loadParkflaeche(){
+  public loadParkflaeche(){
     this.buchungService.getParkflaechen().subscribe(parkflaechen => {
-      console.log("parkflaechen", parkflaechen)
       this.parkflaechen = [];
       for(let parkflaeche of parkflaechen){
         if(parkflaeche.parkflaecheBezeichnung != null) {
@@ -53,6 +52,7 @@ export class BuchenPageComponent implements OnInit {
       this.selectedParkflaeche = parkflaechen[0];
     });
   }
+
   private setupBuchungForUI(buchung: BuchungAbschlussDto){
     let kennzeichenObj = undefined;
     for(let kenn of this.kennzeichenList){
@@ -94,11 +94,5 @@ export class BuchenPageComponent implements OnInit {
       this.abschlussBuchungen = [];
       this.snackbarService.openText('Buchung erfolgreich!', 3000);
     });
-  }
-
-  public onParkflaecheChange(parkflaeche: any){
-    console.log("parkflaeche changed", parkflaeche)
-    this.loadParkflaeche();
-
   }
 }

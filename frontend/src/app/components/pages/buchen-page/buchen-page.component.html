@@ -1,4 +1,4 @@
-<lux-layout *ngIf="selectedParkflaeche">
+<lux-layout>
     <lux-layout-card-row [luxGap]="{ row: '2px', rowItem: '5px', column: '2px'}"
         [luxMargin]="{ xs: '5%', lg: '5%', xl: '5%', marginLeft: true, marginRight: true}">
         <lux-card luxTagId="datum_ebene_auswahl" *luxLayoutRowItem="{}">
@@ -6,7 +6,8 @@
                 <lux-layout class="m70">
                     <lux-layout-form-row [luxGap]="{ row: '2px', rowItem: '25px', column: '10px'}">
                         <lux-select luxLabel="Parkfläche" [(luxSelected)]="selectedParkflaeche"
-                            [luxOptions]="parkflaechen" *luxLayoutRowItem="{ colSpan: 2 }">
+                            [luxOptions]="parkflaechen" [luxDisabled]="selectedParkflaeche == undefined"
+                            *luxLayoutRowItem="{ colSpan: 2 }">
                             <ng-template let-parkanlage>
                                 {{ parkanlage.parkhausBezeichnung }} - {{
                                 parkanlage.parkflaecheBezeichnung}}
@@ -28,11 +29,12 @@
         <lux-card luxTagId="map" *luxLayoutRowItem="{ colSpan: 4 }" class="map-card">
             <lux-card-content>
                 <app-map [date]="selectedDatum" [parkflaecheID]="selectedParkflaeche.parkflaecheID"
-                    (parkplatzSelected)="addSpotToBasket($event)"></app-map>
+                    (parkplatzSelected)="addSpotToBasket($event)" *ngIf="selectedParkflaeche"></app-map>
             </lux-card-content>
         </lux-card>
 
         <ng-container *ngIf="!isAdmin">
+
             <lux-card luxTitle="Buchung Abschließen" *luxLayoutRowItem="{ colSpan: 3 }">
                 <lux-card-content>
                     <div *ngFor="let buchung of abschlussBuchungen; index as i">
@@ -58,13 +60,12 @@
                         (luxClicked)="confirmBuchung()" luxColor="primary"></lux-button>
                 </lux-card-actions>
             </lux-card>
-
         </ng-container>
 
         <ng-container *ngIf="isAdmin">
             <lux-card luxTitle="Parkhaus und Parkfläche editieren" *luxLayoutRowItem="{colSpan:4}">
                 <lux-card-content>
-                    <app-admin-edit (selectedParkhausChanged)="onParkflaecheChange($event)"></app-admin-edit>
+                    <app-admin-edit (selectedParkhausChanged)="loadParkflaeche()"></app-admin-edit>
                 </lux-card-content>
             </lux-card>
         </ng-container>

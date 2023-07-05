@@ -3,6 +3,7 @@ package com.gfi.parkplatzapp.backend.service;
 import com.gfi.parkplatzapp.backend.facade.dto.ParkhausEditierenDto;
 import com.gfi.parkplatzapp.backend.facade.dto.ParkhausParkflaecheDto;
 import com.gfi.parkplatzapp.backend.persistence.entities.Parkhaus;
+import com.gfi.parkplatzapp.backend.persistence.repos.ParkflaecheRepo;
 import com.gfi.parkplatzapp.backend.persistence.repos.ParkhausRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,10 @@ import java.util.List;
 public class ParkhausService {
     @Autowired
     ParkhausRepo parkhausRepo;
+
+    @Autowired
+    ParkflaecheRepo parkflaecheRepo;
+
     public List<ParkhausParkflaecheDto> getParkhaeuser() {
         List<ParkhausParkflaecheDto> parkhausDtoList = new ArrayList<>();
 
@@ -32,7 +37,11 @@ public class ParkhausService {
 
     public ParkhausEditierenDto saveParkhaus(ParkhausEditierenDto parkhausEditierenDto) {
        Parkhaus parkhaus = ParkhausEditierenDto.convertToParkhaus(parkhausEditierenDto);
-       Parkhaus res = parkhausRepo.save(parkhaus);
+       if(parkhausEditierenDto.getParkhausID() != null) {
+           Parkhaus old = parkhausRepo.findById(parkhausEditierenDto.getParkhausID()).get();
+           parkhaus.setParkflaecheList(old.getParkflaecheList());
+       }
+        Parkhaus res = parkhausRepo.save(parkhaus);
         return ParkhausEditierenDto.convertToDto(res);
     }
 

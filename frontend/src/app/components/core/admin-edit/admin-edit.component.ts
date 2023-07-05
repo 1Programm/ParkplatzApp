@@ -13,25 +13,21 @@ import { DialogConfigFactory } from 'src/app/utils/dialogConfigFactory';
   styleUrls: ['./admin-edit.component.scss']
 })
 export class AdminEditComponent implements OnInit {
-
-  constructor(private adminService: AdminService, private dialogService: LuxDialogService) { }
   @Output() selectedParkhausChanged = new EventEmitter<boolean>();
 
-
-  public parkhaeuser: ParkhausParkflaecheDto[]; 
+  public parkhaeuser: ParkhausParkflaecheDto[];
   public selectedImage: ILuxFileObject | undefined;
   public showNewParkflaeche: boolean;
   public newBezeichnung: string = "";
   public expanded: boolean[] = [];
-  public deleteConfig: ILuxFileActionConfig	= {
+  public deleteConfig: ILuxFileActionConfig = {
     disabled: true,
     hidden: true,
     iconName: 'fas fa-trash',
     label: 'Löschen'
-  }
+  };
 
-  
- public editParkhausDialogConfig: ILuxDialogPresetConfig = {
+  public editParkhausDialogConfig: ILuxDialogPresetConfig = {
     disableClose: true,
     width: 'auto',
     height: 'auto',
@@ -39,106 +35,111 @@ export class AdminEditComponent implements OnInit {
   };
 
   public attr = [
-    {name: 'bezeichnung'}
+    { name: 'bezeichnung' }
   ];
+
+  constructor(private adminService: AdminService, private dialogService: LuxDialogService) { }
+
   ngOnInit(): void {
-    this.adminService.getAllParkhausAndParkflaeche().subscribe(parkhaeuser => {this.parkhaeuser = parkhaeuser});
-    
+    this.adminService.getAllParkhausAndParkflaeche().subscribe(parkhaeuser => {
+      this.parkhaeuser = parkhaeuser;
+    });
   }
 
-  public saveParkflaeche(parkhaus, parkflaeche) {
+  public saveParkflaeche(parkhaus: any, parkflaeche: any) {
     this.adminService.saveParkflaeche(parkhaus.parkhausID, parkflaeche).subscribe(() => {
-      this.adminService.getAllParkhausAndParkflaeche().subscribe(parkhaeuser => {this.parkhaeuser = parkhaeuser});
+      this.adminService.getAllParkhausAndParkflaeche().subscribe(parkhaeuser => {
+        this.parkhaeuser = parkhaeuser;
+      });
     });
-    
+
     this.selectedParkhausChanged.emit(true);
   }
 
-  public deleteParkflaeche(parkhaus, parkflaeche) {
-    this.adminService.deleteParkflaeche(parkflaeche.parkflaecheID, parkhaus.parkhausID, ).subscribe(() => {
-      this.adminService.getAllParkhausAndParkflaeche().subscribe(parkhaeuser => {this.parkhaeuser = parkhaeuser});
-      
+  public deleteParkflaeche(parkhaus: any, parkflaeche: any) {
+    this.adminService.deleteParkflaeche(parkflaeche.parkflaecheID, parkhaus.parkhausID).subscribe(() => {
+      this.adminService.getAllParkhausAndParkflaeche().subscribe(parkhaeuser => {
+        this.parkhaeuser = parkhaeuser;
+      });
+
       this.selectedParkhausChanged.emit(true);
     });
-    
   }
 
-  public saveNewParkflaeche(parkhaus) {
+  public saveNewParkflaeche(parkhaus: any) {
     let toSave: ParkflaecheDto = {
       parkflaecheID: undefined,
       bezeichnung: this.newBezeichnung,
       image: null
-    }
-      this.adminService.saveParkflaeche(parkhaus.parkhausID, toSave).subscribe((parkflaeche) => {
-        
-        this.adminService.uploadImageForParkflaeche(parkflaeche.parkflaecheID, this.selectedImage?.content as Blob, this.selectedImage?.name).subscribe(() => {
-          this.adminService.getAllParkhausAndParkflaeche().subscribe(parkhaeuser => {this.parkhaeuser = parkhaeuser});
-          this.showNewParkflaeche = false;
-          this.newBezeichnung = "";
-          this.selectedImage = undefined;
+    };
+
+    this.adminService.saveParkflaeche(parkhaus.parkhausID, toSave).subscribe((parkflaeche) => {
+      this.adminService.uploadImageForParkflaeche(parkflaeche.parkflaecheID, this.selectedImage?.content as Blob, this.selectedImage?.name).subscribe(() => {
+        this.adminService.getAllParkhausAndParkflaeche().subscribe(parkhaeuser => {
+          this.parkhaeuser = parkhaeuser;
         });
-        
-      this.selectedParkhausChanged.emit(true);
+
+        this.showNewParkflaeche = false;
+        this.newBezeichnung = "";
+        this.selectedImage = undefined;
       });
-      
-  }
-  
-  public onSelectedFilesChange(parkflaeche: ParkflaecheDto, file: ILuxFileObject) {
-    this.adminService.uploadImageForParkflaeche(parkflaeche.parkflaecheID, file.content as Blob, file.name).subscribe(() => {
+
+      this.selectedParkhausChanged.emit(true);
     });
   }
 
+  public onSelectedFilesChange(parkflaeche: ParkflaecheDto, file: ILuxFileObject) {
+    this.adminService.uploadImageForParkflaeche(parkflaeche.parkflaecheID, file.content as Blob, file.name).subscribe(() => {});
+  }
+
   public saveParkhaus(parkhausID?: number) {
-    if(parkhausID === undefined) {
-    let toSave = {
+    if (parkhausID === undefined) {
+      let toSave = {
         parkhausID: undefined,
         bezeichnung: "",
         strasse: "",
         hausnummer: 0,
         plz: 0,
-        ort: "",
-      }
-      this.openParkhausDialog(toSave)
-    }
-    else {
+        ort: ""
+      };
+      this.openParkhausDialog(toSave);
+    } else {
       this.adminService.getParkhaus(parkhausID).subscribe(parkhaus => {
-        this.openParkhausDialog(parkhaus);});
-    
-      }
-      
-  
-    
-  }
-
-  public deleteParkhaus(parkhausID: number) {
-      // Öffnen eines Dialogs zur Bestätigung der Buchungslöschung
-      const dialogRef = this.dialogService.open(new DialogConfigFactory().setWidth('30%').setContent("Wollen Sie das Parkhaus inkl Parkhaus und Parkplätze wirklich löschen?").build());
-        dialogRef.dialogConfirmed.subscribe(() => {
-        this.adminService.deleteParkhaus(parkhausID).subscribe(() => {
-        this.adminService.getAllParkhausAndParkflaeche().subscribe(parkhaeuser => {
-            this.parkhaeuser = parkhaeuser;
-            this.selectedParkhausChanged.emit(true); 
-          });
-        });
+        this.openParkhausDialog(parkhaus);
       });
+    }
   }
 
-  openParkhausDialog(parkhaus: ParkhausEditierenDto) {
+  public openParkhausDialog(parkhaus: ParkhausEditierenDto) {
     const dialogRef = this.dialogService.openComponent(EditParkhausDialogComponent, this.editParkhausDialogConfig, parkhaus);
     dialogRef.dialogClosed.subscribe((result) => {
       if (result != null) {
-        this.adminService.saveParkhaus(parkhaus).subscribe(() =>
-        this.adminService.getAllParkhausAndParkflaeche().subscribe(parkhaeuser => {this.parkhaeuser = parkhaeuser}));
+        this.adminService.saveParkhaus(parkhaus).subscribe(() => {
+          this.adminService.getAllParkhausAndParkflaeche().subscribe(parkhaeuser => {
+            this.parkhaeuser = parkhaeuser;
+          });
+        });
+
         this.selectedParkhausChanged.emit(true);
       }
     });
   }
-  
 
+  public deleteParkhaus(parkhausID: number) {
+    // Öffnen eines Dialogs zur Bestätigung der Buchungslöschung
+    const dialogRef = this.dialogService.open(new DialogConfigFactory().setWidth('30%').setContent("Wollen Sie das Parkhaus inkl Parkhaus und Parkplätze wirklich löschen?").build());
+    dialogRef.dialogConfirmed.subscribe(() => {
+      this.adminService.deleteParkhaus(parkhausID).subscribe(() => {
+        this.adminService.getAllParkhausAndParkflaeche().subscribe(parkhaeuser => {
+          this.parkhaeuser = parkhaeuser;
+          this.selectedParkhausChanged.emit(true);
+        });
+      });
+    });
+  }
 
   public showNewParkflaecheRow() {
     this.showNewParkflaeche = true;
-
   }
 
   public isFilledOut() {
