@@ -9,15 +9,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @Slf4j
 public class VerstossService {
-
     @Autowired
     private MitarbeiterRepo mitarbeiterRepo;
-
     @Autowired
     private VerstossRepo verstossRepo;
 
@@ -37,10 +36,36 @@ public class VerstossService {
         return verstoss;
     }
 
-    public List<Verstoss> getVerstoesse(Long mitarbeiterID) {
+    public List<Verstoss> getVerstoesseForMitatbeiter(Long mitarbeiterID) {
         Mitarbeiter mitarbeiter = mitarbeiterRepo.findById(mitarbeiterID)
                 .orElseThrow(() -> new IllegalArgumentException("Mitarbeiter mit ID " + mitarbeiterID + " wurde nicht gefunden."));
 
         return mitarbeiter.getVerstossList();
+    }
+
+    public List<Verstoss> getAllVerstoesse() {
+        List<Verstoss> verstossList = new ArrayList<>();
+        Iterable<Mitarbeiter> mitarbeiterIterable = mitarbeiterRepo.findAll();
+
+        for(Mitarbeiter mitarbeiter : mitarbeiterIterable) {
+            List<Verstoss> verstosse = mitarbeiter.getVerstossList();
+            verstossList.addAll(verstosse);
+        }
+
+        return verstossList;
+    }
+    public Verstoss changeStatusForVerstoss(VerstossDto verstossDto) {
+        Verstoss verstoss = verstossRepo.findById(verstossDto.getMeldeID())
+                .orElseThrow(() -> new IllegalArgumentException("Verstoss mit ID " + verstossDto.getMeldeID() + " wurde nicht gefunden."));
+
+        Mitarbeiter mitarbeiter = mitarbeiterRepo.findByVerstossListContaining(verstoss);
+
+        mitarbeiter.getVerstossList().forEach(itemVerstoss -> {
+            if(itemVerstoss.getMeldeID() == verstoss.getMeldeID()) {
+                verstoss.setStatus(verstossDto.getStatus().getEnumValue());
+            }
+        });
+        mitarbeiterRepo.save(mitarbeiter);
+        return verstoss;
     }
 }
