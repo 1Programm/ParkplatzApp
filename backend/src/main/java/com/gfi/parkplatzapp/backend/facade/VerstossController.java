@@ -23,7 +23,17 @@ public class VerstossController {
     }
 
     @GetMapping(path = "/verstoesse/{mitarbeiterID}")
-    public List<Verstoss> getVerstoesse(@PathVariable("mitarbeiterID") Long mitarbeiterID) {
-        return this.verstossService.getVerstoesse(mitarbeiterID);
+    public List<Verstoss> getVerstoesseForMitatbeiter(@PathVariable("mitarbeiterID") Long mitarbeiterID) {
+        return this.verstossService.getVerstoesseForMitatbeiter(mitarbeiterID);
+    }
+
+    @GetMapping(path = "/verstoesse")
+    public List<Verstoss> getAllVerstoesse() {
+        return this.verstossService.getAllVerstoesse();
+    }
+
+    @PostMapping(path = "/updateStatus", consumes = "application/json")
+    public Verstoss changeStatusForVerstoss(@RequestBody VerstossDto verstossDto) {
+        return verstossService.changeStatusForVerstoss(verstossDto);
     }
 }
