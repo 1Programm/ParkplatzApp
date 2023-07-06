@@ -8,7 +8,6 @@ import { AccountService } from 'src/app/services/account.service';
 import { BuchungService } from 'src/app/services/buchung.service';
 import { MarkerDialogComponent } from '../../dialogs/marker-dialog/marker-dialog.component';
 import { AdminService } from 'src/app/services/admin.service';
-import { ImageUtils } from 'src/app/utils/image.utils';
 
 
 @Component({
@@ -16,15 +15,17 @@ import { ImageUtils } from 'src/app/utils/image.utils';
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
-export class MapComponent implements OnInit, OnChanges {
+export class MapComponent implements OnInit {
   public showNewMarker = false;
   public newMarkerX = 0;
   public newMarkerY = 0;
-  public image;
+  public isAdmin = this.accountService.isAdmin;
 
-  @Input() date: Date;
-  @Input() parkflaecheID: number;
-  @Output() parkplatzSelected = new EventEmitter<Parkplatz>();
+  @Input() marker: ParkplatzMitStatusDto[];
+  @Input() image: any;
+  @Output() onParkplatzToBasket = new EventEmitter<Parkplatz>();
+  @Output() onMarkerDeleted = new EventEmitter<number>();
+  @Output() onMarkerChanged = new EventEmitter<Parkplatz>();
 
   dialogConfig: ILuxDialogPresetConfig = {
     disableClose: true,
@@ -33,46 +34,13 @@ export class MapComponent implements OnInit, OnChanges {
     panelClass: []
   };
 
-  alleParkplaetze: Parkplatz[];
-  parkplaetzeForDate: ParkplatzMitStatusDto[];
-  isAdmin = this.accountService.isAdmin;
 
   constructor(
     private dialogService: LuxDialogService,
-    private buchungService: BuchungService,
-    private accountService: AccountService,
-    private adminService: AdminService
+    private accountService: AccountService
   ) {}
 
-  ngOnInit(): void {
-    this.reloadData();
-  }
-
-  ngOnChanges(): void {
-    this.reloadData();
-  }
-
-  reloadData(): void {
-    if(this.date === undefined) return;
-
-    this.adminService.getImageForParkflaeche(this.parkflaecheID).subscribe(image => {
-      ImageUtils.readAsDataUrl(image).subscribe(image => {
-        this.image = image;
-      });
-    })
-    if (this.isAdmin) {
-      this.buchungService.getParkplaetzeOfParkflaeche(this.parkflaecheID).subscribe((data) => {
-        this.alleParkplaetze = data;
-      });
-    } else {
-      // const datum = new Date(this.date).toLocaleDateString();
-      console.log(this.date, this.date.toLocaleDateString());
-
-      this.buchungService.getParkplaetzeOfParkflaecheAndDate(this.parkflaecheID, this.date).subscribe((data) => {
-        this.parkplaetzeForDate = data;
-      });
-    }
-  }
+  ngOnInit(): void {}
 
  
   //wird ausgeführt, wenn der User auf einen Marker klickt
@@ -82,7 +50,7 @@ export class MapComponent implements OnInit, OnChanges {
 
     dialogRef.dialogClosed.subscribe((result: Parkplatz) => {
       if (result != null) {
-        this.parkplatzSelected.emit(result);
+        this.onParkplatzToBasket.emit(result);
       }
       this.showNewMarker = false;
     });
@@ -97,16 +65,9 @@ export class MapComponent implements OnInit, OnChanges {
     dialogRef.dialogClosed.subscribe((result) => {
       if (result != null) {
         if (result.nummer == undefined) {
-          this.adminService.deleteParkplatz(result).subscribe((parkplatz) => {
-            if (parkplatz != null) {
-              this.reloadData();
-            }
-          });
+          this.onMarkerDeleted.emit(result);
         } else {
-          newSpot = result;
-          this.adminService.saveParkplatz(newSpot, this.parkflaecheID).subscribe((parkplaetze) => {
-            this.alleParkplaetze = parkplaetze;
-          });
+         this.onMarkerChanged.emit(result);
         }
       }
       this.showNewMarker = false;
@@ -132,18 +93,16 @@ export class MapComponent implements OnInit, OnChanges {
       newSpot = result;
       newSpot.xkoordinate = this.newMarkerX;
       newSpot.ykoordinate = this.newMarkerY;
-      this.adminService.saveParkplatz(newSpot, this.parkflaecheID).subscribe((parkplaetze) => {
-        this.alleParkplaetze = parkplaetze;
-      });
-
+      this.onMarkerChanged.emit(newSpot);
+      
       this.showNewMarker = false;
     });
   }
 
-  getPositionStyle(spot: Parkplatz): any {
+  getPositionStyle(spot: ParkplatzMitStatusDto): any {
     return {
-      left: `${spot.xkoordinate}px`,
-      top: `${spot.ykoordinate}px`
+      left: `${spot.parkplatz.xkoordinate}px`,
+      top: `${spot.parkplatz.ykoordinate}px`
     };
   }
 
@@ -154,10 +113,6 @@ export class MapComponent implements OnInit, OnChanges {
     return 'red';
   }
 
-  toParkplatzMitStatusDto(spot: Parkplatz): ParkplatzMitStatusDto {
-    return {
-      parkplatz: spot,
-      status: undefined
-    };
-  }
+  
+  
 }

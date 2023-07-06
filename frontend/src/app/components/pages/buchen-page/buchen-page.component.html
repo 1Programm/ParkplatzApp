@@ -6,7 +6,7 @@
                 <lux-layout class="m70">
                     <lux-layout-form-row [luxGap]="{ row: '2px', rowItem: '25px', column: '10px'}">
                         <lux-select luxLabel="Parkfläche" [(luxSelected)]="selectedParkflaeche"
-                            [luxOptions]="parkflaechen" [luxDisabled]="selectedParkflaeche == undefined"
+                            [luxOptions]="parkflaechen" [luxDisabled]="selectedParkflaeche == undefined" (luxSelectedChange)="loadMarker()"
                             *luxLayoutRowItem="{ colSpan: 2 }">
                             <ng-template let-parkanlage>
                                 {{ parkanlage.parkhausBezeichnung }} - {{
@@ -28,8 +28,7 @@
         [luxMargin]="{ xs: '5%', lg: '5%', xl: '5%', marginLeft: true, marginRight: true}">
         <lux-card luxTagId="map" *luxLayoutRowItem="{ colSpan: 4 }" class="map-card">
             <lux-card-content>
-                <app-map [date]="selectedDatum" [parkflaecheID]="selectedParkflaeche.parkflaecheID"
-                    (parkplatzSelected)="addSpotToBasket($event)" *ngIf="selectedParkflaeche"></app-map>
+                <app-map [marker]="marker" [image]="image" (onMarkerChanged)="onMarkerChanged($event)" (onMarkerDeleted)="onMarkerDeleted($event)" (onParkplatzToBasket)="addParkplatzToBasket($event)" *ngIf="selectedParkflaeche"></app-map>
             </lux-card-content>
         </lux-card>
 
