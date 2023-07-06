@@ -28,13 +28,19 @@ import { PageHomeComponent } from './components/pages/page-home/page-home.compon
 import { PageErrorComponent } from './components/pages/page-error/page-error.component';
 import { BuchenPageComponent } from './components/pages/buchen-page/buchen-page.component';
 import { PageProfilComponent } from './components/pages/page-profil/page-profil.component';
-import { PageTestComponent } from './components/pages/page-test/page-test.component';
 import { EditListComponent } from './components/core/edit-list/edit-list.component';
 import { PageBuchungsuebersichtComponent } from './components/pages/page-buchungsuebersicht/page-buchungsuebersicht.component';
 import { MapComponent } from './components/core/map/map.component';
-import { PageVerstossComponent } from './components/pages/page-verstoss/page-verstoss.component';
 import { MarkerDialogComponent } from './components/dialogs/marker-dialog/marker-dialog.component';
+import { AdminEditComponent } from './components/core/admin-edit/admin-edit.component';
+import { PageVerstossComponent } from './components/pages/page-verstoss/page-verstoss.component';
 import { JsonDateInterceptor } from './interceptors/json-date.interceptor';
+import { PageBuchungsuebersichtAdminComponent } from './components/pages/page-buchungsuebersicht-admin/page-buchungsuebersicht-admin.component';
+import { ParkplatzDatePipe } from './pipes/pa-date.pipe';
+import { BuchungsuebersichtAdminViewDateComponent } from './components/pages/page-buchungsuebersicht-admin/view-date/view-date.component';
+import { BuchungsuebersichtAdminViewAllComponent } from './components/pages/page-buchungsuebersicht-admin/view-all/view-all.component';
+import { BuchungsuebersichtAdminViewMitarbeiterComponent } from './components/pages/page-buchungsuebersicht-admin/view-mitarbeiter/view-mitarbeiter.component';
+import { EditParkhausDialogComponent } from './components/dialogs/edit-parkhaus-dialog/edit-parkhaus-dialog.component';
 
 registerLocaleData(localeDE, localeDeExtra);
 
@@ -47,15 +53,21 @@ const luxComponentsConfig: LuxComponentsConfigParameters = {
     AppComponent,
     PageHomeComponent,
     PageErrorComponent,
-    PageTestComponent,
     PageProfilComponent,
     EditListComponent,
     PageBuchungsuebersichtComponent,
     EditListComponent,
     BuchenPageComponent,
     MapComponent,
-    PageVerstossComponent,
     MarkerDialogComponent,
+    PageBuchungsuebersichtAdminComponent,
+    ParkplatzDatePipe,
+    BuchungsuebersichtAdminViewDateComponent,
+    BuchungsuebersichtAdminViewAllComponent,
+    BuchungsuebersichtAdminViewMitarbeiterComponent,
+    AdminEditComponent,
+    PageVerstossComponent,
+    EditParkhausDialogComponent
   ],
   imports: [
     BrowserModule,

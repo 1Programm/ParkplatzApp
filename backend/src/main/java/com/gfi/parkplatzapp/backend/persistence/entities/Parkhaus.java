@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,7 +20,7 @@ public class Parkhaus {
     private Long parkhausID;
 
     private String bezeichnung;
-    private String straße;
+    private String strasse;
     private int hausnummer;
     private int plz;
     private String ort;

@@ -87,29 +87,7 @@ public class BuchungController {
         return this.buchungService.getPreiskategorien();
     }
 
-    /**
-     * Speichert einen Parkplatz und gibt die aktualisierte Liste von Parkplätzen zurück.
-     *
-     * @param parkflaecheID Die ID der Parkfläche.
-     * @param parkplatz     Der zu speichernde Parkplatz.
-     * @return Die aktualisierte Liste von Parkplätzen.
-     */
-    @PostMapping(path = "/parkplatz/{parkflaecheID}")
-    public List<Parkplatz> saveParkplatz(@PathVariable("parkflaecheID") Long parkflaecheID, @RequestBody Parkplatz parkplatz) {
-        return parkplatzService.saveParkplatz(parkplatz, parkflaecheID);
-    }
 
-    /**
-     * Löscht einen Parkplatz und gibt den gelöschten Parkplatz zurück.
-     *
-     * @param parkplatzID Die ID des zu löschenden Parkplatzes.
-     * @return Der gelöschte Parkplatz.
-     */
-    @DeleteMapping(path = "/parkplatz/{parkplatzID}")
-    public Parkplatz deleteParkplatz(@PathVariable Long parkplatzID) {
-
-        return parkplatzService.deleteParkplatz(parkplatzID);
-    }
 
     @GetMapping("/{mitarbeiterID}")
     public List<BuchungDetailsDto> getBuchungenForMitarbeiter(@PathVariable("mitarbeiterID") Long mitarbeiterID)

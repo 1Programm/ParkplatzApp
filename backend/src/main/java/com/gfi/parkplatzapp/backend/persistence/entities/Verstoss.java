@@ -1,10 +1,6 @@
 package com.gfi.parkplatzapp.backend.persistence.entities;
 
-import com.gfi.parkplatzapp.backend.util.VerstossStatus;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,6 +19,7 @@ public class Verstoss {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long meldeID;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private Date datum;
     private String bemerkung;
     private String status;

@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { Kennzeichen } from '../facade/Kennzeichen';
 import { AccountService } from './account.service';
 import { ServiceBase } from './service-utils';
+import { BuchungUebersichtDto } from '../facade/dto/BuchungUebersichtDto';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,24 @@ export class BuchungsuebersichtService extends ServiceBase {
 
   constructor(private http: HttpClient, private accountService: AccountService) {
     super();
+  }
+  
+  public getAllBuchungen(): Observable<BuchungUebersichtDto[]> {
+    return this.wrapRetryAndCatchError(
+      this.http.get<BuchungUebersichtDto[]>(`${environment.apiServerUrl}/buchungen/all`)
+    );
+  }
+
+  public getAllBuchungenMappedByDatum(): Observable<any> {
+    return this.wrapRetryAndCatchError(
+      this.http.get<BuchungUebersichtDto[]>(`${environment.apiServerUrl}/buchungen/all/datum`)
+    );
+  }
+
+  public getAllBuchungenMappedByMitarbeiter(): Observable<any> {
+    return this.wrapRetryAndCatchError(
+      this.http.get<BuchungUebersichtDto[]>(`${environment.apiServerUrl}/buchungen/all/mitarbeiter`)
+    );
   }
 
   public getBuchungenForMitarbeiter(mitarbeiterID: number): Observable<BuchungDto[]> {

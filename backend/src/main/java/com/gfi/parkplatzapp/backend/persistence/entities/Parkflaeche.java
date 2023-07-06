@@ -1,12 +1,8 @@
 package com.gfi.parkplatzapp.backend.persistence.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -14,6 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class Parkflaeche {
 
     @Id
@@ -21,6 +18,10 @@ public class Parkflaeche {
     private Long parkflaecheID;
 
     private String bezeichnung;
+
+    @ManyToOne
+    private DBImage image;
+
     @OneToMany
     private List<Parkplatz> parkplatzList;
 

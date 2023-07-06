@@ -4,7 +4,6 @@ import { Kennzeichen } from 'src/app/facade/Kennzeichen';
 import { BuchungDto } from 'src/app/facade/dto/BuchungDto';
 import { AccountService } from 'src/app/services/account.service';
 import { BuchungsuebersichtService } from 'src/app/services/buchungsuebersicht.service';
-import { DateUtils } from 'src/app/utils/date.utils';
 import { DialogConfigFactory } from 'src/app/utils/dialogConfigFactory';
 
 @Component({
@@ -62,11 +61,6 @@ export class PageBuchungsuebersichtComponent implements OnInit {
   isDateBeforeToday(date): boolean {
     // Überprüfen, ob das Datum vor dem heutigen Datum liegt
     return new Date(date).valueOf() > new Date().valueOf();
-  }
-
-  getTitle(date: Date): string {
-    // Formatieren des Datums im gewünschten Format
-    return DateUtils.toVisibleString(date);
   }
 
   getSelected(buchung: BuchungDto) {

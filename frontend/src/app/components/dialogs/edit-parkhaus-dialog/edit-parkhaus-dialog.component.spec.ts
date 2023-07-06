@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PageTestComponent } from './page-test.component';
+import { EditParkhausComponent } from './edit-parkhaus-dialog.component';
 
-describe('PageTestComponent', () => {
-  let component: PageTestComponent;
-  let fixture: ComponentFixture<PageTestComponent>;
+describe('EditParkhausComponent', () => {
+  let component: EditParkhausComponent;
+  let fixture: ComponentFixture<EditParkhausComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PageTestComponent ]
+      declarations: [ EditParkhausComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(PageTestComponent);
+    fixture = TestBed.createComponent(EditParkhausComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -71,6 +71,15 @@ export class AccountService {
     return this.account.name;
   }
 
+  public get roleName(): string {
+    if(this.isAdmin){
+      return "(Admin) " + this.name;
+    }
+    else {
+      return this.name;
+    }
+  }
+
   public getMitarbeiterID(): number {
     return this.account.mitarbeiterId;
   }

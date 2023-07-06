@@ -55,11 +55,6 @@ export class BuchungService extends ServiceBase{
     );
   }
 
-  public saveParkplatz(parkplatz: Parkplatz, parkflaecheID: number): Observable<Parkplatz[]> {
-    return this.wrapRetryAndCatchError(
-      this.http.post<Parkplatz[]>(`${environment.apiServerUrl}/buchung/parkplatz/${parkflaecheID}`, parkplatz)
-    );
-  }
 
   public getBuchungenForMitarbeiter(mitarbeiterID: number): Observable<BuchungDto[]> {
       return this.wrapRetryAndCatchError(
@@ -83,8 +78,4 @@ export class BuchungService extends ServiceBase{
     );
   }
 
-  public deleteParkplatz(parkplatzID: number): Observable<Parkplatz> {
-    return this.wrapRetryAndCatchError(this.http.delete<Parkplatz>(`${environment.apiServerUrl}/buchung/parkplatz/${parkplatzID}`)
-    );
-  }
 }

@@ -1,7 +1,6 @@
 package com.gfi.parkplatzapp.backend.facade;
 
 import com.gfi.parkplatzapp.backend.persistence.entities.Buchung;
-import com.gfi.parkplatzapp.backend.persistence.entities.Kennzeichen;
 import com.gfi.parkplatzapp.backend.persistence.entities.Mitarbeiter;
 import com.gfi.parkplatzapp.backend.service.BuchungService;
 import com.gfi.parkplatzapp.backend.service.MitarbeiterService;
@@ -58,7 +57,7 @@ public class ProfildatenController {
      * @param kennzeichen das Kennzeichen, das erstellt werden soll
      * @return der aktualisierte Mitarbeiter nach dem Hinzufügen des Kennzeichens
      */
-    @PostMapping(path = "/{mitarbeiterID}", consumes = "application/json")
+    @PostMapping(path = "/{mitarbeiterID}")
     public Mitarbeiter createKennzeichenForMitarbeiter(@PathVariable long mitarbeiterID, @RequestBody String kennzeichen)
     {
         return mitarbeiterService.createKennzeichenForMitarbeiter(mitarbeiterID, kennzeichen);

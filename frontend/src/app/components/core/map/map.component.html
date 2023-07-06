@@ -1,5 +1,6 @@
 
 <div class="parking-map" (click)="handleMapClick($event)">
+  <img [src]="image" [ngStyle]="{ 'max-width.px': 500, 'max-height.px': 500 }">
   <div class="marker" *ngFor="let spot of parkplaetzeForDate" [style.background-color]="getMarkerColor(spot)" [ngStyle]="getPositionStyle(spot.parkplatz)" (click)="handleUserMarkerClick($event, spot)">
   </div>
 

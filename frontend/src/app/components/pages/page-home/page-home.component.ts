@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Parkplatz } from 'src/app/facade/Parkplatz';
-import { BuchungService } from 'src/app/services/buchung.service';
 
 @Component({
   selector: 'app-home',
@@ -9,10 +7,9 @@ import { BuchungService } from 'src/app/services/buchung.service';
 })
 export class PageHomeComponent implements OnInit {
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
-
   }
 
 }
