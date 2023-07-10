@@ -14,7 +14,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class VerstossDto {
-    private Long verstossID;
+    private Long meldeID;
     private Long mitarbeiterID;
     private Date datum;
     private String bemerkung;

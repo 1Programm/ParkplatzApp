@@ -32,9 +32,13 @@
       luxLabel="Meine Buchungen"
       luxTagId="project-side-nav-item"
       luxIconName="fas fa-calendar"
-      (luxClicked)="router.navigate(['/buchungen'])"
-      *ngIf="!accountService.isAdmin"
-      >
+      (luxClicked)="router.navigate(['/buchungen'])">
+      </lux-side-nav-item>
+      <lux-side-nav-item
+      luxLabel="Verstöße"
+      luxTagId="project-side-nav-item"
+      luxIconName="fas fa-window-close"
+      (luxClicked)="router.navigate(['/verstoss'])">
       </lux-side-nav-item>
       <lux-side-nav-item
       luxLabel="Alle Buchungen"
