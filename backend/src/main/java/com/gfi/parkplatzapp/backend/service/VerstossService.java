@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -51,6 +52,11 @@ public class VerstossService {
             List<Verstoss> verstosse = mitarbeiter.getVerstossList();
             verstossList.addAll(verstosse);
         }
+
+        verstossList.sort(Comparator
+                .comparing((Verstoss verstoss) -> verstoss.getStatus().equals("Abgeschlossen"))
+                .reversed()
+                .thenComparing(Verstoss::getDatum));
 
         return verstossList;
     }

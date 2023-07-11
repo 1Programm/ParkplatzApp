@@ -74,16 +74,9 @@ export class PageVerstossComponent implements OnInit {
     }
     verstoss.status = status;
     this.verstossService.changeStatusForVerstoss(verstoss).subscribe(() => {
-      console.log(verstoss);
-      
       this.snackbarService.openText("Statusänderung wurde gespeichert.", 2000);
+      this.getAllVerstoesse();
     });
-    
-    // Speichern der Kennzeichenänderung für die Buchung
-    // this.buchungenService.saveKennzeichenForBuchung(buchung.buchungID, kennzeichen.kennzeichenID).subscribe(buchungen => {
-    //   this.buchungen = buchungen;
-    //   this.snackbar.openText("Kennzeichenänderung wurde gespeichert.", 2000);
-    // });
   }
 
   getSelected(verstoss: VerstossDto) : VerstossStatus {
