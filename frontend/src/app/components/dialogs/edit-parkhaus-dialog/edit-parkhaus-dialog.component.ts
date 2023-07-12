@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { LuxDialogRef } from '@ihk-gfi/lux-components';
 import { ParkhausEditierenDto } from 'src/app/facade/dto/ParkhausEditierenDto';
 import { ParkhausParkflaecheDto } from 'src/app/facade/dto/ParkhausParkflaecheDto';
+
 
 @Component({
   selector: 'app-edit-parkhaus-dialog',
@@ -10,8 +11,10 @@ import { ParkhausParkflaecheDto } from 'src/app/facade/dto/ParkhausParkflaecheDt
 })
 
 
-export class EditParkhausDialogComponent implements OnInit {
+export class EditParkhausDialogComponent implements OnInit, AfterViewInit {
   public parkhaus: ParkhausEditierenDto;
+  
+  
   constructor(public luxDialogRef: LuxDialogRef) { }
 
   ngOnInit(): void {
@@ -21,7 +24,12 @@ export class EditParkhausDialogComponent implements OnInit {
 
   }
 
+  ngAfterViewInit() {
+  }
 
 
+  public AddressChange(address: any) {
+    console.log(address);
+    }
 
 }

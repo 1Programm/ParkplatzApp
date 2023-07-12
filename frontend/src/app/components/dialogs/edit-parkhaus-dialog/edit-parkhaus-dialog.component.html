@@ -15,6 +15,7 @@
         <lux-layout-form-row>
           <lux-input luxLabel="Ort" [(luxValue)]="parkhaus.ort" *luxLayoutRowItem="{}"></lux-input>
           <lux-input luxLabel="Plz" [(luxValue)]="parkhaus.plz" *luxLayoutRowItem="{}"></lux-input>
+          <input ngx-google-places-autocomplete (onAddressChange)="AddressChange($event)" *luxLayoutRowItem="{}"/>
         </lux-layout-form-row>
       </div>
     </lux-dialog-content>

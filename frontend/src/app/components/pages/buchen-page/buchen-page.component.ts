@@ -44,8 +44,6 @@ export class BuchenPageComponent implements OnInit {
     this.buchungService.getKennzeichenForMitarbeiter(this.mitarbeiterID).subscribe((data: Kennzeichen[]) => {
       this.kennzeichenList = data;
     });
-
-
   }
 
   public loadParkflaeche(){
@@ -127,7 +125,7 @@ export class BuchenPageComponent implements OnInit {
       });
     } else {
       this.buchungService.getParkplaetzeOfParkflaecheAndDate(this.selectedParkflaeche.parkflaecheID, this.selectedDatum).subscribe((data) => {
-        this.marker = data;
+         this.marker = data;
       });
     }
   }

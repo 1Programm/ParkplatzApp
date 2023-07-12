@@ -65,7 +65,8 @@
               "hammerjs",
               "ng2-pdf-viewer",
               "pdfjs-dist",
-              "dompurify"
+              "dompurify",
+              "ngx-google-places-autocomplete"
             ]
           },
           "configurations": {

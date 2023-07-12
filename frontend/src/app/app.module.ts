@@ -41,6 +41,8 @@ import { BuchungsuebersichtAdminViewDateComponent } from './components/pages/pag
 import { BuchungsuebersichtAdminViewAllComponent } from './components/pages/page-buchungsuebersicht-admin/view-all/view-all.component';
 import { BuchungsuebersichtAdminViewMitarbeiterComponent } from './components/pages/page-buchungsuebersicht-admin/view-mitarbeiter/view-mitarbeiter.component';
 import { EditParkhausDialogComponent } from './components/dialogs/edit-parkhaus-dialog/edit-parkhaus-dialog.component';
+import { GooglePlaceModule } from "ngx-google-places-autocomplete";
+
 
 registerLocaleData(localeDE, localeDeExtra);
 
@@ -85,6 +87,8 @@ const luxComponentsConfig: LuxComponentsConfigParameters = {
     LuxErrorModule,
     LuxMarkdownModule,
     FlexLayoutModule,
+    GooglePlaceModule,
+
     LuxComponentsConfigModule.forRoot(luxComponentsConfig)
   ],
   providers: [
