@@ -101,8 +101,13 @@ export class BuchenPageComponent implements OnInit {
   }
 
   public cancelBuchung(index: number){
+    for(let marker of this.marker){
+      if(marker.parkplatz.parkplatzID === this.abschlussBuchungen[index].parkplatz.parkplatzID){
+        marker.status = "FREI";
+      }
+    }
     this.abschlussBuchungen.splice(index, 1);
-    this.marker[index].status = "FREI";
+  
   }
 
   public confirmBuchung(){
