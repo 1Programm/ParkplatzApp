@@ -3,7 +3,7 @@
     <lux-card luxTagId="datum_ebene_auswahl">
         <lux-card-content>
             <lux-layout-form-row>
-                <lux-select luxLabel="Parkfläche" [(luxSelected)]="selectedParkflaeche"
+                <lux-select luxLabel="Parkfläche" [(luxSelected)]="selectedParkflaeche" (luxSelectedChange)="onSelectedParkflaecheChange()"
                     [luxOptions]="parkflaechen" [luxDisabled]="selectedParkflaeche == undefined"
                     *luxLayoutRowItem="{ }">
                     <ng-template let-parkanlage>

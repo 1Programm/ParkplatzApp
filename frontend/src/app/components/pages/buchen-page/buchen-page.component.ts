@@ -81,14 +81,19 @@ export class BuchenPageComponent implements OnInit {
     this.loadMarker();
   }
 
-  public addParkplatzToBasket(parkplatz: Parkplatz) {
+  public  onSelectedParkflaecheChange(){
+    this.loadMarker();
+  }
+
+  public addParkplatzToBasket(parkplatz: ParkplatzMitStatusDto) {
     let newBuchung: BuchungAbschlussDto = {
-      parkplatzKennung: this.selectedParkflaeche.parkhausBezeichnung + "-" + this.selectedParkflaeche.parkflaecheBezeichnung + "-" + parkplatz.nummer,
+      parkplatzKennung: this.selectedParkflaeche.parkhausBezeichnung + "-" + this.selectedParkflaeche.parkflaecheBezeichnung + "-" + parkplatz.parkplatz.nummer,
       datum: this.selectedDatum,
       kennzeichen: this.kennzeichenList[0],
-      parkplatz: parkplatz,
+      parkplatz: parkplatz.parkplatz,
       mitarbeiterID: this.mitarbeiterID
     }
+  
 
     this.setupBuchungForUI(newBuchung);
 
@@ -97,6 +102,7 @@ export class BuchenPageComponent implements OnInit {
 
   public cancelBuchung(index: number){
     this.abschlussBuchungen.splice(index, 1);
+    this.marker[index].status = "FREI";
   }
 
   public confirmBuchung(){
@@ -128,8 +134,19 @@ export class BuchenPageComponent implements OnInit {
     } else {
       this.buchungService.getParkplaetzeOfParkflaecheAndDate(this.selectedParkflaeche.parkflaecheID, this.selectedDatum).subscribe((data) => {
         this.marker = data;
+        for(let buchung of this.abschlussBuchungen){
+          this.marker.forEach((marker) => {
+            
+            if(marker.parkplatz.parkplatzID === buchung.parkplatz.parkplatzID) {
+              console.log("marker: " + marker.parkplatz.parkplatzID + " buchung: " + buchung.parkplatz.parkplatzID)
+              marker.status = "BELEGT";
+            }
+        });
+      }
       });
     }
+
+
   }
 
   public onMarkerChanged(parkplatz: Parkplatz) {
