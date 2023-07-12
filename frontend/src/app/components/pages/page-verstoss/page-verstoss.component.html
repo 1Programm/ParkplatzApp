@@ -1,5 +1,5 @@
 <lux-layout>
-    <lux-layout-card-row [luxGap]="{ row: '2px', rowItem: '5px', column: '2px'}" [luxMargin]="{ xs: '5%', lg: '5%', xl: '5%', marginLeft: true, marginRight: true}">
+    <lux-layout-card-row *ngIf="!isAdmin" [luxGap]="{ row: '2px', rowItem: '5px', column: '2px'}" [luxMargin]="{ xs: '5%', lg: '5%', xl: '5%', marginLeft: true, marginRight: true}">
         <lux-card luxTitle="Verstoß melden" *luxLayoutRowItem="{}">
             <lux-card-content>
                 <lux-layout-form-row>
@@ -15,10 +15,10 @@
             </lux-card-actions>
         </lux-card>
     </lux-layout-card-row>
-    <lux-layout-card-row [luxGap]="{ row: '2px', rowItem: '5px', column: '2px'}" [luxMargin]="{ xs: '5%', lg: '5%', xl: '5%', marginLeft: true, marginRight: true}">
+    <lux-layout-card-row *ngIf="!isAdmin" [luxGap]="{ row: '2px', rowItem: '5px', column: '2px'}" [luxMargin]="{ xs: '5%', lg: '5%', xl: '5%', marginLeft: true, marginRight: true}">
         <lux-card luxTitle="Meine gemeldete Verstöße" *luxLayoutRowItem="{}">
             <lux-card-content>
-                <lux-table [luxData]="verstoesse" [luxShowPagination]="true" [luxPageSize]="10">
+                <lux-table [luxData]="mitarbeiterVerstoesse" [luxShowPagination]="true" [luxPageSize]="10">
                     <lux-table-column luxColumnDef="datum">
                         <lux-table-column-header><ng-template>Datum</ng-template></lux-table-column-header>
                         <lux-table-column-content><ng-template let-element>{{changeDateFormat(element.datum)}}</ng-template></lux-table-column-content>
@@ -32,6 +32,40 @@
                     <lux-table-column luxColumnDef="status">
                     <lux-table-column-header><ng-template>Status</ng-template></lux-table-column-header>
                     <lux-table-column-content><ng-template let-element>{{element.status}}</ng-template></lux-table-column-content>
+                    </lux-table-column>
+                </lux-table>
+            </lux-card-content>
+        </lux-card>
+    </lux-layout-card-row>
+
+    <lux-layout-card-row *ngIf="isAdmin" [luxGap]="{ row: '2px', rowItem: '5px', column: '2px'}" [luxMargin]="{ xs: '5%', lg: '5%', xl: '5%', marginLeft: true, marginRight: true}">
+        <lux-card luxTagId = "alleVerstoesse" luxTitle="Alle Verstöße" luxSubTitle="Hier sind die Verstöße aller Mitarbeiter aufgelistet und sortiert nach dem Status und dem Datum." *luxLayoutRowItem="{}">
+            <lux-icon luxIconName="fas fa-window-close"></lux-icon>
+            <lux-card-content>
+                <lux-table [luxData]="verstoesse" [luxShowPagination]="true" [luxPageSize]="10">
+                    <lux-table-column luxColumnDef="datum">
+                        <lux-table-column-header><ng-template>Datum</ng-template></lux-table-column-header>
+                        <lux-table-column-content>
+                            <ng-template let-element>{{changeDateFormat(element.datum)}}</ng-template>
+                        </lux-table-column-content>
+                    </lux-table-column>
+
+                    <lux-table-column luxColumnDef="bemerkung">
+                        <lux-table-column-header><ng-template>Bemerkung</ng-template></lux-table-column-header>
+                        <lux-table-column-content><ng-template let-element>{{element.bemerkung}}</ng-template></lux-table-column-content>
+                    </lux-table-column>
+
+                    <lux-table-column luxColumnDef="status">
+                    <lux-table-column-header><ng-template>Status</ng-template></lux-table-column-header>
+                    <lux-table-column-content>
+                        <ng-template let-element>
+                            <lux-select luxTagId="statusAuswahl"
+                                [luxOptions]="statusAuswahl"
+                                [luxSelected]="getSelected(element)"
+                                (luxSelectedChange)="changeStatusForVerstoss($event, element)">
+                            </lux-select>
+                        </ng-template>
+                    </lux-table-column-content>
                     </lux-table-column>
                 </lux-table>
             </lux-card-content>

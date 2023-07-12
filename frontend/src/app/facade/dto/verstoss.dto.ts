@@ -1,7 +1,7 @@
 import { VerstossStatus } from "src/app/utils/verstossStatus.enum"
 
 export interface VerstossDto {
-    verstossID: number
+    meldeID: number
     mitarbeiterID: number
     datum: Date
     bemerkung: string

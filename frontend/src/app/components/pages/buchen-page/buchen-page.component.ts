@@ -8,6 +8,9 @@ import { Kennzeichen } from 'src/app/facade/Kennzeichen';
 import { DateUtils } from 'src/app/utils/date.utils';
 import { AccountService } from 'src/app/services/account.service';
 import { LuxSnackbarService } from '@ihk-gfi/lux-components';
+import { AdminService } from 'src/app/services/admin.service';
+import { ImageUtils } from 'src/app/utils/image.utils';
+import { ParkplatzMitStatusDto } from '../../../facade/dto/ParkplatzMitStatusDto';
 
 @Component({
   selector: 'app-buchen-page',
@@ -18,18 +21,21 @@ export class BuchenPageComponent implements OnInit {
 
   public mitarbeiterID: number = this.accountService.getMitarbeiterID();
   public isAdmin: boolean = this.accountService.isAdmin;
-
   public parkflaechen : ParkflaecheAuswahlDto[];
   public selectedParkflaeche: ParkflaecheAuswahlDto;
   public kennzeichenList: Kennzeichen[];
+
   
-  public selectedDatum: Date = DateUtils.getToday();
+  public selectedDatum: Date | undefined = DateUtils.getToday();
   public minDate: string = DateUtils.getTodayAsString();
   public maxDate: string = DateUtils.getFuture_2WeeksAsString();
 
   public abschlussBuchungen: BuchungAbschlussDto[] = [];
 
-  constructor(private buchungService: BuchungService, private accountService: AccountService, private snackbarService: LuxSnackbarService) {}
+  image: any;
+  public marker: ParkplatzMitStatusDto[];
+
+  constructor(private buchungService: BuchungService, private accountService: AccountService, private snackbarService: LuxSnackbarService, private adminService: AdminService) {}
 
   ngOnInit(): void {
     // Abrufen der Parkflächen
@@ -38,6 +44,7 @@ export class BuchenPageComponent implements OnInit {
     this.buchungService.getKennzeichenForMitarbeiter(this.mitarbeiterID).subscribe((data: Kennzeichen[]) => {
       this.kennzeichenList = data;
     });
+
 
   }
 
@@ -50,6 +57,8 @@ export class BuchenPageComponent implements OnInit {
         }
       }
       this.selectedParkflaeche = parkflaechen[0];
+      this.loadMarker();
+
     });
   }
 
@@ -69,9 +78,10 @@ export class BuchenPageComponent implements OnInit {
   //Change Methode gibt ein string zurück, jedoch wollen wir ein Date-Objekt
   public onSelectedDatumChange(date){
     this.selectedDatum = new Date(date);
+    this.loadMarker();
   }
 
-  public addSpotToBasket(parkplatz: Parkplatz) {
+  public addParkplatzToBasket(parkplatz: Parkplatz) {
     let newBuchung: BuchungAbschlussDto = {
       parkplatzKennung: this.selectedParkflaeche.parkhausBezeichnung + "-" + this.selectedParkflaeche.parkflaecheBezeichnung + "-" + parkplatz.nummer,
       datum: this.selectedDatum,
@@ -93,6 +103,53 @@ export class BuchenPageComponent implements OnInit {
     this.buchungService.saveBuchungen(this.abschlussBuchungen).subscribe(() => {
       this.abschlussBuchungen = [];
       this.snackbarService.openText('Buchung erfolgreich!', 3000);
+      this.loadMarker();
+      
     });
   }
-}
+
+
+  //alle sachen für die Map und die Marker
+  loadMarker(): void {
+    if(this.selectedDatum === undefined) return;
+
+    this.adminService.getImageForParkflaeche(this.selectedParkflaeche.parkflaecheID).subscribe(image => {
+      ImageUtils.readAsDataUrl(image).subscribe(image => {
+        this.image = image;
+      });
+    })
+    if (this.isAdmin) {
+      this.buchungService.getParkplaetzeOfParkflaeche(this.selectedParkflaeche.parkflaecheID).subscribe((data) => {
+        this.marker = [];
+        for(let parkplatz of data){
+          this.marker.push(ParkplatzMitStatusDto.toParkplatzMitStatusDto(parkplatz));
+        }
+      });
+    } else {
+      this.buchungService.getParkplaetzeOfParkflaecheAndDate(this.selectedParkflaeche.parkflaecheID, this.selectedDatum).subscribe((data) => {
+        this.marker = data;
+      });
+    }
+  }
+
+  public onMarkerChanged(parkplatz: Parkplatz) {
+    this.adminService.saveParkplatz(parkplatz, this.selectedParkflaeche.parkflaecheID).subscribe((parkplaetze) => {
+      this.marker = []
+      for(let parkplatz of parkplaetze){
+        this.marker.push(ParkplatzMitStatusDto.toParkplatzMitStatusDto(parkplatz));
+      }
+  });
+  }
+  public onMarkerDeleted(parkplatz: number) {
+    this.adminService.deleteParkplatz(parkplatz).subscribe((parkplatz) => {
+      if (parkplatz != null) {
+        this.loadMarker();
+      }
+    });
+  }
+
+  }
+
+
+ 
+

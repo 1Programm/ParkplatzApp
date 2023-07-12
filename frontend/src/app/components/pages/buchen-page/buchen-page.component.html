@@ -25,8 +25,7 @@
     <lux-layout-card-row [luxMargin]="{marginLeft: false, marginRight: false}">
         <lux-card luxTagId="map" *luxLayoutRowItem="{ colSpan: 4 }" class="card-map">
             <lux-card-content>
-                    <app-map [date]="selectedDatum" [parkflaecheID]="selectedParkflaeche.parkflaecheID"
-                        (parkplatzSelected)="addSpotToBasket($event)" *ngIf="selectedParkflaeche"></app-map>
+                <app-map [marker]="marker" [image]="image" (onMarkerChanged)="onMarkerChanged($event)" (onMarkerDeleted)="onMarkerDeleted($event)" (onParkplatzToBasket)="addParkplatzToBasket($event)" *ngIf="selectedParkflaeche"></app-map>
             </lux-card-content>
         </lux-card>
 

@@ -14,15 +14,25 @@ export class VerstossService extends ServiceBase {
     super();
   }
 
-
   public speichernVerstoss(verstossDto: VerstossDto) : Observable<VerstossDto> {
     return this.wrapRetryAndCatchError(this.http.post<VerstossDto>(`${environment.apiServerUrl}/verstoss/update`, verstossDto)
     );
   }
 
-  public getVerstoesse(mitarbeiterID: number) : Observable<VerstossDto[]> {
+  public getVertoesseForMitarbeiter(mitarbeiterID: number) : Observable<VerstossDto[]> {
     return this.wrapRetryAndCatchError(
       this.http.get<VerstossDto[]>(`${environment.apiServerUrl}/verstoss/verstoesse/${mitarbeiterID}`)
+    );
+  }
+
+  public getAllVerstoesse() : Observable<VerstossDto[]> {
+    return this.wrapRetryAndCatchError(
+      this.http.get<VerstossDto[]>(`${environment.apiServerUrl}/verstoss/verstoesse`)
+    );
+  }
+
+  public changeStatusForVerstoss(verstossDto: VerstossDto) : Observable<VerstossDto> {
+    return this.wrapRetryAndCatchError(this.http.post<VerstossDto>(`${environment.apiServerUrl}/verstoss/updateStatus`, verstossDto)
     );
   }
 }
