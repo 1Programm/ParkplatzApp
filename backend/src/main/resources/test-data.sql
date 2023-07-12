@@ -1,71 +1,79 @@
-
-
-
 -- Mitarbeiter
-INSERT INTO Mitarbeiter (mitarbeiterID, mail, vorname, nachname)
-VALUES(1, 'max@example.com', 'Maxi', 'Mustermann');
+INSERT INTO Mitarbeiter (uid, mail, vorname, nachname)
+VALUES('4cd18d0c-fc5f-44c5-a12c-9ed1ef09c945', 'max-mustermann@web.de', 'Max', 'Mustermann');
 
-INSERT INTO Mitarbeiter (mitarbeiterID, mail, vorname, nachname)
-VALUES(2, 'sabine@example.com', 'Sabine', 'Schmidt');
+INSERT INTO Mitarbeiter (uid, mail, vorname, nachname)
+VALUES('a9ec3008-2295-47d4-8b8e-83ce3b4f6470', 'marielle-musterfrau@gmx.de', 'Marielle', 'Musterfrau');
 
-INSERT INTO Mitarbeiter (mitarbeiterID, mail, vorname, nachname)
-VALUES(3, 'thomas@example.com', 'Thomas', 'Müller');
+INSERT INTO Mitarbeiter (uid, mail, vorname, nachname)
+VALUES('2a7051ab-a5f4-462d-b011-440388fd5208', 'thomas@example.com', 'Thomas', 'Müller');
 
 
 
 -- Parkflaeche
-INSERT INTO Parkflaeche (parkflaecheID, bezeichnung)
-VALUES(1, 'Fläche A');
+INSERT INTO Parkflaeche (bezeichnung)
+VALUES('Fläche A');
 
-INSERT INTO Parkflaeche (parkflaecheID, bezeichnung)
-VALUES(2, 'Fläche B');
+INSERT INTO Parkflaeche (bezeichnung)
+VALUES('Fläche B');
+
+
 
 -- Parkhaus
-INSERT INTO Parkhaus (parkhausID, bezeichnung, hausnummer, ort, plz, strasse)
-VALUES(1, 'Parkhaus 1', '1', 'Berlin', '12345', 'Hauptstraße');
+INSERT INTO Parkhaus (bezeichnung, hausnummer, ort, plz, strasse)
+VALUES('Parkhaus 1', '1', 'Berlin', '12345', 'Hauptstraße');
 
-INSERT INTO Parkhaus (parkhausID, bezeichnung, hausnummer, ort, plz, strasse)
-VALUES(2, 'Parkhaus 2', '2', 'München', '67890', 'Nebenstraße');
+INSERT INTO Parkhaus (bezeichnung, hausnummer, ort, plz, strasse)
+VALUES('Parkhaus 2', '2', 'München', '67890', 'Nebenstraße');
+
+
 
 -- Parkplatztyp
-INSERT INTO Parkplatztyp (parkplatztypID, beschreibung, bezeichnung)
-VALUES(1, 'Standard-Parkplatz', 'Standard');
+INSERT INTO Parkplatztyp (beschreibung, bezeichnung)
+VALUES('Standard-Parkplatz', 'Standard');
 
-INSERT INTO Parkplatztyp (parkplatztypID, beschreibung, bezeichnung)
-VALUES(2, 'Parkplatz für Behinderte', 'Behindertenparkplatz');
+INSERT INTO Parkplatztyp (beschreibung, bezeichnung)
+VALUES('Parkplatz für Behinderte', 'Behindertenparkplatz');
 
-INSERT INTO Parkplatztyp (parkplatztypID, beschreibung, bezeichnung)
-VALUES(3, 'VIP-Parkplatz', 'VIP');
+INSERT INTO Parkplatztyp (beschreibung, bezeichnung)
+VALUES('VIP-Parkplatz', 'VIP');
+
+
 
 -- Preiskategorie
-INSERT INTO Preiskategorie (kategorieID, bezeichnung, preis)
-VALUES(1, 'Normal', 10.00);
+INSERT INTO Preiskategorie (bezeichnung, preis)
+VALUES('Normal', 10.00);
 
-INSERT INTO Preiskategorie (kategorieID, bezeichnung, preis)
-VALUES(2, 'Premium', 15.00);
+INSERT INTO Preiskategorie (bezeichnung, preis)
+VALUES('Premium', 15.00);
+
+
 
 -- Verstoss
-INSERT INTO Verstoss (meldeID, bemerkung, datum)
-VALUES(1, 'Falschparken', '2023-06-01');
+INSERT INTO Verstoss (datum, bemerkung, status)
+VALUES('2023-06-01', 'Falschparken', 'In Bearbeitung');
 
-INSERT INTO Verstoss (meldeID, bemerkung, datum)
-VALUES(2, 'Geschwindigkeitsüberschreitung', '2023-06-02');
+INSERT INTO Verstoss (datum, bemerkung, status)
+VALUES('2023-06-02', 'Geschwindigkeitsüberschreitung', 'In Bearbeitung');
 
-INSERT INTO Verstoss (meldeID, bemerkung, datum)
-VALUES(3, 'Parken auf Behindertenparkplatz', '2023-06-03');
+INSERT INTO Verstoss (datum, bemerkung, status)
+VALUES('2023-06-03', 'Parken auf Behindertenparkplatz', 'In Bearbeitung');
 
---Kennzeichen
-INSERT INTO Kennzeichen (kennzeichenID, kennzeichen)
-VALUES(1, 'DO-JB1999');
 
-INSERT INTO Kennzeichen (kennzeichenID, kennzeichen)
-VALUES(2, 'DO-JB1998');
+-- Kennzeichen
+INSERT INTO Kennzeichen (kennzeichen)
+VALUES('DO-JB1999');
 
-INSERT INTO Kennzeichen (kennzeichenID, kennzeichen)
-VALUES(3, 'DO-JB1997');
+INSERT INTO Kennzeichen (kennzeichen)
+VALUES('DO-JB1998');
 
-INSERT INTO Kennzeichen (kennzeichenID, kennzeichen)
-VALUES(4, 'DO-KE1200');
+INSERT INTO Kennzeichen (kennzeichen)
+VALUES('DO-JB1997');
+
+INSERT INTO Kennzeichen (kennzeichen)
+VALUES('DO-KE1200');
+
+
 
 -- Parkplatz
 INSERT INTO Parkplatz (nummer, x_Koordinate, y_Koordinate, parkplatztyp_parkplatztypID, preiskategorie_kategorieID)
@@ -80,21 +88,32 @@ VALUES('P3', 2, 300, 1, 1);
 INSERT INTO Parkplatz ( nummer, x_Koordinate, y_Koordinate, parkplatztyp_parkplatztypID, preiskategorie_kategorieID)
 VALUES('P4', 1, 10, 3, 2);
 
+
+
 -- Buchung
-INSERT INTO Buchung (buchungID, datum, tagespreis, mitarbeiter_mitarbeiterID, parkplatz_parkplatzID, kennzeichen_kennzeichenID)
-VALUES(1, '2023-06-01', 10.50, 1, 1, 1);
+INSERT INTO Buchung (datum, tagespreis, mitarbeiter_mitarbeiterID, parkplatz_parkplatzID, kennzeichen_kennzeichenID)
+VALUES('2023-09-09', 10.50, 1, 1, 1);
 
-INSERT INTO Buchung (buchungID, datum, tagespreis, mitarbeiter_mitarbeiterID, parkplatz_parkplatzID, kennzeichen_kennzeichenID)
-VALUES(2, '2023-06-02', 15.00, 2, 3, 3);
+INSERT INTO Buchung (datum, tagespreis, mitarbeiter_mitarbeiterID, parkplatz_parkplatzID, kennzeichen_kennzeichenID)
+VALUES('2023-06-02', 15.00, 2, 3, 3);
 
-INSERT INTO Buchung (buchungID, datum, tagespreis, mitarbeiter_mitarbeiterID, parkplatz_parkplatzID, kennzeichen_kennzeichenID)
-VALUES(5, '2023-08-30', 15.00, 1, 3, 1);
+INSERT INTO Buchung (datum, tagespreis, mitarbeiter_mitarbeiterID, parkplatz_parkplatzID, kennzeichen_kennzeichenID)
+VALUES('2023-06-03', 12.75, 3, 2, 4);
 
-INSERT INTO Buchung (buchungID, datum, tagespreis, mitarbeiter_mitarbeiterID, parkplatz_parkplatzID, kennzeichen_kennzeichenID)
-VALUES(3, '2023-06-03', 12.75, 3, 2, 4);
+INSERT INTO Buchung (datum, tagespreis, mitarbeiter_mitarbeiterID, parkplatz_parkplatzID, kennzeichen_kennzeichenID)
+VALUES('2023-06-04', 9.99, 1, 4, 2);
 
-INSERT INTO Buchung (buchungID, datum, tagespreis, mitarbeiter_mitarbeiterID, parkplatz_parkplatzID, kennzeichen_kennzeichenID)
-VALUES(4, '2023-06-04', 9.99, 1, 4, 2);
+INSERT INTO Buchung (datum, tagespreis, mitarbeiter_mitarbeiterID, parkplatz_parkplatzID, kennzeichen_kennzeichenID)
+VALUES('2023-08-30', 15.00, 1, 3, 1);
+
+
+
+
+
+
+-- BEZIEHUNGEN
+
+
 
 -- Mitarbeiter_verstoss_list
 INSERT INTO Mitarbeiter_verstoss_list (mitarbeiter_mitarbeiterID, verstoss_list_meldeID)
@@ -106,7 +125,9 @@ VALUES(2, 2);
 INSERT INTO Mitarbeiter_verstoss_list (mitarbeiter_mitarbeiterID, verstoss_list_meldeID)
 VALUES(2, 3);
 
---Mitarbeiter_kennzeichen_list
+
+
+-- Mitarbeiter_kennzeichen_list
 INSERT INTO Mitarbeiter_kennzeichen_list(mitarbeiter_mitarbeiterID, kennzeichen_list_kennzeichenID)
 VALUES(1,1);
 
@@ -118,6 +139,8 @@ VALUES(2,3);
 
 INSERT INTO Mitarbeiter_kennzeichen_list(mitarbeiter_mitarbeiterID, kennzeichen_list_kennzeichenID)
 VALUES(3,4);
+
+
 
 -- parkflaeche_parkplatz_list
 INSERT INTO parkflaeche_parkplatz_list (parkflaeche_parkflaecheID, parkplatz_list_parkplatzID)
@@ -131,6 +154,8 @@ VALUES(2, 3);
 
 INSERT INTO parkflaeche_parkplatz_list (parkflaeche_parkflaecheID, parkplatz_list_parkplatzID)
 VALUES(2, 4);
+
+
 
 -- parkhaus_parkflaeche_list
 INSERT INTO parkhaus_parkflaeche_list (parkhaus_parkhausID, parkflaeche_list_parkflaecheID)

@@ -54,7 +54,7 @@ class MitarbeiterServiceTest {
         Mitarbeiter mitarbeiter = mitarbeiterService.getMitarbeiter(id);
 
         assertNotNull(mitarbeiter);
-        assertEquals(mitarbeiter.getVorname(), "Maxi");
+        assertEquals("Maxi", mitarbeiter.getVorname() );
     }
 
     @Test
@@ -62,7 +62,7 @@ class MitarbeiterServiceTest {
         List<Kennzeichen> kennzeichen = mitarbeiterService.getKennzeichenForMitarbeiter(id);
 
         assertNotNull(kennzeichen);
-        assertEquals(kennzeichen.size(), 2);
+        assertEquals(2, kennzeichen.size());
     }
 
     @Test
@@ -76,7 +76,7 @@ class MitarbeiterServiceTest {
             mitarbeiterService.deleteKennzeichenFromMitarbeiter(1L, 8L);
         });
 
-        assertEquals(mitarbeiterService.deleteKennzeichenFromMitarbeiter(1L,1L).getKennzeichenList().size(),1);
+        assertEquals(1, mitarbeiterService.deleteKennzeichenFromMitarbeiter(1L,1L).getKennzeichenList().size());
 
     }
 
@@ -87,7 +87,7 @@ class MitarbeiterServiceTest {
             mitarbeiterService.createKennzeichenForMitarbeiter(8L, "MS-PD1848");
         });
 
-        assertEquals(mitarbeiterService.createKennzeichenForMitarbeiter(1L, "MS-PD1848").getKennzeichenList().size(), 5);
+        assertEquals(3, mitarbeiterService.createKennzeichenForMitarbeiter(1L, "MS-PD1848").getKennzeichenList().size());
 
     }
 
