@@ -13,7 +13,9 @@ import { LuxSnackbarService } from '@ihk-gfi/lux-components';
 })
 export class PageVerstossComponent implements OnInit {
 
-  public selectedDatum: string = DateUtils.toVisibleString(new Date());
+  public selectedDatum: Date | undefined = DateUtils.getToday();
+  public minDate: string = DateUtils.getTodayAsString();
+  public maxDate: string = DateUtils.getFuture_2WeeksAsString();
   public bemerkung: string = '';
   public mitarbeiterVerstoesse: VerstossDto[];
   public verstoesse: VerstossDto[];
@@ -40,7 +42,7 @@ export class PageVerstossComponent implements OnInit {
     this.verstoss.bemerkung = this.bemerkung;
     this.verstoss.datum = new Date(this.selectedDatum);
     this.verstossService.speichernVerstoss(this.verstoss).subscribe(() => {
-      this.selectedDatum = '';
+      this.selectedDatum = DateUtils.getToday();
       this.bemerkung = '';
       this.getVertoesseForMitarbeiter(this.verstoss.mitarbeiterID);
     }); 
@@ -58,12 +60,9 @@ export class PageVerstossComponent implements OnInit {
     });
   }
 
-  public changeDateFormat(datum: Date): string {
-    return DateUtils.toVisibleString(datum);
-  }
-
-  public getZugelasenesDatum(): string {
-    return DateUtils.toTechnicalString(new Date());
+  //Change Methode gibt ein string zurück, jedoch wollen wir ein Date-Objekt
+  public onSelectedDatumChange(date){
+    this.selectedDatum = new Date(date);
   }
 
   changeStatusForVerstoss(status: VerstossStatus, verstoss: VerstossDto) {

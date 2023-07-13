@@ -3,7 +3,9 @@
         <lux-card luxTitle="Verstoß melden" *luxLayoutRowItem="{}">
             <lux-card-content>
                 <lux-layout-form-row>
-                    <lux-datepicker luxLabel="Datum" [(luxValue)]="selectedDatum" [luxMinDate] = "getZugelasenesDatum()" [luxMaxDate] = "getZugelasenesDatum()"  [luxTouchUi]="true" luxPlaceholder="Bitte ein Datum auswählen" *luxLayoutRowItem="{ }">
+                    <lux-datepicker luxLabel="Datum" [luxValue]="selectedDatum" (luxValueChange)="onSelectedDatumChange($event)" 
+                    [luxMinDate] = "minDate" [luxMaxDate] = "maxDate"  [luxTouchUi]="true" 
+                    luxPlaceholder="Bitte ein Datum auswählen" *luxLayoutRowItem="{ }">
                     </lux-datepicker>
                     <lux-textarea luxLabel="Bemerkung" [(luxValue)]="bemerkung" luxPlaceholder="Bitte tragen Sie hier Ihre Bemerkung ein" 
                         [luxMaxRows]="5" [luxMinRows]="1"  *luxLayoutRowItem="{ colSpan: 3 }">
@@ -21,7 +23,7 @@
                 <lux-table [luxData]="mitarbeiterVerstoesse" [luxShowPagination]="true" [luxPageSize]="10">
                     <lux-table-column luxColumnDef="datum">
                         <lux-table-column-header><ng-template>Datum</ng-template></lux-table-column-header>
-                        <lux-table-column-content><ng-template let-element>{{changeDateFormat(element.datum)}}</ng-template></lux-table-column-content>
+                        <lux-table-column-content><ng-template let-element>{{element.datum | paDate}}</ng-template></lux-table-column-content>
                     </lux-table-column>
 
                     <lux-table-column luxColumnDef="bemerkung">
@@ -46,7 +48,7 @@
                     <lux-table-column luxColumnDef="datum">
                         <lux-table-column-header><ng-template>Datum</ng-template></lux-table-column-header>
                         <lux-table-column-content>
-                            <ng-template let-element>{{changeDateFormat(element.datum)}}</ng-template>
+                            <ng-template let-element>{{element.datum | paDate}}</ng-template>
                         </lux-table-column-content>
                     </lux-table-column>
 
