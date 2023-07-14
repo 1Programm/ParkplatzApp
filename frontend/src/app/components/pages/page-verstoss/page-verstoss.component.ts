@@ -45,6 +45,7 @@ export class PageVerstossComponent implements OnInit {
       this.selectedDatum = DateUtils.getToday();
       this.bemerkung = '';
       this.getVertoesseForMitarbeiter(this.verstoss.mitarbeiterID);
+      this.snackbarService.openText("Verstoss wurde gespeichert.", 2000);
     }); 
   }
 
