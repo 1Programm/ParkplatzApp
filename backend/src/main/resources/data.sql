@@ -120,7 +120,7 @@ INSERT INTO Mitarbeiter_verstoss_list (mitarbeiter_mitarbeiterID, verstoss_list_
 VALUES(1, 1);
 
 INSERT INTO Mitarbeiter_verstoss_list (mitarbeiter_mitarbeiterID, verstoss_list_meldeID)
-VALUES(2, 2);
+VALUES(1, 2);
 
 INSERT INTO Mitarbeiter_verstoss_list (mitarbeiter_mitarbeiterID, verstoss_list_meldeID)
 VALUES(2, 3);

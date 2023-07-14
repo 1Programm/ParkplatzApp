@@ -41,6 +41,8 @@ public class VerstossService {
         Mitarbeiter mitarbeiter = mitarbeiterRepo.findById(mitarbeiterID)
                 .orElseThrow(() -> new IllegalArgumentException("Mitarbeiter mit ID " + mitarbeiterID + " wurde nicht gefunden."));
 
+        mitarbeiter.getVerstossList().sort(Comparator.comparing(Verstoss::getDatum));
+
         return mitarbeiter.getVerstossList();
     }
 
