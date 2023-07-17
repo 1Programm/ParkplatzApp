@@ -23,7 +23,7 @@ export class MapComponent implements OnInit {
 
   @Input() marker: ParkplatzMitStatusDto[];
   @Input() image: any;
-  @Output() onParkplatzToBasket = new EventEmitter<ParkplatzMitStatusDto>();
+  @Output() onParkplatzToBasket = new EventEmitter<Parkplatz>();
   @Output() onMarkerDeleted = new EventEmitter<number>();
   @Output() onMarkerChanged = new EventEmitter<Parkplatz>();
 
@@ -48,7 +48,7 @@ export class MapComponent implements OnInit {
     event.stopPropagation();
     const dialogRef = this.dialogService.openComponent(MarkerDialogComponent, this.dialogConfig, spot);
 
-    dialogRef.dialogClosed.subscribe((result: ParkplatzMitStatusDto) => {
+    dialogRef.dialogClosed.subscribe((result: Parkplatz) => {
       if (result != null) {
         this.onParkplatzToBasket.emit(result);
         spot.status = "BELEGT"

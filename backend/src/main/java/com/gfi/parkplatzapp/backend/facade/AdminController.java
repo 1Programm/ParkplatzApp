@@ -112,9 +112,9 @@ public class AdminController {
      * @param parkflaecheID Die ID der Parkfläche.
      * @param parkhausID Die ID des Parkhauses.
      */
-    @DeleteMapping("/parkflaeche/{parkflaecheID}/parkhaus/{parkhausID}")
-    public void deleteParkflaeche(@PathVariable("parkflaecheID") long parkflaecheID, @PathVariable("parkhausID") long parkhausID){
-        parkflaecheService.deleteParkflaeche(parkflaecheID, parkhausID);
+    @DeleteMapping("/parkflaeche/{parkflaecheID}")
+    public void deleteParkflaeche(@PathVariable("parkflaecheID") long parkflaecheID){
+        parkflaecheService.deleteParkflaeche(parkflaecheID);
     }
 
     /**

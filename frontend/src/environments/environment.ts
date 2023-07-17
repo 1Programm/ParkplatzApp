@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   generateLuxTagIds: true,
-  apiServerUrl: "/fb/api"
+  apiServerUrl: "/fb/api",
+  apiKey: "AIzaSyBjpSoACZsm2I_l7gCF8vr5vQDi7NgIcfM"
 };
 
 /*

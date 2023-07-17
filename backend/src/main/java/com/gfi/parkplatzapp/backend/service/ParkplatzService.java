@@ -3,6 +3,7 @@ package com.gfi.parkplatzapp.backend.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.gfi.parkplatzapp.backend.persistence.entities.*;
 import com.gfi.parkplatzapp.backend.persistence.repos.*;
+import com.gfi.parkplatzapp.backend.utils.AktivitaetEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -56,7 +57,7 @@ public class ParkplatzService {
             Parkflaeche parkflaeche = parkflaecheRepo.findById(parkflaecheID)
                     .orElseThrow(NoSuchElementException::new);
             parkflaeche.getParkplatzList().add(parkplatz);
-
+            parkplatz.setAktivitaet(AktivitaetEnum.AKTIV);
             parkflaecheRepo.save(parkflaeche);
         }
         return buchenService.getParkplaetzeOfParkflaeche(parkflaecheID);
@@ -74,21 +75,9 @@ public class ParkplatzService {
         if (parkplatzOptional.isPresent()) {
             Parkplatz parkplatz = parkplatzOptional.get();
 
-            // Setze den Parkplatz aller zugehörigen Buchungen auf null
-            List<Buchung> buchungen = buchungRepo.findByParkplatz(parkplatz);
-            for (Buchung buchung : buchungen) {
-                buchung.setParkplatz(null);
-            }
-            buchungRepo.saveAll(buchungen);
-
-            Parkflaeche parkflaeche = parkflaecheRepo.findByParkplatzList_parkplatzID(parkplatzID);
-            List<Parkplatz> parkplatzList = parkflaeche.getParkplatzList();
-            parkplatzList.remove(parkplatz);
-
-            parkflaecheRepo.save(parkflaeche);
-
             // Lösche den Parkplatz
-            parkplatzRepo.delete(parkplatz);
+            parkplatz.setAktivitaet(AktivitaetEnum.INAKTIV);
+            parkplatzRepo.save(parkplatz);
         }
 
         return parkplatzOptional.get();

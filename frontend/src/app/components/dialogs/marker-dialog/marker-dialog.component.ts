@@ -74,17 +74,15 @@ export class MarkerDialogComponent implements OnInit {
   }
 
   submitDialog(): void {
-    const p: ParkplatzMitStatusDto = {
-      parkplatz: {
-        parkplatzID: this.parkplatz ? this.parkplatz.parkplatzID : null,
-        nummer: this.nummer,
-        xkoordinate: this.parkplatz ? this.parkplatz.xkoordinate : 0,
-        ykoordinate: this.parkplatz ? this.parkplatz.ykoordinate : 0,
-        parkplatztyp: this.selectedTyp,
-        preiskategorie: this.selectedKategorie
-      },
-      status: "FREI"
-      
+    const p: Parkplatz = {
+      parkplatzID: this.parkplatz ? this.parkplatz.parkplatzID : null,
+      nummer: this.nummer,
+      xkoordinate: this.parkplatz ? this.parkplatz.xkoordinate : 0,
+      ykoordinate: this.parkplatz ? this.parkplatz.ykoordinate : 0,
+      aktivitaet: this.parkplatz ? this.parkplatz.aktivitaet : null,
+      parkplatztyp: this.selectedTyp,
+      preiskategorie: this.selectedKategorie
+
     };
     this.luxDialogRef.closeDialog(p);
   }

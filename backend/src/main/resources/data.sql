@@ -11,20 +11,20 @@ VALUES('2a7051ab-a5f4-462d-b011-440388fd5208', 'thomas@example.com', 'Thomas', '
 
 
 -- Parkflaeche
-INSERT INTO Parkflaeche (bezeichnung)
-VALUES('Fläche A');
+INSERT INTO Parkflaeche (bezeichnung, aktivitaet)
+VALUES('Fläche A', 'AKTIV');
 
-INSERT INTO Parkflaeche (bezeichnung)
-VALUES('Fläche B');
+INSERT INTO Parkflaeche (bezeichnung, aktivitaet)
+VALUES('Fläche B', 'AKTIV');
 
 
 
 -- Parkhaus
-INSERT INTO Parkhaus (bezeichnung, hausnummer, ort, plz, strasse)
-VALUES('Parkhaus 1', '1', 'Berlin', '12345', 'Hauptstraße');
+INSERT INTO Parkhaus (bezeichnung, hausnummer, ort, plz, strasse, aktivitaet)
+VALUES('Parkhaus 1', '1', 'Berlin', '12345', 'Hauptstraße', 'AKTIV');
 
-INSERT INTO Parkhaus (bezeichnung, hausnummer, ort, plz, strasse)
-VALUES('Parkhaus 2', '2', 'München', '67890', 'Nebenstraße');
+INSERT INTO Parkhaus (bezeichnung, hausnummer, ort, plz, strasse, aktivitaet)
+VALUES('Parkhaus 2', '2', 'München', '67890', 'Nebenstraße', 'AKTIV');
 
 
 
@@ -76,17 +76,17 @@ VALUES('DO-KE1200');
 
 
 -- Parkplatz
-INSERT INTO Parkplatz (nummer, x_Koordinate, y_Koordinate, parkplatztyp_parkplatztypID, preiskategorie_kategorieID)
-VALUES('P1', 185, 132, 1, 1);
+INSERT INTO Parkplatz (nummer, x_Koordinate, y_Koordinate, parkplatztyp_parkplatztypID, preiskategorie_kategorieID, aktivitaet)
+VALUES('P1', 185, 132, 1, 1, 'AKTIV');
 
-INSERT INTO Parkplatz (nummer, x_Koordinate, y_Koordinate, parkplatztyp_parkplatztypID, preiskategorie_kategorieID)
-VALUES('P2', 135, 132, 2, 2);
+INSERT INTO Parkplatz (nummer, x_Koordinate, y_Koordinate, parkplatztyp_parkplatztypID, preiskategorie_kategorieID, aktivitaet)
+VALUES('P2', 135, 132, 2, 2, 'AKTIV');
 
-INSERT INTO Parkplatz (nummer, x_Koordinate, y_Koordinate, parkplatztyp_parkplatztypID, preiskategorie_kategorieID)
-VALUES('P3', 2, 300, 1, 1);
+INSERT INTO Parkplatz (nummer, x_Koordinate, y_Koordinate, parkplatztyp_parkplatztypID, preiskategorie_kategorieID, aktivitaet)
+VALUES('P3', 2, 300, 1, 1, 'AKTIV');
 
-INSERT INTO Parkplatz ( nummer, x_Koordinate, y_Koordinate, parkplatztyp_parkplatztypID, preiskategorie_kategorieID)
-VALUES('P4', 1, 10, 3, 2);
+INSERT INTO Parkplatz ( nummer, x_Koordinate, y_Koordinate, parkplatztyp_parkplatztypID, preiskategorie_kategorieID, aktivitaet)
+VALUES('P4', 1, 10, 3, 2, 'AKTIV');
 
 
 

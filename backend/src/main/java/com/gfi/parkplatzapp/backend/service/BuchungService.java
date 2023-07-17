@@ -3,6 +3,7 @@ package com.gfi.parkplatzapp.backend.service;
 import com.gfi.parkplatzapp.backend.facade.dto.*;
 import com.gfi.parkplatzapp.backend.persistence.entities.*;
 import com.gfi.parkplatzapp.backend.persistence.repos.*;
+import com.gfi.parkplatzapp.backend.utils.AktivitaetEnum;
 import com.gfi.parkplatzapp.backend.utils.StatusEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -149,10 +150,14 @@ public class BuchungService {
 
     public List<ParkflaecheAuswahlDto> getParkflaechen() {
         List<ParkflaecheAuswahlDto> resultList = new ArrayList<>();
-        Iterable<Parkhaus> parkhausIterable = parkhausRepo.findAll();
+        Iterable<Parkhaus> parkhausIterable = parkhausRepo.findAllByAktivitaet(AktivitaetEnum.AKTIV);
 
         for (Parkhaus parkhaus : parkhausIterable) {
+
             for (Parkflaeche parkflaeche : parkhaus.getParkflaecheList()) {
+                if(parkflaeche.getAktivitaet() == AktivitaetEnum.INAKTIV){
+                    continue;
+                }
                 ParkflaecheAuswahlDto parkflaecheAuswahlDto = new ParkflaecheAuswahlDto();
                 parkflaecheAuswahlDto.setParkhausID(parkhaus.getParkhausID());
                 parkflaecheAuswahlDto.setParkhausBezeichnung(parkhaus.getBezeichnung());
@@ -169,16 +174,18 @@ public class BuchungService {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         Date date = new Date();
-        Parkflaeche flaeche = parkflaecheRepo.findById(parkflaecheID).get();
+        Parkflaeche flaeche = parkflaecheRepo.findByAktivitaetAndParkflaecheID(AktivitaetEnum.AKTIV, parkflaecheID);
         List<Parkplatz> parkplaetze = flaeche.getParkplatzList();
         List<ParkplatzMitStatusDto> res = new ArrayList<>();
+        try {
+            date = dateFormat.parse(p_date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         for (Parkplatz parkplatz : parkplaetze) {
-            try {
-                date = dateFormat.parse(p_date);
-            } catch (ParseException e) {
-                e.printStackTrace();
+            if(parkplatz.getAktivitaet() == AktivitaetEnum.INAKTIV){
+                continue;
             }
-
             StatusEnum status = isBuchungVorhanden(parkplatz, date) ? StatusEnum.BELEGT : StatusEnum.FREI;
             res.add(new ParkplatzMitStatusDto(status, parkplatz));
 
@@ -199,7 +206,13 @@ public class BuchungService {
 
     public List<Parkplatz> getParkplaetzeOfParkflaeche(Long parkflaecheID) {
         Parkflaeche flaeche = parkflaecheRepo.findById(parkflaecheID).get();
-        return flaeche.getParkplatzList();
+        if(flaeche.getAktivitaet() == AktivitaetEnum.INAKTIV){
+            return new ArrayList<>();
+        }
+        return flaeche.getParkplatzList()
+                .stream()
+                .filter(parkplatz -> parkplatz.getAktivitaet() == AktivitaetEnum.AKTIV)
+                .collect(Collectors.toList());
     }
 
     public List<Parkplatztyp> getParkplatztyp() {

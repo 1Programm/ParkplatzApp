@@ -1,0 +1,16 @@
+<lux-dialog-structure>
+    <lux-dialog-title>Kennzeichen hinzufügen</lux-dialog-title>
+    <p>Kennzeichen können Sie in Ihrem Profil verwalten.</p>
+    <lux-dialog-content>
+      <div class="content">
+        <lux-layout-form-row>
+           <lux-input luxLabel="Kennzeichen" [(luxValue)]="kennzeichen" *luxLayoutRowItem="{}" [luxRequired]="true"></lux-input>
+        </lux-layout-form-row>
+      </div>
+    </lux-dialog-content>
+    <lux-dialog-actions>
+      <lux-button luxLabel="Abbrechen" luxColor="primary" [luxFlat]="true" (luxClicked)="luxDialogRef.closeDialog(null)"></lux-button>
+      <lux-button luxLabel="Speichern" luxColor="primary" [luxFlat]="true" [luxDisabled]="!kennzeichen" (luxClicked)="luxDialogRef.closeDialog(kennzeichen)" [luxDisabled]="!kennzeichen"></lux-button>
+    </lux-dialog-actions>
+  </lux-dialog-structure>
+  

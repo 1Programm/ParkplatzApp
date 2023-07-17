@@ -39,8 +39,8 @@ export class AdminService extends ServiceBase {
     );
   }
 
-  public deleteParkflaeche(parkflaecheID: number, parkhausID: number): Observable<void> {
-    return this.wrapRetryAndCatchError(this.http.delete<void>(`${environment.apiServerUrl}/admin/parkflaeche/${parkflaecheID}/parkhaus/${parkhausID}`)
+  public deleteParkflaeche(parkflaecheID: number): Observable<void> {
+    return this.wrapRetryAndCatchError(this.http.delete<void>(`${environment.apiServerUrl}/admin/parkflaeche/${parkflaecheID}`)
     );
   }
 

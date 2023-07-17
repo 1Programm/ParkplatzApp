@@ -7,6 +7,7 @@ import com.gfi.parkplatzapp.backend.persistence.entities.Parkhaus;
 import com.gfi.parkplatzapp.backend.persistence.repos.DBImageRepo;
 import com.gfi.parkplatzapp.backend.persistence.repos.ParkflaecheRepo;
 import com.gfi.parkplatzapp.backend.persistence.repos.ParkhausRepo;
+import com.gfi.parkplatzapp.backend.utils.AktivitaetEnum;
 import com.gfi.parkplatzapp.backend.utils.ImageUtils;
 import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
@@ -45,13 +46,15 @@ public class ParkflaecheService {
         parkflaecheRepo.save(parkflaeche);
     }
 
-    public void deleteParkflaeche(long parkflaecheID, long parkhausID) {
-        Parkflaeche parkflaeche = getParkflaecheById(parkflaecheID);
-        Parkhaus parkhaus = parkhausRepo.findById(parkhausID)
-                .orElseThrow(() -> new IllegalStateException("Could not find the Parkhaus with id [" + parkhausID + "]!"));
-        parkhaus.getParkflaecheList().remove(parkflaeche);
-        parkhausRepo.save(parkhaus);
-        parkflaecheRepo.delete(parkflaeche);
+    public void deleteParkflaeche(long parkflaecheID) {
+        log.info("Deleting Parkflaeche with id [" + parkflaecheID + "]!");
+        parkflaecheRepo.findById(parkflaecheID)
+                .ifPresentOrElse(parkflaeche -> {
+                    parkflaeche.setAktivitaet(AktivitaetEnum.INAKTIV);
+                    parkflaecheRepo.save(parkflaeche);
+                }, () -> {
+                    throw new IllegalStateException("Could not find the Parkflaeche with id [" + parkflaecheID + "]!");
+                });
     }
 
     public ParkhausParkflaecheDto.ParkflaecheDto saveParkflaeche(long parkhausID, ParkhausParkflaecheDto.ParkflaecheDto _parkflaeche) {
@@ -60,6 +63,7 @@ public class ParkflaecheService {
             toSave = parkflaecheRepo.findById(_parkflaeche.getParkflaecheID()).get();
             toSave.setBezeichnung(_parkflaeche.getBezeichnung());
             toSave.setImage(_parkflaeche.getImage());
+            toSave.setAktivitaet(AktivitaetEnum.AKTIV);
             parkflaecheRepo.save(toSave);
         } else {
             toSave = ParkhausParkflaecheDto.ParkflaecheDto.createFromParkflaecheDto(_parkflaeche);
