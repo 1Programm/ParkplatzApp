@@ -1,0 +1,41 @@
+<div class="page-container-90">
+
+    <lux-card luxTagId="datum_start_ende_auswahl">
+        <lux-card-content>
+            <app-range-date-picker [dateStart]="dateStart" (dateStartChanged)="onDateStartChanged($event)" [dateEnd]="dateEnd" (dateEndChanged)="onDateEndChanged($event)" [dateStartMax]="dateMax" [dateEndMax]="dateMax"></app-range-date-picker>
+        </lux-card-content>
+    </lux-card>
+    <br>
+
+    <lux-card luxTagId="abrechnung-uebersicht">
+        <lux-card-content>
+            <lux-table [luxData]="filteredBuchungen" [luxShowPagination]="true" [luxPageSize]="10">
+                <lux-table-column luxColumnDef="datum" [luxSortable]="true">
+                    <lux-table-column-header><ng-template>Datum</ng-template></lux-table-column-header>
+                    <lux-table-column-content><ng-template let-element>{{element.datum | paDate}}</ng-template></lux-table-column-content>
+                </lux-table-column>
+
+                <lux-table-column luxColumnDef="mitarbeiterName" [luxSortable]="true">
+                    <lux-table-column-header><ng-template>Mitarbeiter</ng-template></lux-table-column-header>
+                    <lux-table-column-content>
+                        <ng-template let-element>{{element.mitarbeiterName}}</ng-template>
+                    </lux-table-column-content>
+                </lux-table-column>
+
+                <lux-table-column luxColumnDef="tagespreis" [luxSortable]="true">
+                    <lux-table-column-header><ng-template>Tagespreis</ng-template></lux-table-column-header>
+                    <lux-table-column-content>
+                        <ng-template let-element>
+                            {{ element.tagespreis }},-
+                            <!-- <lux-input luxType="number" [luxReadonly]="true" [luxValue]="element.tagespreis"></lux-input> -->
+                        </ng-template>
+                    </lux-table-column-content>
+                </lux-table-column>
+        </lux-table>
+        </lux-card-content>
+        <lux-card-actions>
+            <lux-button [luxRaised]="true" luxColor="primary" luxLabel="Als CSV Exportieren" (luxClicked)="exportAsCsv()"></lux-button>
+        </lux-card-actions>
+    </lux-card>
+
+</div>

@@ -8,6 +8,7 @@ import { PageProfilComponent } from './components/pages/page-profil/page-profil.
 import { PageBuchungsuebersichtComponent } from './components/pages/page-buchungsuebersicht/page-buchungsuebersicht.component';
 import { PageVerstossComponent } from './components/pages/page-verstoss/page-verstoss.component';
 import { PageBuchungsuebersichtAdminComponent } from './components/pages/page-buchungsuebersicht-admin/page-buchungsuebersicht-admin.component';
+import { PageAbrechnungAdminComponent } from './components/pages/page-abrechnung-admin/page-abrechnung-admin.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/buchen', pathMatch: 'full' },
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'admin/buchungen', component: PageBuchungsuebersichtAdminComponent },
   { path: 'buchen', component: BuchenPageComponent },
   { path: 'verstoss', component: PageVerstossComponent },
+  { path: 'admin/abrechnung', component: PageAbrechnungAdminComponent },
   { path: '**', component: PageErrorComponent } // Immer als letzte Route !! -> 404!
 ];
 
