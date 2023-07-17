@@ -1,3 +1,4 @@
+import { AktivitaetsEnum } from "../utils/aktivitaetEnum.utils"
 import { Parkflaeche } from "./Parkflaeche"
 
 export interface Parkhaus {
@@ -7,5 +8,6 @@ export interface Parkhaus {
     hausnummer: number
     plz: number
     ort: string
+    aktivitaet: AktivitaetsEnum;
     parkflaecheList: Parkflaeche[]
 }

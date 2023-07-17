@@ -79,8 +79,10 @@ export class MarkerDialogComponent implements OnInit {
       nummer: this.nummer,
       xkoordinate: this.parkplatz ? this.parkplatz.xkoordinate : 0,
       ykoordinate: this.parkplatz ? this.parkplatz.ykoordinate : 0,
+      aktivitaet: this.parkplatz ? this.parkplatz.aktivitaet : null,
       parkplatztyp: this.selectedTyp,
       preiskategorie: this.selectedKategorie
+
     };
     this.luxDialogRef.closeDialog(p);
   }
