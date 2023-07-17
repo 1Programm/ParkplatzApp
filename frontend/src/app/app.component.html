@@ -1,3 +1,4 @@
+
 <div class="lux-app-container" *ngIf="accountService.loggedIn">
   <lux-app-header luxAppTitle="Parkplatz App" luxAppTitleShort="PA" [luxUserName]="accountService.roleName" (luxClicked)="router.navigate(['/'])">
     <lux-side-nav>
@@ -21,7 +22,7 @@
       >
       </lux-side-nav-item>
       <lux-side-nav-item
-        luxLabel="Parkhaus verwaltung"
+        luxLabel="Parkhausverwaltung"
         luxTagId="project-side-nav-item"
         luxIconName="lux-home-1"
         (luxClicked)="router.navigate(['/buchen'])"
@@ -32,6 +33,7 @@
       luxLabel="Meine Buchungen"
       luxTagId="project-side-nav-item"
       luxIconName="fas fa-calendar"
+      *ngIf="!accountService.isAdmin"
       (luxClicked)="router.navigate(['/buchungen'])">
       </lux-side-nav-item>
       <lux-side-nav-item

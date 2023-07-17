@@ -42,6 +42,7 @@ import { BuchungsuebersichtAdminViewAllComponent } from './components/pages/page
 import { BuchungsuebersichtAdminViewMitarbeiterComponent } from './components/pages/page-buchungsuebersicht-admin/view-mitarbeiter/view-mitarbeiter.component';
 import { EditParkhausDialogComponent } from './components/dialogs/edit-parkhaus-dialog/edit-parkhaus-dialog.component';
 import { GooglePlaceModule } from "ngx-google-places-autocomplete";
+import { KennzeichenHinzufuegenDialogComponent } from './components/dialogs/kennzeichen-hinzufuegen-dialog/kennzeichen-hinzufuegen-dialog.component';
 
 
 registerLocaleData(localeDE, localeDeExtra);
@@ -69,7 +70,8 @@ const luxComponentsConfig: LuxComponentsConfigParameters = {
     BuchungsuebersichtAdminViewMitarbeiterComponent,
     AdminEditComponent,
     PageVerstossComponent,
-    EditParkhausDialogComponent
+    EditParkhausDialogComponent,
+    KennzeichenHinzufuegenDialogComponent
   ],
   imports: [
     BrowserModule,

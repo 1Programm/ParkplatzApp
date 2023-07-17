@@ -1,5 +1,6 @@
 package com.gfi.parkplatzapp.backend.persistence.entities;
 
+import com.gfi.parkplatzapp.backend.utils.AktivitaetEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,8 +20,12 @@ public class Parkplatz {
     private int xKoordinate;
     private int yKoordinate;
 
+    @Enumerated(EnumType.STRING)
+    private AktivitaetEnum aktivitaet;
     @ManyToOne
     private Parkplatztyp parkplatztyp;
     @ManyToOne
     private Preiskategorie preiskategorie;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Parkflaeche parkflaeche;
 }

@@ -1,5 +1,6 @@
 package com.gfi.parkplatzapp.backend.persistence.entities;
 
+import com.gfi.parkplatzapp.backend.utils.AktivitaetEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,10 +20,16 @@ public class Parkflaeche {
 
     private String bezeichnung;
 
+    @Enumerated(EnumType.STRING)
+    private AktivitaetEnum aktivitaet;
+
     @ManyToOne
     private DBImage image;
 
-    @OneToMany
+    @ManyToOne
+    private Parkhaus parkhaus;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Parkplatz> parkplatzList;
 
 }

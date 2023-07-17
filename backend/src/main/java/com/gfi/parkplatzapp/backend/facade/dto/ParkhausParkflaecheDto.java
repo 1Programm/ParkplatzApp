@@ -3,8 +3,12 @@ package com.gfi.parkplatzapp.backend.facade.dto;
 import com.gfi.parkplatzapp.backend.persistence.entities.DBImage;
 import com.gfi.parkplatzapp.backend.persistence.entities.Parkflaeche;
 import com.gfi.parkplatzapp.backend.persistence.entities.Parkhaus;
+import com.gfi.parkplatzapp.backend.utils.AktivitaetEnum;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -31,6 +35,7 @@ public class ParkhausParkflaecheDto {
             parkflaeche.setImage(dto.getImage());
             parkflaeche.setBezeichnung(dto.getBezeichnung());
             parkflaeche.setParkplatzList(null);
+            parkflaeche.setAktivitaet(AktivitaetEnum.AKTIV);
             return parkflaeche;
         }
 
@@ -51,13 +56,19 @@ public class ParkhausParkflaecheDto {
         dto.setHausnummer(parkhaus.getHausnummer());
         dto.setPlz(parkhaus.getPlz());
         dto.setOrt(parkhaus.getOrt());
-        dto.setParkflaecheList(new ParkflaecheDto[parkhaus.getParkflaecheList().size()]);
+        List<ParkflaecheDto> parkflaecheDtoList = new ArrayList<>();
         for (int i = 0; i < parkhaus.getParkflaecheList().size(); i++) {
-            dto.getParkflaecheList()[i] = new ParkflaecheDto();
-            dto.getParkflaecheList()[i].setParkflaecheID(parkhaus.getParkflaecheList().get(i).getParkflaecheID());
-            dto.getParkflaecheList()[i].setBezeichnung(parkhaus.getParkflaecheList().get(i).getBezeichnung());
-            dto.getParkflaecheList()[i].setImage(parkhaus.getParkflaecheList().get(i).getImage());
+            if(parkhaus.getParkflaecheList().get(i).getAktivitaet() == AktivitaetEnum.INAKTIV) {
+                continue;
+            }
+            ParkflaecheDto parkflaecheDto = new ParkflaecheDto();
+            parkflaecheDto.setParkflaecheID(parkhaus.getParkflaecheList().get(i).getParkflaecheID());
+            parkflaecheDto.setBezeichnung(parkhaus.getParkflaecheList().get(i).getBezeichnung());
+            parkflaecheDto.setImage(parkhaus.getParkflaecheList().get(i).getImage());
+            parkflaecheDtoList.add(parkflaecheDto);
+
         }
+        dto.setParkflaecheList(parkflaecheDtoList.toArray(new ParkflaecheDto[0]));
         return dto;
     }
 

@@ -7,10 +7,12 @@ import { Parkplatz } from 'src/app/facade/Parkplatz';
 import { Kennzeichen } from 'src/app/facade/Kennzeichen';
 import { DateUtils } from 'src/app/utils/date.utils';
 import { AccountService } from 'src/app/services/account.service';
-import { LuxSnackbarService } from '@ihk-gfi/lux-components';
+import { LuxDialogService, LuxSnackbarService } from '@ihk-gfi/lux-components';
 import { AdminService } from 'src/app/services/admin.service';
 import { ImageUtils } from 'src/app/utils/image.utils';
 import { ParkplatzMitStatusDto } from '../../../facade/dto/ParkplatzMitStatusDto';
+import { KennzeichenHinzufuegenDialogComponent } from '../../dialogs/kennzeichen-hinzufuegen-dialog/kennzeichen-hinzufuegen-dialog.component';
+import { ProfilServiceService } from 'src/app/services/profil-service.service';
 
 @Component({
   selector: 'app-buchen-page',
@@ -34,8 +36,9 @@ export class BuchenPageComponent implements OnInit {
 
   image: any;
   public marker: ParkplatzMitStatusDto[];
+  dialogConfig: any;
 
-  constructor(private buchungService: BuchungService, private accountService: AccountService, private snackbarService: LuxSnackbarService, private adminService: AdminService) {}
+  constructor(private buchungService: BuchungService, private accountService: AccountService, private snackbarService: LuxSnackbarService, private adminService: AdminService, private profilService: ProfilServiceService, private dialogService: LuxDialogService) {}
 
   ngOnInit(): void {
     // Abrufen der Parkflächen
@@ -80,6 +83,18 @@ export class BuchenPageComponent implements OnInit {
   }
 
   public addParkplatzToBasket(parkplatz: Parkplatz) {
+    if(this.kennzeichenList.length === 0) {
+      const dialogRef = this.dialogService.openComponent(KennzeichenHinzufuegenDialogComponent, this.dialogConfig, null);
+      dialogRef.dialogClosed.subscribe((result: string) => {
+        if (result != null) {
+          this.profilService.createKennzeichenForMitarbeiter(this.mitarbeiterID, result).subscribe((data) => {
+            this.kennzeichenList = data.kennzeichenList;
+            this.addParkplatzToBasket(parkplatz);
+          });
+        }
+      });
+    } else {
+      
     let newBuchung: BuchungAbschlussDto = {
       parkplatzKennung: this.selectedParkflaeche.parkhausBezeichnung + "-" + this.selectedParkflaeche.parkflaecheBezeichnung + "-" + parkplatz.nummer,
       datum: this.selectedDatum,
@@ -91,6 +106,7 @@ export class BuchenPageComponent implements OnInit {
     this.setupBuchungForUI(newBuchung);
 
     this.abschlussBuchungen.push(newBuchung);
+    }
   }
 
   public cancelBuchung(index: number){
@@ -110,7 +126,7 @@ export class BuchenPageComponent implements OnInit {
   //alle sachen für die Map und die Marker
   loadMarker(): void {
     if(this.selectedDatum === undefined) return;
-
+    if(this.selectedParkflaeche == undefined) return;
     this.adminService.getImageForParkflaeche(this.selectedParkflaeche.parkflaecheID).subscribe(image => {
       ImageUtils.readAsDataUrl(image).subscribe(image => {
         this.image = image;

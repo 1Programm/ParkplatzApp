@@ -56,9 +56,10 @@ export class AdminEditComponent implements OnInit {
     this.selectedParkhausChanged.emit(true);
   }
 
-  public deleteParkflaeche(parkhaus: any, parkflaeche: any) {
-    this.adminService.deleteParkflaeche(parkflaeche.parkflaecheID, parkhaus.parkhausID).subscribe(() => {
+  public deleteParkflaeche(parkflaeche: any) {
+    this.adminService.deleteParkflaeche(parkflaeche.parkflaecheID).subscribe(() => {
       this.adminService.getAllParkhausAndParkflaeche().subscribe(parkhaeuser => {
+        console.log("boa", parkhaeuser)
         this.parkhaeuser = parkhaeuser;
       });
 
