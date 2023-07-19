@@ -10,8 +10,9 @@ export class DateUtils {
         return formatDate(date, 'dd/MM/YYYY', "de-DE");
     }
 
-    public static removeTimeFromDate(date: Date): void {
+    public static removeTimeFromDate(date: Date): Date {
         date.setHours(0, 0, 0, 0);
+        return date;
     }
 
     public static getToday(): Date {

@@ -48,6 +48,8 @@
                             </lux-layout-form-row>
                         </div>
                     </div>
+
+                    <p *ngIf="selectedDatum.getTime() === dateToday.getTime()" style="color: gray">Wenn Sie für den heutigen Tag Buchen, ist keine Stonierung mehr möglich!</p>
                 </lux-card-content>
                 <lux-card-actions>
                     <lux-button [luxDisabled]="abschlussBuchungen.length === 0" [luxRaised]="true" luxLabel="Buchen"

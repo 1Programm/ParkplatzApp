@@ -27,8 +27,8 @@ export class BuchenPageComponent implements OnInit {
   public selectedParkflaeche: ParkflaecheAuswahlDto;
   public kennzeichenList: Kennzeichen[];
 
-  
-  public selectedDatum: Date | undefined = DateUtils.getToday();
+  public dateToday = DateUtils.removeTimeFromDate(DateUtils.getToday());
+  public selectedDatum: Date = DateUtils.removeTimeFromDate(DateUtils.getToday());
   public minDate: string = DateUtils.getTodayAsString();
   public maxDate: string = DateUtils.getFuture_2WeeksAsString();
 
@@ -78,7 +78,7 @@ export class BuchenPageComponent implements OnInit {
 
   //Change Methode gibt ein string zurück, jedoch wollen wir ein Date-Objekt
   public onSelectedDatumChange(date){
-    this.selectedDatum = new Date(date);
+    this.selectedDatum = DateUtils.removeTimeFromDate(new Date(date));
     this.loadMarker();
   }
 
