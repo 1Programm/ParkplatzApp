@@ -78,7 +78,7 @@ export class BuchenPageComponent implements OnInit {
 
   //Change Methode gibt ein string zurück, jedoch wollen wir ein Date-Objekt
   public onSelectedDatumChange(date){
-    this.selectedDatum = DateUtils.removeTimeFromDate(new Date(date));
+    this.selectedDatum = new Date(date);//DateUtils.removeTimeFromDate(new Date(date));
     this.loadMarker();
   }
 
@@ -129,7 +129,7 @@ export class BuchenPageComponent implements OnInit {
 
 
   //alle sachen für die Map und die Marker
-  loadMarker(): void {
+  private loadMarker(): void {
     if(this.selectedDatum === undefined) return;
     if(this.selectedParkflaeche == undefined) return;
     this.adminService.getImageForParkflaeche(this.selectedParkflaeche.parkflaecheID).subscribe(image => {
@@ -150,8 +150,8 @@ export class BuchenPageComponent implements OnInit {
         for(let buchung of this.abschlussBuchungen){
           this.marker.forEach((marker) => {
             
-            if(marker.parkplatz.parkplatzID === buchung.parkplatz.parkplatzID) {
-              console.log("marker: " + marker.parkplatz.parkplatzID + " buchung: " + buchung.parkplatz.parkplatzID)
+            if(marker.parkplatz.parkplatzID === buchung.parkplatz.parkplatzID && buchung.datum.getTime() === this.selectedDatum.getTime()) {
+              //console.log("marker: " + marker.parkplatz.parkplatzID + " buchung: " + buchung.parkplatz.parkplatzID)
               marker.status = "BELEGT";
             }
         });
