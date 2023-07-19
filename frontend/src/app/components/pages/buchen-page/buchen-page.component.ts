@@ -58,6 +58,7 @@ export class BuchenPageComponent implements OnInit {
     // Abrufen der Kennzeichen für den Mitarbeiter
     this.buchungService.getKennzeichenForMitarbeiter(this.mitarbeiterID).subscribe((data: Kennzeichen[]) => {
       this.kennzeichenList = data;
+      this.loadFromSessionStorage();
     });
   }
 
@@ -97,12 +98,45 @@ export class BuchenPageComponent implements OnInit {
 
   //Change Methode gibt ein string zurück, jedoch wollen wir ein Date-Objekt
   public onSelectedDatumChange(date){
-    this.selectedDatum = new Date(date);//DateUtils.removeTimeFromDate(new Date(date));
+    this.selectedDatum = new Date(date);
     this.loadMarker();
   }
 
-  public  onSelectedParkflaecheChange(){
+  public onSelectedParkflaecheChange(){
     this.loadMarker();
+  }
+
+  private loadFromSessionStorage(){
+      let _buchungLength = sessionStorage.getItem("buchung_length");
+      if(_buchungLength){
+        this.abschlussBuchungen = [];
+
+        let buchungLength = +_buchungLength;
+        for(let i=0;i<buchungLength;i++){
+          let _buchungDto = sessionStorage.getItem("buchung" + i);
+          let buchungDto: BuchungAbschlussDto = JSON.parse(_buchungDto);
+          buchungDto.datum = new Date(buchungDto.datum);
+
+          this.setupBuchungForUI(buchungDto);
+          this.abschlussBuchungen.push(buchungDto);
+        }
+      }
+  }
+
+  private updateSessionStorage(){
+    let _oldLength = sessionStorage.getItem("buchung_length");
+    if(_oldLength){
+      let oldLength = +_oldLength;
+      for(let i=0;i<oldLength;i++){
+        sessionStorage.removeItem("buchung" + i);
+      }
+    }
+
+    sessionStorage.setItem("buchung_length", "" + this.abschlussBuchungen.length);
+    for(let i=0;i<this.abschlussBuchungen.length;i++){
+      let buchung = this.abschlussBuchungen[i];
+      sessionStorage.setItem("buchung" + i, JSON.stringify(buchung));
+    }
   }
 
   public addParkplatzToBasket(parkplatz: Parkplatz) {
@@ -126,20 +160,22 @@ export class BuchenPageComponent implements OnInit {
       }
   
 
-    this.setupBuchungForUI(newBuchung);
-
-    this.abschlussBuchungen.push(newBuchung);
+      this.setupBuchungForUI(newBuchung);
+      this.abschlussBuchungen.push(newBuchung);
+      this.updateSessionStorage();
     }
   }
 
   public cancelBuchung(index: number){
     this.abschlussBuchungen.splice(index, 1);
+    this.updateSessionStorage();
     this.marker[index].status = "FREI";
   }
 
   public confirmBuchung(){
     this.buchungService.saveBuchungen(this.abschlussBuchungen).subscribe(() => {
       this.abschlussBuchungen = [];
+      this.updateSessionStorage();
       this.snackbarService.openText('Buchung erfolgreich!', 3000);
       this.loadMarker();
       
