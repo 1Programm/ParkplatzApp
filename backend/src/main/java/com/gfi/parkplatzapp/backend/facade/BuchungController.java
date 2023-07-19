@@ -1,13 +1,10 @@
 package com.gfi.parkplatzapp.backend.facade;
 
-import com.gfi.parkplatzapp.backend.facade.dto.BuchungAbschlussDto;
-import com.gfi.parkplatzapp.backend.facade.dto.BuchungDetailsDto;
-import com.gfi.parkplatzapp.backend.facade.dto.ParkflaecheAuswahlDto;
+import com.gfi.parkplatzapp.backend.facade.dto.*;
 import com.gfi.parkplatzapp.backend.persistence.entities.Kennzeichen;
 import com.gfi.parkplatzapp.backend.persistence.entities.Parkplatz;
 import com.gfi.parkplatzapp.backend.persistence.entities.Parkplatztyp;
 import com.gfi.parkplatzapp.backend.persistence.entities.Preiskategorie;
-import com.gfi.parkplatzapp.backend.facade.dto.ParkplatzMitStatusDto;
 import com.gfi.parkplatzapp.backend.service.BuchungService;
 import com.gfi.parkplatzapp.backend.service.MitarbeiterService;
 import com.gfi.parkplatzapp.backend.service.ParkplatzService;
@@ -40,6 +37,11 @@ public class BuchungController {
     @GetMapping("/parkflaechen")
     public List<ParkflaecheAuswahlDto> getParkflaechen() {
         return this.buchungService.getParkflaechen();
+    }
+
+    @GetMapping("/parkhaus/{parkhausID}/adresse")
+    public ParkhausAdresseDto getParkhausAdresse(@PathVariable("parkhausID") long id){
+        return this.buchungService.getParkhausAdresse(id);
     }
 
     /**

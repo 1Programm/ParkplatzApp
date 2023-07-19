@@ -13,6 +13,8 @@ import { ParkplatzMitStatusDto } from '../../../facade/dto/ParkplatzMitStatusDto
 import { KennzeichenHinzufuegenDialogComponent } from '../../dialogs/kennzeichen-hinzufuegen-dialog/kennzeichen-hinzufuegen-dialog.component';
 import { ProfilServiceService } from 'src/app/services/profil-service.service';
 import { AktivitaetsEnum } from 'src/app/utils/aktivitaetEnum.utils';
+import { Parkhaus } from 'src/app/facade/Parkhaus';
+import { ParkhausAdressDto } from 'src/app/facade/dto/ParkhausAdress.dto';
 
 @Component({
   selector: 'app-buchen-page',
@@ -24,7 +26,17 @@ export class BuchenPageComponent implements OnInit {
   public mitarbeiterID: number = this.accountService.getMitarbeiterID();
   public isAdmin: boolean = this.accountService.isAdmin;
   public parkflaechen : ParkflaecheAuswahlDto[];
-  public selectedParkflaeche: ParkflaecheAuswahlDto;
+  
+  private _selectedParkflaeche: ParkflaecheAuswahlDto;
+  public set selectedParkflaeche(parkflaeche){
+    this._selectedParkflaeche = parkflaeche;
+    this.loadParkhausAddress();
+  }
+  public get selectedParkflaeche() {
+    return this._selectedParkflaeche;
+  }
+
+  public parkhausAddress: ParkhausAdressDto;
   public kennzeichenList: Kennzeichen[];
 
   public dateToday = DateUtils.removeTimeFromDate(DateUtils.getToday());
@@ -60,6 +72,13 @@ export class BuchenPageComponent implements OnInit {
       this.selectedParkflaeche = parkflaechen[0];
       this.loadMarker();
 
+    });
+  }
+
+  private loadParkhausAddress(){
+    this.buchungService.getParkhausAddress(this.selectedParkflaeche.parkhausID).subscribe(data => {
+      this.parkhausAddress = data;
+      this.parkhausAddress["_bezeichnung"] = data.strasse + " " + data.hausnummer + " " + data.ort + " " + data.plz;
     });
   }
 

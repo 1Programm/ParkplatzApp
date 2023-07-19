@@ -170,6 +170,13 @@ public class BuchungService {
         return resultList;
     }
 
+    public ParkhausAdresseDto getParkhausAdresse(long id){
+        Parkhaus parkhaus = parkhausRepo.findById(id)
+                .orElseThrow(() -> new IllegalStateException("Parkhaus [" + id + "] should be found!"));
+
+        return ParkhausAdresseDto.createFromParkhaus(parkhaus);
+    }
+
     public List<ParkplatzMitStatusDto> getParkplaetzeOfParkflaecheAndDate(Long parkflaecheID, String p_date) {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
