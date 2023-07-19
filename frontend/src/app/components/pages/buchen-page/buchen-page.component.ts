@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BuchungService } from 'src/app/services/buchung.service';
 import {ParkflaecheAuswahlDto } from '../../../facade/dto/parkflaeche-auswahl.dto';
-import { BuchungDto } from 'src/app/facade/dto/BuchungDto';
 import { BuchungAbschlussDto } from 'src/app/facade/dto/BuchungAbschluss.dto';
 import { Parkplatz } from 'src/app/facade/Parkplatz';
 import { Kennzeichen } from 'src/app/facade/Kennzeichen';
@@ -13,6 +12,7 @@ import { ImageUtils } from 'src/app/utils/image.utils';
 import { ParkplatzMitStatusDto } from '../../../facade/dto/ParkplatzMitStatusDto';
 import { KennzeichenHinzufuegenDialogComponent } from '../../dialogs/kennzeichen-hinzufuegen-dialog/kennzeichen-hinzufuegen-dialog.component';
 import { ProfilServiceService } from 'src/app/services/profil-service.service';
+import { AktivitaetsEnum } from 'src/app/utils/aktivitaetEnum.utils';
 
 @Component({
   selector: 'app-buchen-page',
