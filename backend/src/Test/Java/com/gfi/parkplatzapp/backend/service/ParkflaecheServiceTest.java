@@ -56,11 +56,11 @@ class ParkflaecheServiceTest  {
     public void deleteParkflaeche_Test() throws Exception {
 
         ParkflaecheService mockInstance = mock(ParkflaecheService.class);
-        mockInstance.deleteParkflaeche(1l, 1l);
-        Mockito.verify(mockInstance).deleteParkflaeche(1L, 1L);
+        mockInstance.deleteParkflaeche(1l);
+        Mockito.verify(mockInstance).deleteParkflaeche(1L);
 
         assertThrows(IllegalStateException.class, () -> {
-            parkflaecheService.deleteParkflaeche(1L, -1L);
+            parkflaecheService.deleteParkflaeche(-1L);
         });
     }
 

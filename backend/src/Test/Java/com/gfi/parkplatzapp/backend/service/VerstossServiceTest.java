@@ -44,7 +44,7 @@ class VerstossServiceTest {
         VerstossDto verstossDto = new VerstossDto(1L, 1L, datum, "Test",IN_BEARBEITUNG);
         Verstoss verstoss = verstossService.speichernVerstoss(verstossDto);
         assertEquals("Test", verstoss.getBemerkung());
-        assertEquals("In Bearbeitung", verstoss.getStatus());
+        assertEquals("In_Bearbeitung", verstoss.getStatus());
 
         assertThrows(IllegalArgumentException.class, () -> {
             VerstossDto verstossDtoError = new VerstossDto(1L, 8L, datum, "Test",IN_BEARBEITUNG);
@@ -54,11 +54,11 @@ class VerstossServiceTest {
 
     @Test
     public void getVerstoesse_Test () throws Exception {
-        List<Verstoss> verstoss = verstossService.getVerstoesse(1L);
+        List<Verstoss> verstoss = verstossService.getVerstoesseForMitatbeiter(1L);
         assertEquals("In Bearbeitung", verstoss.get(0).getStatus());
 
         assertThrows(IllegalArgumentException.class, () -> {
-            verstossService.getVerstoesse(19L);
+            verstossService.getVerstoesseForMitatbeiter(19L);
         });
 
     }

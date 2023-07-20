@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import static com.gfi.parkplatzapp.backend.utils.AktivitaetEnum.AKTIV;
 import static org.junit.jupiter.api.Assertions.*;
 
 @AutoConfigureMockMvc(addFilters = false)
@@ -37,20 +38,20 @@ class ParkplatzServiceTest {
     public void saveParkplatz_Test () throws Exception {
         Parkplatztyp parkplatztyp = new Parkplatztyp(1L, "Test", "probieren");
         Preiskategorie preiskategorie = new Preiskategorie(1L, "Test", 19.00);
-        Parkplatz parkplatz = new Parkplatz(1L, "P4", 345, 789, parkplatztyp, preiskategorie);
+        Parkplatz parkplatz = new Parkplatz(1L, "P4", 345, 789, AKTIV, parkplatztyp, preiskategorie, null);
         List<Parkplatz> parkplatzS = parkplatzService.saveParkplatz(parkplatz, 1L);
         assertEquals("P4", parkplatzS.get(0).getNummer());
 
         assertThrows(NoSuchElementException.class, () -> {
             Preiskategorie preiskategorieError = new Preiskategorie(-20L, "Test", 19.00);
-            Parkplatz parkplatzError = new Parkplatz(1L, "P4", 345, 789, parkplatztyp, preiskategorieError);
+            Parkplatz parkplatzError = new Parkplatz(1L, "P4", 345, 789, AKTIV, parkplatztyp, preiskategorieError, null);
             parkplatzService.saveParkplatz(parkplatzError, 1L);
 
         });
 
         assertThrows(NoSuchElementException.class, () -> {
             Parkplatztyp parkplatztypError = new Parkplatztyp(-20L, "Test", "probieren");
-            Parkplatz parkplatzError = new Parkplatz(1L, "P4", 345, 789, parkplatztypError, preiskategorie);
+            Parkplatz parkplatzError = new Parkplatz(1L, "P4", 345, 789, AKTIV, parkplatztypError, preiskategorie, null);
             parkplatzService.saveParkplatz(parkplatzError, 1L);
         });
 

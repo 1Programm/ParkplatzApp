@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static com.gfi.parkplatzapp.backend.utils.AktivitaetEnum.AKTIV;
 import static org.junit.jupiter.api.Assertions.*;
 
 @AutoConfigureMockMvc(addFilters = false)
@@ -48,8 +49,8 @@ class ParkhausServiceTest {
     @Test
     public void createFromParkhaus_Test () throws Exception {
         List<Parkflaeche> parkflaeche = new ArrayList<>();
-        Parkhaus parkhaus = new Parkhaus(1L, "Parkhaus 3", "Nebenstraße", 3, 44999, "Gelsenkirchen", parkflaeche);
-        ParkhausParkflaecheDto parkhausflaeche = parkhausService.createFromParkhaus(parkhaus);
+        Parkhaus parkhaus = new Parkhaus(1L, "Parkhaus 3", "Nebenstraße", 3, 44999, "Gelsenkirchen",  AKTIV, parkflaeche);
+        ParkhausParkflaecheDto parkhausflaeche = ParkhausParkflaecheDto.createFromParkhaus(parkhaus);
         assertEquals(1, parkhausflaeche.getParkhausID());
         assertEquals(0, parkhausflaeche.getParkflaecheList().length);
     }

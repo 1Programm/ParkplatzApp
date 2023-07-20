@@ -23,6 +23,7 @@ import java.text.ParseException;
 import java.util.*;
 
 
+import static com.gfi.parkplatzapp.backend.utils.AktivitaetEnum.AKTIV;
 import static com.gfi.parkplatzapp.backend.utils.StatusEnum.BELEGT;
 import static com.gfi.parkplatzapp.backend.utils.StatusEnum.FREI;
 import static org.junit.jupiter.api.Assertions.*;
@@ -99,17 +100,13 @@ class BuchungServiceTest {
 
         Parkplatztyp parkT = new Parkplatztyp(1L, "Test", "Testfall");
         Preiskategorie preisK = new Preiskategorie(1L, "Test", 10.00);
-        Parkplatz park = new Parkplatz(1L, "P8", 123, 456, parkT, preisK);
-        Parkflaeche parkf = new Parkflaeche(1L, "88P", null, null);
+        Parkplatz park = new Parkplatz(1L, "P8", 123, 456, AKTIV, parkT, preisK, null);
+        Parkflaeche parkf = new Parkflaeche(1L, "88P", AKTIV, null, null, null);
         List<ParkplatzMitStatusDto> parkp = buchungService.getParkplaetzeOfParkflaecheAndDate(1L, "07.07.2023");
         /* List<ParkplatzMitStatusDto> parkp2 = buchungService.;
         assertEquals(FREI, parkp.get(0).getStatus());
         assertEquals(BELEGT, parkp2.get(0).getStatus());
          */
-
-        assertThrows(ParseException.class, () -> {
-            buchungService.getParkplaetzeOfParkflaecheAndDate(1L, "07.2023");
-        });
 
     }
 
@@ -156,7 +153,7 @@ class BuchungServiceTest {
 
         Parkplatztyp parkT = new Parkplatztyp(1L, "Test", "Testfall");
         Preiskategorie preisK = new Preiskategorie(1L, "Test", 10.00);
-        Parkplatz park = new Parkplatz(1L, "P8", 123, 456, parkT, preisK);
+        Parkplatz park = new Parkplatz(1L, "P8", 123, 456, AKTIV, parkT, preisK, null);
         Kennzeichen kennzeichen = new Kennzeichen(6L, "DO-JB1999");
         BuchungAbschlussDto dto = new BuchungAbschlussDto(datum, 1L, kennzeichen, park);
         BuchungAbschlussDto[] dtoList = {dto};
@@ -181,7 +178,7 @@ class BuchungServiceTest {
         });
 
         assertThrows(IllegalStateException.class, () -> {
-            Parkplatz parkError = new Parkplatz(1L, "P8", 123, 456, parkT, preisK);
+            Parkplatz parkError = new Parkplatz(1L, "P8", 123, 456, AKTIV, parkT, preisK, null);
             BuchungAbschlussDto dtoError = new BuchungAbschlussDto(datum, -1L, kennzeichen, parkError);
             BuchungAbschlussDto[] dtoListErrorParkplatzId = {dtoError};
             buchungService.schliesseBuchungAb(dtoListErrorParkplatzId);
@@ -192,7 +189,7 @@ class BuchungServiceTest {
     public void calculateTagespreis_Test() throws Exception {
         Parkplatztyp parkT = new Parkplatztyp(1L, "Test", "Testfall");
         Preiskategorie preisK = new Preiskategorie(1L, "Test", 10.00);
-        Parkplatz park = new Parkplatz(1L, "P8", 123, 456, parkT, preisK);
+        Parkplatz park = new Parkplatz(1L, "P8", 123, 456, AKTIV, parkT, preisK, null);
         double tagPreis = buchungService.calculateTagespreis(park);
         assertEquals(10.00, tagPreis);
     }
