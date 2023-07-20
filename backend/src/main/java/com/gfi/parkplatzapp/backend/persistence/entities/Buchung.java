@@ -29,6 +29,7 @@ public class Buchung {
 
     @ManyToOne
     private Mitarbeiter mitarbeiter;
+
     @ManyToOne
     private Parkplatz parkplatz;
     

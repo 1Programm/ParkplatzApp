@@ -51,6 +51,7 @@ export class MapComponent implements OnInit {
     dialogRef.dialogClosed.subscribe((result: Parkplatz) => {
       if (result != null) {
         this.onParkplatzToBasket.emit(result);
+        spot.status = "BELEGT"
       }
       this.showNewMarker = false;
     });

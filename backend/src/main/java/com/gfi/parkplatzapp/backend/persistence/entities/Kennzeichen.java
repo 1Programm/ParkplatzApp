@@ -20,8 +20,6 @@ public class Kennzeichen {
     private Long kennzeichenID;
     private String kennzeichen;
 
-
-
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

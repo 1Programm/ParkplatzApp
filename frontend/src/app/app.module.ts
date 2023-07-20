@@ -41,6 +41,11 @@ import { BuchungsuebersichtAdminViewDateComponent } from './components/pages/pag
 import { BuchungsuebersichtAdminViewAllComponent } from './components/pages/page-buchungsuebersicht-admin/view-all/view-all.component';
 import { BuchungsuebersichtAdminViewMitarbeiterComponent } from './components/pages/page-buchungsuebersicht-admin/view-mitarbeiter/view-mitarbeiter.component';
 import { EditParkhausDialogComponent } from './components/dialogs/edit-parkhaus-dialog/edit-parkhaus-dialog.component';
+import { PageAbrechnungAdminComponent } from './components/pages/page-abrechnung-admin/page-abrechnung-admin.component';
+import { RangeDatePickerComponent } from './components/core/range-date-picker/range-date-picker.component';
+import { GooglePlaceModule } from "ngx-google-places-autocomplete";
+import { KennzeichenHinzufuegenDialogComponent } from './components/dialogs/kennzeichen-hinzufuegen-dialog/kennzeichen-hinzufuegen-dialog.component';
+
 
 registerLocaleData(localeDE, localeDeExtra);
 
@@ -67,7 +72,10 @@ const luxComponentsConfig: LuxComponentsConfigParameters = {
     BuchungsuebersichtAdminViewMitarbeiterComponent,
     AdminEditComponent,
     PageVerstossComponent,
-    EditParkhausDialogComponent
+    EditParkhausDialogComponent,
+    PageAbrechnungAdminComponent,
+    RangeDatePickerComponent,
+    KennzeichenHinzufuegenDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -85,6 +93,8 @@ const luxComponentsConfig: LuxComponentsConfigParameters = {
     LuxErrorModule,
     LuxMarkdownModule,
     FlexLayoutModule,
+    GooglePlaceModule,
+
     LuxComponentsConfigModule.forRoot(luxComponentsConfig)
   ],
   providers: [

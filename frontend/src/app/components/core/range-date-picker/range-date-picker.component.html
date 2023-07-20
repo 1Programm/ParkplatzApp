@@ -1,0 +1,21 @@
+<lux-layout-form-row>
+    <lux-datepicker luxLabel="Start" [luxTouchUi]="true" 
+        [luxValue]="dateStart"
+        [luxMinDate]="calculated_dateStartMin" [luxMaxDate]="calculated_dateStartMax"
+        (luxValueChange)="onDateStartChange($event)" [luxDisabled]="disabled"
+        luxPlaceholder="Wählen Sie ein Start Datum"
+        *luxLayoutRowItem="{ }"
+    >
+    </lux-datepicker>
+
+    <lux-datepicker luxLabel="Ende" [luxTouchUi]="true" 
+        [luxValue]="dateEnd"
+        [luxMinDate]="calculated_dateEndMin" [luxMaxDate]="calculated_dateEndMax"
+        (luxValueChange)="onDateEndChange($event)" [luxDisabled]="disabled"
+        luxPlaceholder="Wählen Sie ein End Datum"
+        *luxLayoutRowItem="{ }"
+    >
+    </lux-datepicker>
+    
+    <div *luxLayoutRowItem="{ empty: true }"></div>
+</lux-layout-form-row>

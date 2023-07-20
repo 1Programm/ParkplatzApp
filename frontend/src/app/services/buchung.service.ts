@@ -13,6 +13,7 @@ import { ServiceBase } from './service-utils';
 import { BuchungDto } from '../facade/dto/BuchungDto';
 import { Kennzeichen } from '../facade/Kennzeichen';
 import { BuchungAbschlussDto } from '../facade/dto/BuchungAbschluss.dto';
+import { ParkhausAdressDto } from '../facade/dto/ParkhausAdress.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,12 @@ export class BuchungService extends ServiceBase{
 
   constructor(private http: HttpClient){
     super();
+  }
+
+  public getParkhausAddress(parkhausID: number): Observable<ParkhausAdressDto> {
+    return this.wrapRetryAndCatchError(
+      this.http.get<ParkhausAdressDto>(`${environment.apiServerUrl}/buchung/parkhaus/${parkhausID}/adresse`)
+    );
   }
 
   public getParkflaechen(): Observable<ParkflaecheAuswahlDto[]> {
