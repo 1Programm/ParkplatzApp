@@ -45,14 +45,15 @@ class BuchungServiceTest {
     @Test
     public void getBuchungenForMitarbeiter_Test() throws Exception {
         List<BuchungDetailsDto> buchungen = buchungService.getBuchungenForMitarbeiter(id);
-        assertFalse(buchungen.isEmpty());
         assertEquals(3, buchungen.size());
+        assertEquals("2023-09-09", buchungen.get(0).getDatum().toString());
+        assertEquals("2023-06-04", buchungen.get(2).getDatum().toString());
     }
 
     @Test
     public void getAllBuchungen_Test() throws Exception {
         List<BuchungUebersichtDto> buchungen = buchungService.getAllBuchungen();
-        assertFalse(buchungen.isEmpty());
+        assertEquals(5, buchungen.size());
         assertTrue(buchungen.get(1).getDatum().toString().equals("2023-08-30"));
     }
 
@@ -103,10 +104,10 @@ class BuchungServiceTest {
         Parkplatz park = new Parkplatz(1L, "P8", 123, 456, AKTIV, parkT, preisK, null);
         Parkflaeche parkf = new Parkflaeche(1L, "88P", AKTIV, null, null, null);
         List<ParkplatzMitStatusDto> parkp = buchungService.getParkplaetzeOfParkflaecheAndDate(1L, "07.07.2023");
-        /* List<ParkplatzMitStatusDto> parkp2 = buchungService.;
         assertEquals(FREI, parkp.get(0).getStatus());
+        List<ParkplatzMitStatusDto> parkp2 = buchungService.getParkplaetzeOfParkflaecheAndDate(1L, "09.09.2023");
         assertEquals(BELEGT, parkp2.get(0).getStatus());
-         */
+
 
     }
 
