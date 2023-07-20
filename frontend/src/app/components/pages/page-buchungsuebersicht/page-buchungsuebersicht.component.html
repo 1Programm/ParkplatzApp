@@ -1,7 +1,8 @@
-
-
-<lux-layout-card-row [luxGap]="{ row: '30px', rowItem: '50px', column: '2px'}"
+<lux-layout-card-row
+  *ngIf="buchungen && kennzeichen"
+  [luxGap]="{ row: '30px', rowItem: '50px', column: '2px'}"
   [luxMargin]="{ xs: '15%', lg: '15%', xl: '15%', marginLeft: true, marginRight: true}">
+
   <lux-card luxTitle="Meine Buchungen"
     luxSubTitle="Hier können alle Buchungen eingesehen werden und in der Zukunft liegende Buchungen gelöscht bzw das Kennzeichen geändert werden"
     *luxLayoutRowItem="{}">
@@ -28,12 +29,14 @@
           <lux-table-column-content>
             <ng-template let-element>
               <lux-select *ngIf="isDateBeforeToday(element.datum) && kennzeichen.length > 1"
+                luxTagId="select-kennzeichen"
                 (luxSelectedChange)="saveKennzeichenForBuchung($event, element)"
                 [luxOptions]="kennzeichen" luxOptionLabelProp="kennzeichen"
                 [luxSelected]="getSelected(element)">
               </lux-select>
 
               <lux-input *ngIf="!isDateBeforeToday(element.datum) || kennzeichen.length == 1"
+                luxTagId="input-kennzeichen"
                 [luxReadonly]="true"
                 [luxValue]="element.kennzeichen.kennzeichen">
 
@@ -47,6 +50,7 @@
           <lux-table-column-content>
             <ng-template let-element>
               <lux-button *ngIf="isDateBeforeToday(element.datum)"
+                luxTagId="button-delete-buchung"
                 luxIconName="fas fa-trash" (luxClicked)="deleteBuchung(element)"
                 luxColor="warn" [luxRounded]="true"></lux-button>
             </ng-template>

@@ -1,7 +1,9 @@
+
 <lux-accordion luxMode="default" [luxMulti]="true" [luxMulti]="false">
-    <lux-panel *ngFor="let parkhaus of parkhaeuser; let indexOfElement=index" [(luxExpanded)]="expanded[indexOfElement]">
+    <lux-panel *ngFor="let parkhaus of parkhaeuser; let indexOfElement=index" [(luxExpanded)]="expanded[indexOfElement]" (luxExpandedChange)="showNewParkflaeche=false;">
       <lux-panel-header-title>{{parkhaus.bezeichnung}}</lux-panel-header-title>
       <lux-panel-content>
+        
         <lux-layout-form-row *ngFor="let parkflaeche of parkhaus.parkflaecheList">
           <lux-input luxLabel="Bezeichnung der Parkfläche" [(luxValue)]="parkflaeche.bezeichnung" (luxFocusOut)="saveParkflaeche(parkhaus, parkflaeche)" *luxLayoutRowItem="{}"></lux-input>
           
@@ -9,11 +11,12 @@
           [luxContentsAsBlob]="true"
           [luxSelected]="parkflaeche.image"
           [luxDnDActive]="true"
+          [luxDeleteActionConfig]="deleteConfig"
           (luxSelectedChange)="onSelectedFilesChange(parkflaeche, $event)"
           *luxLayoutRowItem="{colSpan:2}">
           </lux-file-input>
 
-          <lux-button luxTagId="deleteItem" luxIconName="fas fa-trash-alt" luxColor="warn" [luxRounded]="true" (luxClicked)="deleteParkflaeche(parkhaus, parkflaeche)" *luxLayoutRowItem="{flex: 'auto'}"></lux-button>
+          <lux-button luxTagId="deleteItem" luxIconName="fas fa-trash-alt" luxColor="warn" [luxRounded]="true" (luxClicked)="deleteParkflaeche(parkflaeche)" *luxLayoutRowItem="{flex: 'auto'}"></lux-button>
         </lux-layout-form-row>
 
         <lux-layout-form-row *ngIf="showNewParkflaeche">
@@ -23,17 +26,25 @@
           [luxContentsAsBlob]="true"
           [(luxSelected)]="selectedImage"
           [luxDnDActive]="true"
+          [luxDeleteActionConfig]="deleteConfig"
           *luxLayoutRowItem="{colSpan:2}">
           </lux-file-input>
 
-          <lux-button luxTagId="saveItem" luxIconName="fas fa-save" luxColor="primary" [luxRounded]="true" [luxDisabled]="newBezeichnung === ''" (luxClicked)="saveNewParkflaeche(parkhaus)" *luxLayoutRowItem="{flex: 'auto'}"></lux-button>
+          <lux-button luxTagId="saveItem" luxIconName="fas fa-save" luxColor="primary" [luxRounded]="true" [luxDisabled]="isFilledOut()" (luxClicked)="saveNewParkflaeche(parkhaus)" *luxLayoutRowItem="{flex: 'auto'}"></lux-button>
           
         </lux-layout-form-row>
         
         <lux-button [luxDisabled]="showNewParkflaeche" luxTagId="addButton" luxIconName="fas fa-plus" luxColor="primary" [luxRounded]="true" (luxClicked)="showNewParkflaecheRow()"></lux-button>
+        <div style="margin-bottom: 10px;"></div>
+        
       </lux-panel-content>
-      
+      <lux-panel-action >
+        <lux-button luxTagId="deleteItem" luxLabel="Lösche Parkhaus" luxColor="warn" [luxRaised]="true" (luxClicked)="deleteParkhaus(parkhaus.parkhausID)"></lux-button>
+        <lux-button luxTagId="editItem"   luxLabel="Editiere Parkhaus"luxColor="primary" [luxRaised]="true"(luxClicked)="saveParkhaus(parkhaus.parkhausID)"></lux-button>
+      </lux-panel-action>
+
     </lux-panel>
 </lux-accordion>
-
-<lux-button [luxRaised]="true" luxColor="primary" (luxClicked)="addParkhaus()" luxLabel="Parkhaus hinzufügen"></lux-button>
+ <div style="margin-top: 10px;" >
+<lux-button [luxRaised]="true" luxColor="primary" (luxClicked)="saveParkhaus()" luxLabel="Parkhaus hinzufügen"></lux-button>
+</div>

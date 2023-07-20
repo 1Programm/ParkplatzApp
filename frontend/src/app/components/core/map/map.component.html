@@ -1,10 +1,11 @@
 
 <div class="parking-map" (click)="handleMapClick($event)">
-  <div class="marker" *ngFor="let spot of parkplaetzeForDate" [style.background-color]="getMarkerColor(spot)" [ngStyle]="getPositionStyle(spot.parkplatz)" (click)="handleUserMarkerClick($event, spot)">
+  <img [src]="image" [ngStyle]="{ 'max-width.px': 500, 'max-height.px': 500 }">
+  <div class="marker" *ngFor="let spot of marker" [style.background-color]="getMarkerColor(spot)" [ngStyle]="getPositionStyle(spot)" (click)="handleUserMarkerClick($event, spot)">
   </div>
 
 <div *ngIf="isAdmin">
-  <div class="marker" *ngFor="let spot of alleParkplaetze"  [style.background-color]="'blue'" [ngStyle]="getPositionStyle(spot)" (click)="handleAdminMarkerClick($event, toParkplatzMitStatusDto(spot))">
+  <div class="marker" *ngFor="let spot of marker"  [style.background-color]="'blue'" [ngStyle]="getPositionStyle(spot)" (click)="handleAdminMarkerClick($event, spot)">
   </div>
 
   <div class="new-marker" *ngIf="showNewMarker" [style.left.px]="newMarkerX" [style.top.px]="newMarkerY" (click)="handleNewMarkerClicked($event)">

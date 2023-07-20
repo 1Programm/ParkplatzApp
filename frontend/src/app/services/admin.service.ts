@@ -7,11 +7,17 @@ import { environment } from 'src/environments/environment';
 import { ParkflaecheDto, ParkhausParkflaecheDto } from '../facade/dto/ParkhausParkflaecheDto';
 import { Parkplatz } from '../facade/Parkplatz';
 import { Parkflaeche } from '../facade/Parkflaeche';
+import { ParkhausEditierenDto } from '../facade/dto/ParkhausEditierenDto';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminService extends ServiceBase {
+  getParkhaus(parkhausID: number): Observable<ParkhausEditierenDto> {
+    return this.wrapRetryAndCatchError(
+      this.http.get<ParkhausEditierenDto>(`${environment.apiServerUrl}/admin/parkhaus/${parkhausID}`)
+    );
+  }
 
   constructor(private http: HttpClient) {super(); }
 
@@ -33,14 +39,26 @@ export class AdminService extends ServiceBase {
     );
   }
 
-  public deleteParkflaeche(parkflaecheID: number, parkhausID: number): Observable<void> {
-    return this.wrapRetryAndCatchError(this.http.delete<void>(`${environment.apiServerUrl}/admin/parkflaeche/${parkflaecheID}/parkhaus/${parkhausID}`)
+  public deleteParkflaeche(parkflaecheID: number): Observable<void> {
+    return this.wrapRetryAndCatchError(this.http.delete<void>(`${environment.apiServerUrl}/admin/parkflaeche/${parkflaecheID}`)
     );
   }
 
   public saveParkflaeche(parkhausID: number, parkflaeche: ParkflaecheDto): Observable<Parkflaeche> {
     return this.wrapRetryAndCatchError(
       this.http.post<Parkflaeche>(`${environment.apiServerUrl}/admin/parkflaeche/${parkhausID}`, parkflaeche)
+    );
+  }
+
+  public saveParkhaus(parkhaus: ParkhausEditierenDto): Observable<ParkhausEditierenDto> {
+    return this.wrapRetryAndCatchError(
+      this.http.post<ParkhausEditierenDto>(`${environment.apiServerUrl}/admin/parkhaus`, parkhaus)
+    );
+  }
+
+  public deleteParkhaus(parkhausID: number): Observable<ParkhausEditierenDto> {
+    return this.wrapRetryAndCatchError(
+      this.http.delete<ParkhausEditierenDto>(`${environment.apiServerUrl}/admin/parkhaus/${parkhausID}`)
     );
   }
 

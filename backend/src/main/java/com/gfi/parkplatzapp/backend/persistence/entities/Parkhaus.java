@@ -1,16 +1,15 @@
 package com.gfi.parkplatzapp.backend.persistence.entities;
 
+import com.gfi.parkplatzapp.backend.utils.AktivitaetEnum;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Getter
 @Setter
 public class Parkhaus {
@@ -20,10 +19,13 @@ public class Parkhaus {
     private Long parkhausID;
 
     private String bezeichnung;
-    private String straße;
+    private String strasse;
     private int hausnummer;
     private int plz;
     private String ort;
+
+    @Enumerated(EnumType.STRING)
+    private AktivitaetEnum aktivitaet;
 
     @OneToMany
     private List<Parkflaeche> parkflaecheList;

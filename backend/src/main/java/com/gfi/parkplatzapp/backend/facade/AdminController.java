@@ -1,5 +1,6 @@
 package com.gfi.parkplatzapp.backend.facade;
 
+import com.gfi.parkplatzapp.backend.facade.dto.ParkhausEditierenDto;
 import com.gfi.parkplatzapp.backend.facade.dto.ParkhausParkflaecheDto;
 import com.gfi.parkplatzapp.backend.persistence.entities.DBImage;
 import com.gfi.parkplatzapp.backend.persistence.entities.Mitarbeiter;
@@ -37,6 +38,20 @@ public class AdminController {
         return this.parkhausService.getParkhaeuser();
     }
 
+
+
+    /**
+     * Gibt ein Parkhaus anhand seiner ID zurück.
+     *
+     * @param parkhausID Die ID des Parkhauses.
+     * @return Das Parkhaus als ParkhausEditierenDto.
+     */
+    @GetMapping("/parkhaus/{parkhausID}")
+    public ParkhausEditierenDto getParkhaus(@PathVariable("parkhausID") long parkhausID){
+        return parkhausService.getParkhaus(parkhausID);
+    }
+
+
     /**
      * Speichert einen Parkplatz und gibt die aktualisierte Liste von Parkplätzen zurück.
      *
@@ -60,6 +75,14 @@ public class AdminController {
 
         return parkplatzService.deleteParkplatz(parkplatzID);
     }
+
+    /**
+     * Gibt ein Bild für eine Parkfläche zurück.
+     *
+     * @param parkflaecheID Die ID der Parkfläche.
+     * @return Das Bild der Parkfläche als ResponseEntity.
+     * @throws IOException Falls ein Fehler beim Lesen des Bildes auftritt.
+     */
     @GetMapping("/parkflaeche/{parkflaecheID}")
     public ResponseEntity<byte[]> getImageForParkflaeche(@PathVariable("parkflaecheID") long parkflaecheID) throws IOException {
         Parkflaeche parkflaeche = parkflaecheService.getParkflaecheById(parkflaecheID);
@@ -71,19 +94,61 @@ public class AdminController {
                 .body(ImageUtils.decompressImage(image.getImage()));
     }
 
+    /**
+     * Lädt ein Bild für eine Parkfläche hoch.
+     *
+     * @param parkflaecheID Die ID der Parkfläche.
+     * @param file Das hochzuladende Bild als MultipartFile.
+     * @throws IOException Falls ein Fehler beim Hochladen des Bildes auftritt.
+     */
     @PostMapping("/parkflaeche/{parkflaecheID}/upload")
     public void uploadImageForParkflaeche(@PathVariable("parkflaecheID") long parkflaecheID, @RequestParam("image") MultipartFile file) throws IOException {
         parkflaecheService.updateImageForParkflaeche(parkflaecheID, file);
     }
 
-    @DeleteMapping("/parkflaeche/{parkflaecheID}/parkhaus/{parkhausID}")
-    public void deleteParkflaeche(@PathVariable("parkflaecheID") long parkflaecheID, @PathVariable("parkhausID") long parkhausID){
-        parkflaecheService.deleteParkflaeche(parkflaecheID, parkhausID);
+    /**
+     * Löscht eine Parkfläche in einem bestimmten Parkhaus.
+     *
+     * @param parkflaecheID Die ID der Parkfläche.
+     * @param parkhausID Die ID des Parkhauses.
+     */
+    @DeleteMapping("/parkflaeche/{parkflaecheID}")
+    public void deleteParkflaeche(@PathVariable("parkflaecheID") long parkflaecheID){
+        parkflaecheService.deleteParkflaeche(parkflaecheID);
     }
 
+    /**
+     * Speichert eine neue Parkfläche in einem Parkhaus.
+     *
+     * @param parkhausID Die ID des Parkhauses.
+     * @param parkflaeche Die zu speichernde Parkfläche als ParkflaecheDto.
+     * @return Die gespeicherte Parkfläche als ParkflaecheDto.
+     */
     @PostMapping("/parkflaeche/{parkhausID}")
     public ParkhausParkflaecheDto.ParkflaecheDto saveParkflaeche(@PathVariable("parkhausID") long parkhausID, @RequestBody ParkhausParkflaecheDto.ParkflaecheDto parkflaeche){
        return parkflaecheService.saveParkflaeche(parkhausID, parkflaeche);
+    }
+
+    /**
+     * Speichert ein neues Parkhaus.
+     *
+     * @param parkhaus Das zu speichernde Parkhaus als ParkhausEditierenDto.
+     * @return Das gespeicherte Parkhaus als ParkhausEditierenDto.
+     */
+    @PostMapping("/parkhaus")
+    public ParkhausEditierenDto saveParkhaus(@RequestBody ParkhausEditierenDto parkhaus){
+        return parkhausService.saveParkhaus(parkhaus);
+    }
+
+
+    /**
+     * Löscht ein Parkhaus anhand seiner ID.
+     *
+     * @param parkhausID Die ID des Parkhauses.
+     */
+    @DeleteMapping("/parkhaus/{parkhausID}")
+    public void deleteParkhaus(@PathVariable("parkhausID") long parkhausID){
+        parkhausService.deleteParkhaus(parkhausID);
     }
 
 }

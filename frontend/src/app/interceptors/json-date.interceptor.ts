@@ -29,7 +29,7 @@ export class JsonDateInterceptor implements HttpInterceptor {
         }
         for (const key of Object.keys(body)) {
             const value = body[key];
-            if (this.isIsoDateString(value)) {
+            if (this.isDate(value)) {
                 body[key] = new Date(value);
             } else if (typeof value === 'object') {
                 this.convert(value);
@@ -37,8 +37,14 @@ export class JsonDateInterceptor implements HttpInterceptor {
         }
     }
 
+    private isDate(value: any): boolean {
+        return /^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/.test(value);
+    }
+
     private isIsoDateString(value: any): boolean {
+        console.log(">>>>>  TEST", value);
         if(value === null || value === undefined) return false;
+        console.log("A");
         return typeof value === 'string' && this._isoDateFormat.test(value);
     }
 }

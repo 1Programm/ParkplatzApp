@@ -1,4 +1,4 @@
 export enum VerstossStatus {
-    IN_BEARBEITUNG,
-    ABGESCHLOSSEN
+    IN_BEARBEITUNG = 'In_Bearbeitung',
+    ABGESCHLOSSEN = 'Abgeschlossen'
 }
