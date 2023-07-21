@@ -33,7 +33,7 @@
 
                     <lux-table-column luxColumnDef="status">
                     <lux-table-column-header><ng-template>Status</ng-template></lux-table-column-header>
-                    <lux-table-column-content><ng-template let-element>{{element.status}}</ng-template></lux-table-column-content>
+                    <lux-table-column-content><ng-template let-element>{{element.status.label}}</ng-template></lux-table-column-content>
                     </lux-table-column>
                 </lux-table>
             </lux-card-content>
@@ -63,7 +63,8 @@
                         <ng-template let-element>
                             <lux-select luxTagId="statusAuswahl"
                                 [luxOptions]="statusAuswahl"
-                                [luxSelected]="getSelected(element)"
+                                luxOptionLabelProp="label"
+                                [luxSelected]="element.status"
                                 (luxSelectedChange)="changeStatusForVerstoss($event, element)">
                             </lux-select>
                         </ng-template>

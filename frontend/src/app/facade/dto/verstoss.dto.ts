@@ -1,9 +1,8 @@
-import { VerstossStatus } from "src/app/utils/verstossStatus.enum"
+import { VerstossStatusDto } from "./VerstossStatus.dto"
 
 export interface VerstossDto {
     meldeID: number
-    mitarbeiterID: number
     datum: Date
     bemerkung: string
-    status: VerstossStatus
+    status: VerstossStatusDto
 }
