@@ -56,6 +56,7 @@ export class AccountService {
   }
 
   public logout(): void {
+    sessionStorage.clear();
     this.post(window.location.origin + "/logout", null);
   }
 
