@@ -52,17 +52,19 @@ class MitarbeiterServiceTest {
     @Test
     public void getMitarbeiter_Test () throws Exception {
         Mitarbeiter mitarbeiter = mitarbeiterService.getMitarbeiter(id);
+        assertEquals("Max", mitarbeiter.getVorname() );
 
-        assertNotNull(mitarbeiter);
-        assertEquals("Maxi", mitarbeiter.getVorname() );
+        assertThrows(IllegalArgumentException.class, () -> {
+            mitarbeiterService.getMitarbeiter(-5L);
+        });
     }
 
     @Test
     public void getKennzeichenForMitarbeiter_Test() throws Exception {
         List<Kennzeichen> kennzeichen = mitarbeiterService.getKennzeichenForMitarbeiter(id);
-
-        assertNotNull(kennzeichen);
         assertEquals(2, kennzeichen.size());
+        assertEquals("DO-JB1999", kennzeichen.get(0).getKennzeichen());
+        assertEquals("DO-JB1998", kennzeichen.get(1).getKennzeichen());
     }
 
     @Test

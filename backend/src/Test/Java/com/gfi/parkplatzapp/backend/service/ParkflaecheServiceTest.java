@@ -66,9 +66,9 @@ class ParkflaecheServiceTest  {
 
     @Test
     public void saveParkflaeche_Test() throws Exception {
-        ParkhausParkflaecheDto.ParkflaecheDto parkflaeche = new ParkhausParkflaecheDto.ParkflaecheDto();
-
-
+        ParkhausParkflaecheDto.ParkflaecheDto parkflaecheDto = new ParkhausParkflaecheDto.ParkflaecheDto();
+        ParkhausParkflaecheDto.ParkflaecheDto parkflaeche = parkflaecheService.saveParkflaeche(1L, parkflaecheDto);
+        assertEquals("Fläche A", parkflaeche.getBezeichnung());
 
         assertThrows(IllegalStateException.class, () -> {
             parkflaecheService.saveParkflaeche(-1L, parkflaeche);

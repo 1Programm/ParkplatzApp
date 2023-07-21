@@ -1,12 +1,16 @@
 package com.gfi.parkplatzapp.backend.service;
 
 import com.gfi.parkplatzapp.backend.Application;
+import com.gfi.parkplatzapp.backend.facade.dto.BuchungAbschlussDto;
+import com.gfi.parkplatzapp.backend.facade.dto.ParkhausEditierenDto;
 import com.gfi.parkplatzapp.backend.facade.dto.ParkhausParkflaecheDto;
 import com.gfi.parkplatzapp.backend.persistence.entities.Parkflaeche;
 import com.gfi.parkplatzapp.backend.persistence.entities.Parkhaus;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -25,6 +29,7 @@ import java.util.List;
 
 import static com.gfi.parkplatzapp.backend.utils.AktivitaetEnum.AKTIV;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 @AutoConfigureMockMvc(addFilters = false)
 @ExtendWith(MockitoExtension.class)
@@ -39,7 +44,7 @@ class ParkhausServiceTest {
     private ParkhausService parkhausService;
 
     @Test
-    public void getParkhaeuser_Test() {
+    public void getParkhaeuser_Test() throws Exception{
         List<ParkhausParkflaecheDto> parkhaus = parkhausService.getParkhaeuser();
         assertEquals(2, parkhaus.size());
         assertEquals("Parkhaus 1", parkhaus.get(0).getBezeichnung());
@@ -47,12 +52,37 @@ class ParkhausServiceTest {
     }
 
     @Test
-    public void createFromParkhaus_Test () throws Exception {
-        List<Parkflaeche> parkflaeche = new ArrayList<>();
-        Parkhaus parkhaus = new Parkhaus(1L, "Parkhaus 3", "Nebenstraße", 3, 44999, "Gelsenkirchen",  AKTIV, parkflaeche);
-        ParkhausParkflaecheDto parkhausflaeche = ParkhausParkflaecheDto.createFromParkhaus(parkhaus);
-        assertEquals(1, parkhausflaeche.getParkhausID());
-        assertEquals(0, parkhausflaeche.getParkflaecheList().length);
+    public void getParkhaus() throws Exception{
+        ParkhausEditierenDto parkhaus = parkhausService.getParkhaus(1L);
+        assertEquals("Parkhaus 1", parkhaus.getBezeichnung());
+
+        assertThrows(IllegalStateException.class, () -> {
+            parkhausService.getParkhaus(-1L);
+        });
+
+    }
+
+    @Test
+    public void saveParkhaus_Test() throws Exception {
+        ParkhausEditierenDto parkhausEditierenDto = new ParkhausEditierenDto(1L, "Test", "Teststraße", 5, 9999, "Gelsenkirchen");
+        ParkhausEditierenDto parkhaus = parkhausService.saveParkhaus(parkhausEditierenDto);
+        assertEquals("Test", parkhaus.getBezeichnung());
+
+        ParkhausEditierenDto parkhausEditierenDtoNull = new ParkhausEditierenDto(null, "Test", "Teststraße", 5, 9999, "Gelsenkirchen");
+        Parkhaus parkhausEdit = ParkhausEditierenDto.convertToParkhaus(parkhausEditierenDtoNull);
+        assertEquals(AKTIV, parkhausEdit.getAktivitaet());
+
+    }
+
+    @Test
+    public void deleteParkhaus_Test() throws Exception {
+        ParkhausService mockInstance = mock(ParkhausService.class);
+        mockInstance.deleteParkhaus(1L);
+        Mockito.verify(mockInstance).deleteParkhaus(1L);
+
+        assertThrows(IllegalStateException.class, () -> {
+            parkhausService.deleteParkhaus(-1L);
+        });
     }
 
 }

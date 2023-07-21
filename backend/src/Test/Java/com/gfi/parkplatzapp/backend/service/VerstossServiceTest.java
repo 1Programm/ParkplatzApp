@@ -18,6 +18,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import static com.gfi.parkplatzapp.backend.util.VerstossStatus.ABGESCHLOSSEN;
 import static com.gfi.parkplatzapp.backend.util.VerstossStatus.IN_BEARBEITUNG;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -53,14 +54,37 @@ class VerstossServiceTest {
     }
 
     @Test
-    public void getVerstoesse_Test () throws Exception {
+    public void getVerstoesseForMitarbeiter_Test () throws Exception {
         List<Verstoss> verstoss = verstossService.getVerstoesseForMitatbeiter(1L);
+        assertEquals(1, verstoss.size());
         assertEquals("In Bearbeitung", verstoss.get(0).getStatus());
 
         assertThrows(IllegalArgumentException.class, () -> {
             verstossService.getVerstoesseForMitatbeiter(19L);
         });
 
+    }
+
+    @Test
+    public void getAllVerstoesse_Test() throws Exception {
+        List<Verstoss> verstoss = verstossService.getAllVerstoesse();
+        assertEquals(3, verstoss.size());
+    }
+
+    @Test
+    public void changeStatusForVerstoss_Test() throws Exception {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, 2023);
+        calendar.set(Calendar.MONTH, 07);
+        calendar.set(Calendar.DATE, 21);
+        Date datum = calendar.getTime();
+        VerstossDto verstossDto = new VerstossDto(10L, 1L, datum, "Test", ABGESCHLOSSEN);
+        assertEquals(ABGESCHLOSSEN, verstossDto.getStatus());
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            VerstossDto verstossDtoError = new VerstossDto(-10L, 1L, datum, "Test", ABGESCHLOSSEN);
+            verstossService.changeStatusForVerstoss(verstossDtoError);
+        });
     }
 
 }
