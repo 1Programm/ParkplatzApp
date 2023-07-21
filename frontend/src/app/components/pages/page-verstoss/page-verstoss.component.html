@@ -52,6 +52,15 @@
                         </lux-table-column-content>
                     </lux-table-column>
 
+                    <lux-table-column luxColumnDef="mitarbeiterEmail">
+                        <lux-table-column-header><ng-template>Email</ng-template></lux-table-column-header>
+                        <lux-table-column-content>
+                            <ng-template let-element>
+                                <lux-link [luxRaised]="false" [luxLabel]="element.mitarbeiterEmail" (luxClicked)="onClickOpenInTeams(element.mitarbeiterEmail)" luxColor="primary"></lux-link>
+                            </ng-template>
+                        </lux-table-column-content>
+                    </lux-table-column>
+
                     <lux-table-column luxColumnDef="bemerkung">
                         <lux-table-column-header><ng-template>Bemerkung</ng-template></lux-table-column-header>
                         <lux-table-column-content><ng-template let-element>{{element.bemerkung}}</ng-template></lux-table-column-content>
