@@ -51,13 +51,13 @@ VALUES('Premium', 15.00);
 
 -- Verstoss
 INSERT INTO Verstoss (datum, bemerkung, status)
-VALUES('2023-06-01', 'Falschparken', 'In Bearbeitung');
+VALUES('2023-06-01', 'Falschparken', 'IN_BEARBEITUNG');
 
 INSERT INTO Verstoss (datum, bemerkung, status)
-VALUES('2023-06-02', 'Geschwindigkeitsüberschreitung', 'In Bearbeitung');
+VALUES('2023-06-02', 'Geschwindigkeitsüberschreitung', 'IN_BEARBEITUNG');
 
 INSERT INTO Verstoss (datum, bemerkung, status)
-VALUES('2023-06-03', 'Parken auf Behindertenparkplatz', 'In Bearbeitung');
+VALUES('2023-06-03', 'Parken auf Behindertenparkplatz', 'IN_BEARBEITUNG');
 
 
 -- Kennzeichen
