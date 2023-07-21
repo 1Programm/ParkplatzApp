@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { VerstossDto } from 'src/app/facade/dto/verstoss.dto';
 import { AccountService } from 'src/app/services/account.service';
 import { VerstossService } from 'src/app/services/verstoss.service';
-import { VerstossStatus } from 'src/app/utils/verstossStatus.enum';
 import { DateUtils } from 'src/app/utils/date.utils';
 import { LuxSnackbarService } from '@ihk-gfi/lux-components';
+import { VerstossStatusDto } from 'src/app/facade/dto/VerstossStatus.dto';
+import { VerstossDto } from 'src/app/facade/dto/Verstoss.dto';
 
 @Component({
   selector: 'app-page-verstoss',
@@ -13,74 +13,80 @@ import { LuxSnackbarService } from '@ihk-gfi/lux-components';
 })
 export class PageVerstossComponent implements OnInit {
 
-  public selectedDatum: string = DateUtils.toVisibleString(new Date());
+  public selectedDatum: Date | undefined = DateUtils.getToday();
+  public minDate: string = DateUtils.getTodayAsString();
+  public maxDate: string = DateUtils.getFuture_2WeeksAsString();
   public bemerkung: string = '';
   public mitarbeiterVerstoesse: VerstossDto[];
   public verstoesse: VerstossDto[];
   public isAdmin: boolean = this.accountService.isAdmin;
-  public statusAuswahl: VerstossStatus[] = [VerstossStatus.IN_BEARBEITUNG , VerstossStatus.ABGESCHLOSSEN];
+  public statusAuswahl: VerstossStatusDto[] = [];
 
-  private verstoss: VerstossDto = {
-    mitarbeiterID: 1,
-    meldeID: 1,
-    datum: new Date(),
-    bemerkung: '',
-    status: VerstossStatus.IN_BEARBEITUNG
-  };
+
 
   constructor(private accountService: AccountService, private verstossService: VerstossService, private snackbarService: LuxSnackbarService) { }
 
   ngOnInit(): void {
-    this.verstoss.mitarbeiterID = this.accountService.getMitarbeiterID();
-    this.getVertoesseForMitarbeiter(this.verstoss.mitarbeiterID);
-    this.getAllVerstoesse();
+    this.verstossService.getAllVerstossStatus().subscribe(data => {
+      this.statusAuswahl = data;
+
+      if(!this.accountService.isAdmin) {
+        this.getVertoesseForMitarbeiter(this.accountService.getMitarbeiterID());
+      } else {
+        this.getAllVerstoesse();
+      }
+    });
   }
 
   public speichernVerstoss(): void {
-    this.verstoss.bemerkung = this.bemerkung;
-    this.verstoss.datum = new Date(this.selectedDatum);
-    this.verstossService.speichernVerstoss(this.verstoss).subscribe(() => {
-      this.selectedDatum = '';
+    let verstoss: VerstossDto = {
+      bemerkung: this.bemerkung,
+      status: undefined,
+      datum: new Date(this.selectedDatum),
+      meldeID: undefined
+    };
+    this.verstossService.speichernVerstoss(this.accountService.getMitarbeiterID(), verstoss).subscribe(() => {
+      this.selectedDatum = DateUtils.getToday();
       this.bemerkung = '';
-      this.getVertoesseForMitarbeiter(this.verstoss.mitarbeiterID);
+      this.getVertoesseForMitarbeiter(this.accountService.getMitarbeiterID());
     }); 
   }
 
   private getVertoesseForMitarbeiter(mitarbeiterID: number): void {
     this.verstossService.getVertoesseForMitarbeiter(mitarbeiterID).subscribe(data => {
       this.mitarbeiterVerstoesse = data;
+      this.mapVerstossStatus(data);
     });
   }
 
   private getAllVerstoesse() : void {
     this.verstossService.getAllVerstoesse().subscribe(data => {
       this.verstoesse = data;
+      this.mapVerstossStatus(data);
     });
   }
 
-  public changeDateFormat(datum: Date): string {
-    return DateUtils.toVisibleString(datum);
-  }
-
-  public getZugelasenesDatum(): string {
-    return DateUtils.toTechnicalString(new Date());
-  }
-
-  changeStatusForVerstoss(status: VerstossStatus, verstoss: VerstossDto) {
-    if(status == VerstossStatus.IN_BEARBEITUNG) {
-      status = VerstossStatus.IN_BEARBEITUNG;
-    } else {
-      status = VerstossStatus.ABGESCHLOSSEN;
+  private mapVerstossStatus(data: VerstossDto[]) {
+    for(let verstoss of data) {
+      for(let verstossStatus of this.statusAuswahl) {
+        if(verstoss.status.key === verstossStatus.key) {
+          verstoss.status = verstossStatus;
+          break;
+        }
+      }
     }
+  }
+
+  //Change Methode gibt ein string zurück, jedoch wollen wir ein Date-Objekt
+  public onSelectedDatumChange(date){
+    this.selectedDatum = new Date(date);
+  }
+
+  changeStatusForVerstoss(status: VerstossStatusDto, verstoss: VerstossDto) {
     verstoss.status = status;
     this.verstossService.changeStatusForVerstoss(verstoss).subscribe(() => {
       this.snackbarService.openText("Statusänderung wurde gespeichert.", 2000);
       this.getAllVerstoesse();
     });
-  }
-
-  getSelected(verstoss: VerstossDto) : VerstossStatus {
-    // Abrufen des ausgewählten Kennzeichens für die Buchung
-    return this.verstoesse.find(itemVerstoss => itemVerstoss.status === verstoss.status).status;
   }
 }

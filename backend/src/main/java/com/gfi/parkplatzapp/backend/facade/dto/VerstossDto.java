@@ -1,7 +1,7 @@
 package com.gfi.parkplatzapp.backend.facade.dto;
 
-import com.gfi.parkplatzapp.backend.persistence.entities.Kennzeichen;
-import com.gfi.parkplatzapp.backend.util.VerstossStatus;
+import com.gfi.parkplatzapp.backend.persistence.entities.Verstoss;
+import com.gfi.parkplatzapp.backend.utils.VerstossStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,8 +15,17 @@ import java.util.Date;
 @NoArgsConstructor
 public class VerstossDto {
     private Long meldeID;
-    private Long mitarbeiterID;
     private Date datum;
     private String bemerkung;
-    private VerstossStatus status;
+    private VerstossStatusDto status;
+
+    public static VerstossDto parseFromVerstoss(Verstoss verstoss) {
+        VerstossDto verstossDto = new VerstossDto();
+        verstossDto.setBemerkung(verstoss.getBemerkung());
+        verstossDto.setStatus(VerstossStatusDto.parseFromVerstossStatus(VerstossStatus.valueOf(verstoss.getStatus())));
+        verstossDto.setDatum(verstoss.getDatum());
+        verstossDto.setMeldeID(verstoss.getMeldeID());
+
+        return verstossDto;
+    }
 }

@@ -2,8 +2,9 @@ package com.gfi.parkplatzapp.backend.service;
 
 import com.gfi.parkplatzapp.backend.Application;
 import com.gfi.parkplatzapp.backend.facade.dto.VerstossDto;
+import com.gfi.parkplatzapp.backend.facade.dto.VerstossStatusDto;
 import com.gfi.parkplatzapp.backend.persistence.entities.Verstoss;
-import com.gfi.parkplatzapp.backend.util.VerstossStatus;
+import com.gfi.parkplatzapp.backend.utils.VerstossStatus;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -13,14 +14,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static com.gfi.parkplatzapp.backend.util.VerstossStatus.ABGESCHLOSSEN;
-import static com.gfi.parkplatzapp.backend.util.VerstossStatus.IN_BEARBEITUNG;
-import static org.junit.jupiter.api.Assertions.*;
+import static com.gfi.parkplatzapp.backend.utils.VerstossStatus.ABGESCHLOSSEN;
+import static com.gfi.parkplatzapp.backend.utils.VerstossStatus.IN_BEARBEITUNG;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 @AutoConfigureMockMvc(addFilters = false)
@@ -42,22 +43,21 @@ class VerstossServiceTest {
         calendar.set(Calendar.DATE, 21);
         Date datum = calendar.getTime();
 
-        VerstossDto verstossDto = new VerstossDto(1L, 1L, datum, "Test",IN_BEARBEITUNG);
-        Verstoss verstoss = verstossService.speichernVerstoss(verstossDto);
+        VerstossDto verstossDto = new VerstossDto(1L, datum, "Test", VerstossStatusDto.parseFromVerstossStatus(IN_BEARBEITUNG));
+        Verstoss verstoss = verstossService.speichernVerstoss(1, verstossDto);
         assertEquals("Test", verstoss.getBemerkung());
-        assertEquals("In_Bearbeitung", verstoss.getStatus());
+        assertEquals("IN_BEARBEITUNG", verstoss.getStatus());
 
         assertThrows(IllegalArgumentException.class, () -> {
-            VerstossDto verstossDtoError = new VerstossDto(1L, 8L, datum, "Test",IN_BEARBEITUNG);
-            verstossService.speichernVerstoss(verstossDtoError);
+            VerstossDto verstossDtoError = new VerstossDto(1L, datum, "Test", VerstossStatusDto.parseFromVerstossStatus(IN_BEARBEITUNG));
+            verstossService.speichernVerstoss(8, verstossDtoError);
         });
     }
 
     @Test
     public void getVerstoesseForMitarbeiter_Test () throws Exception {
-        List<Verstoss> verstoss = verstossService.getVerstoesseForMitatbeiter(1L);
-        assertEquals(1, verstoss.size());
-        assertEquals("In Bearbeitung", verstoss.get(0).getStatus());
+        List<VerstossDto> verstoss = verstossService.getVerstoesseForMitatbeiter(1L);
+        assertEquals("IN_BEARBEITUNG", verstoss.get(0).getStatus().getKey());
 
         assertThrows(IllegalArgumentException.class, () -> {
             verstossService.getVerstoesseForMitatbeiter(19L);
@@ -67,7 +67,7 @@ class VerstossServiceTest {
 
     @Test
     public void getAllVerstoesse_Test() throws Exception {
-        List<Verstoss> verstoss = verstossService.getAllVerstoesse();
+        List<VerstossDto> verstoss = verstossService.getAllVerstoesse();
         assertEquals(3, verstoss.size());
     }
 
@@ -78,11 +78,11 @@ class VerstossServiceTest {
         calendar.set(Calendar.MONTH, 07);
         calendar.set(Calendar.DATE, 21);
         Date datum = calendar.getTime();
-        VerstossDto verstossDto = new VerstossDto(10L, 1L, datum, "Test", ABGESCHLOSSEN);
-        assertEquals(ABGESCHLOSSEN, verstossDto.getStatus());
+        VerstossDto verstossDto = new VerstossDto(10L, datum, "Test", VerstossStatusDto.parseFromVerstossStatus(ABGESCHLOSSEN));
+        assertEquals(ABGESCHLOSSEN.toString(), verstossDto.getStatus().getKey());
 
         assertThrows(IllegalArgumentException.class, () -> {
-            VerstossDto verstossDtoError = new VerstossDto(-10L, 1L, datum, "Test", ABGESCHLOSSEN);
+            VerstossDto verstossDtoError = new VerstossDto(-10L, datum, "Test", VerstossStatusDto.parseFromVerstossStatus(ABGESCHLOSSEN));;
             verstossService.changeStatusForVerstoss(verstossDtoError);
         });
     }
