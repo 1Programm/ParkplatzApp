@@ -39,8 +39,7 @@ export class BuchenPageComponent implements OnInit {
   public parkhausAddress: ParkhausAdressDto;
   public kennzeichenList: Kennzeichen[];
 
-  public dateToday = DateUtils.removeTimeFromDate(DateUtils.getToday());
-  public selectedDatum: Date = DateUtils.removeTimeFromDate(DateUtils.getToday());
+  public selectedDatum: Date = DateUtils.getToday();
   public minDate: string = DateUtils.getTodayAsString();
   public maxDate: string = DateUtils.getFuture_2WeeksAsString();
 
@@ -233,8 +232,10 @@ export class BuchenPageComponent implements OnInit {
     });
   }
 
+  public isSelectedDatumToday(): boolean {
+    let today = DateUtils.removeTimeFromDate(DateUtils.getToday());
+    let selected = DateUtils.removeTimeFromDate(new Date(this.selectedDatum.getTime()));
+    return today.getTime() === selected.getTime();
   }
 
-
- 
-
+}
