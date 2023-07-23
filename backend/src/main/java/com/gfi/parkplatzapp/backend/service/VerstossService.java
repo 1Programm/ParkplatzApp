@@ -44,8 +44,8 @@ public class VerstossService {
         Mitarbeiter mitarbeiter = mitarbeiterRepo.findById(mitarbeiterID)
                 .orElseThrow(() -> new IllegalArgumentException("Mitarbeiter mit ID " + mitarbeiterID + " wurde nicht gefunden."));
 
-        return mitarbeiter.getVerstossList().stream().map(VerstossDto::parseFromVerstoss).sorted(Comparator
-                .comparing(VerstossDto::getDatum)).collect(Collectors.toList());
+        return mitarbeiter.getVerstossList().stream().map(verstoss -> VerstossDto.parseFromVerstoss(verstoss, mitarbeiter.getMail()))
+                .sorted(Comparator.comparing(VerstossDto::getDatum)).collect(Collectors.toList());
     }
 
     public List<VerstossDto> getAllVerstoesse() {
@@ -54,7 +54,8 @@ public class VerstossService {
 
         for(Mitarbeiter mitarbeiter : mitarbeiterIterable) {
             List<Verstoss> verstosse = mitarbeiter.getVerstossList();
-            verstossList.addAll(verstosse.stream().map(VerstossDto::parseFromVerstoss).toList());
+            verstossList.addAll(verstosse.stream().map(verstoss -> VerstossDto.parseFromVerstoss(verstoss, mitarbeiter.getMail())).toList());
+
         }
 
         verstossList.sort(Comparator

@@ -16,14 +16,16 @@ import java.util.Date;
 public class VerstossDto {
     private Long meldeID;
     private Date datum;
+    private String mitarbeiterEmail;
     private String bemerkung;
     private VerstossStatusDto status;
 
-    public static VerstossDto parseFromVerstoss(Verstoss verstoss) {
+    public static VerstossDto parseFromVerstoss(Verstoss verstoss, String mitarbeiterEmail) {
         VerstossDto verstossDto = new VerstossDto();
         verstossDto.setBemerkung(verstoss.getBemerkung());
         verstossDto.setStatus(VerstossStatusDto.parseFromVerstossStatus(VerstossStatus.valueOf(verstoss.getStatus())));
         verstossDto.setDatum(verstoss.getDatum());
+        verstossDto.setMitarbeiterEmail(mitarbeiterEmail);
         verstossDto.setMeldeID(verstoss.getMeldeID());
 
         return verstossDto;
