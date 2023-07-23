@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { ILuxDialogPresetConfig, LuxDialogService } from '@ihk-gfi/lux-components';
 import { BuchungDto } from 'src/app/facade/dto/BuchungDto';
 import { ParkflaecheAuswahlDto } from 'src/app/facade/dto/parkflaeche-auswahl.dto';
@@ -80,8 +80,8 @@ export class MapComponent implements OnInit {
     this.showNewMarker = true;
     const container = event.currentTarget as HTMLElement;
     const boundingRect = container.getBoundingClientRect();
-    this.newMarkerX = event.clientX - boundingRect.left;
-    this.newMarkerY = event.clientY - boundingRect.top;
+    this.newMarkerX = event.clientX - boundingRect.left - 10;
+    this.newMarkerY = event.clientY - boundingRect.top - 10;
   }
 
   //wird ausgeführt, wenn der Admin auf den temporären neuen Marker klickt (noch nicht ausgefüllt)
@@ -91,10 +91,12 @@ export class MapComponent implements OnInit {
     let newSpot: Parkplatz;
 
     dialogRef.dialogClosed.subscribe((result: Parkplatz) => {
-      newSpot = result;
-      newSpot.xkoordinate = this.newMarkerX;
-      newSpot.ykoordinate = this.newMarkerY;
-      this.onMarkerChanged.emit(newSpot);
+      if(result){
+        newSpot = result;
+        newSpot.xkoordinate = this.newMarkerX;
+        newSpot.ykoordinate = this.newMarkerY;
+        this.onMarkerChanged.emit(newSpot);
+      }
       
       this.showNewMarker = false;
     });
