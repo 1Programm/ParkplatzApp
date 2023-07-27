@@ -9,6 +9,9 @@ import lombok.Setter;
 
 import java.util.Date;
 
+/**
+ * Die VerstossDto-Klasse repräsentiert die Datenübertragungsobjekte für die Verstossinformationen.
+ */
 @Getter
 @Setter
 @AllArgsConstructor

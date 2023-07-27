@@ -32,13 +32,19 @@ public class BuchungController {
     /**
      * Gibt eine Liste von Parkflächen-Auswahl-DTOs zurück.
      *
-     * @return Die Liste von Parkanlagen (Parkplatz + Parkhaus).
+     * @return Die Liste von Parkflächen (Parkplatz + Parkhaus) als ParkflaecheAuswahlDto.
      */
     @GetMapping("/parkflaechen")
     public List<ParkflaecheAuswahlDto> getParkflaechen() {
         return this.buchungService.getParkflaechen();
     }
 
+    /**
+     * Gibt die Adresse eines Parkhauses anhand seiner ID zurück.
+     *
+     * @param parkhausID Die ID des Parkhauses.
+     * @return Die ParkhausAdresseDto, das die Adresse des Parkhauses enthält.
+     */
     @GetMapping("/parkhaus/{parkhausID}/adresse")
     public ParkhausAdresseDto getParkhausAdresse(@PathVariable("parkhausID") long id){
         return this.buchungService.getParkhausAdresse(id);
@@ -49,7 +55,7 @@ public class BuchungController {
      *
      * @param parkflaecheID Die ID der Parkfläche.
      * @param date          Das Datum.
-     * @return Die Liste von Parkplatz-mit-Status-DTOs.
+     * @return Die Liste von Parkplatz-mit-Status-DTOs als ParkplatzMitStatusDto.
      */
     @GetMapping("/parkplatz/{parkflaecheID}/{date}")
     public List<ParkplatzMitStatusDto> getParkplaetzeOfParkflaecheAndDate(@PathVariable("parkflaecheID") Long parkflaecheID, @PathVariable("date") String date) {
@@ -60,53 +66,71 @@ public class BuchungController {
      * Gibt eine Liste von Parkplätzen für eine bestimmte Parkfläche zurück.
      *
      * @param parkflaecheID Die ID der Parkfläche.
-     * @return Die Liste von Parkplätzen.
+     * @return Die Liste von Parkplätzen als List<Parkplatz>.
      */
     @GetMapping("/parkplatz/{parkflaecheID}")
     public List<Parkplatz> getParkplaetzeOfParkflaeche(@PathVariable("parkflaecheID") Long parkflaecheID) {
         return this.buchungService.getParkplaetzeOfParkflaeche(parkflaecheID);
     }
 
-
     /**
      * Gibt eine Liste von Parkplatztypen zurück.
      *
-     * @return Die Liste von Parkplatztypen.
+     * @return Die Liste von Parkplatztypen als List<Parkplatztyp>.
      */
     @GetMapping("/parkplatztypen")
     public List<Parkplatztyp> getParkplatztypen() {
         return this.buchungService.getParkplatztyp();
     }
 
-
     /**
      * Gibt eine Liste von Preiskategorien zurück.
      *
-     * @return Die Liste von Preiskategorien.
+     * @return Die Liste von Preiskategorien als List<Preiskategorie>.
      */
     @GetMapping("/preiskategorien")
     public List<Preiskategorie> getPreiskategoiren() {
         return this.buchungService.getPreiskategorien();
     }
 
-
-
+    /**
+     * Gibt eine Liste von BuchungDetailsDtos zurück, die den Buchungsverlauf eines Mitarbeiters darstellen.
+     *
+     * @param mitarbeiterID Die ID des Mitarbeiters.
+     * @return Die Liste von BuchungDetailsDtos als List<BuchungDetailsDto>.
+     */
     @GetMapping("/{mitarbeiterID}")
     public List<BuchungDetailsDto> getBuchungenForMitarbeiter(@PathVariable("mitarbeiterID") Long mitarbeiterID)
     {
         return this.buchungService.getBuchungenForMitarbeiter(mitarbeiterID);
     }
 
+    /**
+     * Gibt eine Liste von Kennzeichen zurück, die einem bestimmten Mitarbeiter zugeordnet sind.
+     *
+     * @param mitarbeiterID Die ID des Mitarbeiters.
+     * @return Die Liste von Kennzeichen als List<Kennzeichen>.
+     */
     @GetMapping("/{mitarbeiterID}/kennzeichen")
     public List<Kennzeichen> getKennzeichenForMitarbeiter(@PathVariable("mitarbeiterID") Long mitarbeiterID) {
         return this.mitarbeiterService.getKennzeichenForMitarbeiter(mitarbeiterID);
     }
 
+    /**
+     * Aktualisiert die Buchungsdetails mit den übergebenen Werten.
+     *
+     * @param buchung Die BuchungDetailsDto, die die zu aktualisierenden Buchungsinformationen enthält.
+     */
     @PostMapping(path = "/test", consumes = "application/json")
     public void updateBuchungen(@RequestBody BuchungDetailsDto buchung) {
         buchungService.updateBuchungen(buchung);
     }
 
+    /**
+     * Schließt die übergebenen Buchungen ab.
+     *
+     * @param buchungen Die Array von BuchungAbschlussDto, das die Buchungen enthält, die abgeschlossen werden sollen.
+     */
     @PostMapping("/abschliessen")
     public void schliesseBuchungAb(@RequestBody BuchungAbschlussDto[] buchungen){
         buchungService.schliesseBuchungAb(buchungen);
