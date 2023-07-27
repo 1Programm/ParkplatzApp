@@ -2,7 +2,7 @@
   <lux-dialog-title>{{title}}</lux-dialog-title>
   <lux-dialog-content>
     <div class="content">
-      <lux-input luxLabel="Nummer" [(luxValue)]="nummer" [luxControlValidators]="nummerFnArr" [luxReadonly]="!isAdmin"
+      <lux-input luxLabel="Nummer" [luxRequired]="true" [(luxValue)]="nummer" [luxControlValidators]="nummerFnArr" [luxReadonly]="!isAdmin"
         [luxErrorCallback]="nummerErrorCallback"></lux-input>
       <lux-select *ngIf="isAdmin"[luxOptions]="preiskategorie" [(luxSelected)]="selectedKategorie" luxOptionLabelProp="bezeichnung"
         luxLabel="preiskategorie" ></lux-select>
@@ -17,7 +17,7 @@
   <lux-dialog-actions>
     <lux-button luxLabel="Abbrechen" luxColor="primary" [luxFlat]="true" (luxClicked)="luxDialogRef.closeDialog(null)"></lux-button>
     <lux-button *ngIf="!isAdmin && luxDialogRef.data.status == 'FREI'" luxLabel="Hinzufügen" luxColor="primary" [luxFlat]="true" (luxClicked)="submitDialog()"></lux-button>
-    <lux-button *ngIf="isAdmin" luxLabel="Speichern" luxColor="primary" [luxFlat]="true" (luxClicked)="submitDialog()"></lux-button>
+    <lux-button *ngIf="isAdmin" [luxDisabled]="!nummer" luxLabel="Speichern" luxColor="primary" [luxFlat]="true" (luxClicked)="submitDialog()"></lux-button>
     <lux-button *ngIf="isAdmin && this.parkplatz?.nummer != undefined" luxLabel="Löschen" luxColor="warn" [luxFlat]="true" (luxClicked)="luxDialogRef.closeDialog(parkplatz.parkplatzID)"></lux-button>
   </lux-dialog-actions>
 </lux-dialog-structure>

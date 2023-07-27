@@ -1,79 +1,88 @@
-<lux-layout>
-    <lux-layout-card-row *ngIf="!isAdmin" [luxGap]="{ row: '2px', rowItem: '5px', column: '2px'}" [luxMargin]="{ xs: '5%', lg: '5%', xl: '5%', marginLeft: true, marginRight: true}">
-        <lux-card luxTitle="Verstoß melden" *luxLayoutRowItem="{}">
-            <lux-card-content>
-                <lux-layout-form-row>
-                    <lux-datepicker luxLabel="Datum" [luxValue]="selectedDatum" (luxValueChange)="onSelectedDatumChange($event)" 
-                    [luxMinDate] = "minDate" [luxMaxDate] = "maxDate"  [luxTouchUi]="true" 
-                    luxPlaceholder="Bitte ein Datum auswählen" *luxLayoutRowItem="{ }">
-                    </lux-datepicker>
-                    <lux-textarea luxLabel="Bemerkung" [(luxValue)]="bemerkung" luxPlaceholder="Bitte tragen Sie hier Ihre Bemerkung ein" 
-                        [luxMaxRows]="5" [luxMinRows]="1"  *luxLayoutRowItem="{ colSpan: 3 }">
-                    </lux-textarea>
-                </lux-layout-form-row>
-            </lux-card-content>
-            <lux-card-actions>
-                <lux-button luxLabel="Verstoß schicken" (luxClicked)="speichernVerstoss()" [luxRaised]="true" luxColor="primary"></lux-button>
-            </lux-card-actions>
-        </lux-card>
-    </lux-layout-card-row>
-    <lux-layout-card-row *ngIf="!isAdmin" [luxGap]="{ row: '2px', rowItem: '5px', column: '2px'}" [luxMargin]="{ xs: '5%', lg: '5%', xl: '5%', marginLeft: true, marginRight: true}">
-        <lux-card luxTitle="Meine gemeldete Verstöße" *luxLayoutRowItem="{}">
-            <lux-card-content>
-                <lux-table [luxData]="mitarbeiterVerstoesse" [luxShowPagination]="true" [luxPageSize]="10">
-                    <lux-table-column luxColumnDef="datum">
-                        <lux-table-column-header><ng-template>Datum</ng-template></lux-table-column-header>
-                        <lux-table-column-content><ng-template let-element>{{element.datum | paDate}}</ng-template></lux-table-column-content>
-                    </lux-table-column>
-
-                    <lux-table-column luxColumnDef="bemerkung">
-                        <lux-table-column-header><ng-template>Bemerkung</ng-template></lux-table-column-header>
-                        <lux-table-column-content><ng-template let-element>{{element.bemerkung}}</ng-template></lux-table-column-content>
-                    </lux-table-column>
-
-                    <lux-table-column luxColumnDef="status">
-                    <lux-table-column-header><ng-template>Status</ng-template></lux-table-column-header>
-                    <lux-table-column-content><ng-template let-element>{{element.status.label}}</ng-template></lux-table-column-content>
-                    </lux-table-column>
-                </lux-table>
-            </lux-card-content>
-        </lux-card>
-    </lux-layout-card-row>
-
-    <lux-layout-card-row *ngIf="isAdmin" [luxGap]="{ row: '2px', rowItem: '5px', column: '2px'}" [luxMargin]="{ xs: '5%', lg: '5%', xl: '5%', marginLeft: true, marginRight: true}">
-        <lux-card luxTagId = "alleVerstoesse" luxTitle="Alle Verstöße" luxSubTitle="Hier sind die Verstöße aller Mitarbeiter aufgelistet und sortiert nach dem Status und dem Datum." *luxLayoutRowItem="{}">
-            <lux-icon luxIconName="fas fa-window-close"></lux-icon>
-            <lux-card-content>
-                <lux-table [luxData]="verstoesse" [luxShowPagination]="true" [luxPageSize]="10">
-                    <lux-table-column luxColumnDef="datum">
-                        <lux-table-column-header><ng-template>Datum</ng-template></lux-table-column-header>
+<!-- stlye 'page-container-90' is defined in the global styles.scss file -->
+<div class="page-container-90">
+    <lux-layout>
+        <lux-layout-card-row *ngIf="!isAdmin" [luxGap]="{ row: '30px', rowItem: '50px', column: '2px'}" [luxMargin]="{ xs: '5%', lg: '5%', xl: '5%', marginLeft: true, marginRight: true}">
+            <lux-card luxTitle="Verstoß melden" *luxLayoutRowItem="{}">
+                <lux-card-content>
+                    <lux-layout-form-row>
+                        <lux-datepicker luxLabel="Datum" [luxValue]="selectedDatum" (luxValueChange)="onSelectedDatumChange($event)" 
+                        [luxMinDate] = "minDate" [luxMaxDate] = "maxDate"  [luxTouchUi]="true" 
+                        luxPlaceholder="Bitte ein Datum auswählen" *luxLayoutRowItem="{ }">
+                        </lux-datepicker>
+                        <lux-textarea luxLabel="Bemerkung" [(luxValue)]="bemerkung" luxPlaceholder="Bitte tragen Sie hier Ihre Bemerkung ein" 
+                            [luxMaxRows]="5" [luxMinRows]="1"  *luxLayoutRowItem="{ colSpan: 3 }">
+                        </lux-textarea>
+                    </lux-layout-form-row>
+                </lux-card-content>
+                <lux-card-actions>
+                    <lux-button luxLabel="Verstoß schicken" (luxClicked)="speichernVerstoss()" [luxRaised]="true" luxColor="primary"></lux-button>
+                </lux-card-actions>
+            </lux-card>
+        </lux-layout-card-row>
+        <lux-layout-card-row *ngIf="!isAdmin" [luxGap]="{ row: '2px', rowItem: '5px', column: '2px'}" [luxMargin]="{ xs: '5%', lg: '5%', xl: '5%', marginLeft: true, marginRight: true}">
+            <lux-card luxTitle="Meine gemeldete Verstöße" *luxLayoutRowItem="{}">
+                <lux-card-content>
+                    <lux-table [luxData]="mitarbeiterVerstoesse" [luxShowPagination]="true" [luxPageSize]="10">
+                        <lux-table-column luxColumnDef="datum">
+                            <lux-table-column-header><ng-template>Datum</ng-template></lux-table-column-header>
+                            <lux-table-column-content><ng-template let-element>{{element.datum | paDate}}</ng-template></lux-table-column-content>
+                        </lux-table-column>
+    
+                        <lux-table-column luxColumnDef="bemerkung">
+                            <lux-table-column-header><ng-template>Bemerkung</ng-template></lux-table-column-header>
+                            <lux-table-column-content><ng-template let-element>{{element.bemerkung}}</ng-template></lux-table-column-content>
+                        </lux-table-column>
+    
+                        <lux-table-column luxColumnDef="status">
+                        <lux-table-column-header><ng-template>Status</ng-template></lux-table-column-header>
+                        <lux-table-column-content><ng-template let-element>{{element.status.label}}</ng-template></lux-table-column-content>
+                        </lux-table-column>
+                    </lux-table>
+                </lux-card-content>
+            </lux-card>
+        </lux-layout-card-row>
+    
+        <lux-layout-card-row *ngIf="isAdmin" [luxGap]="{ row: '2px', rowItem: '5px', column: '2px'}" [luxMargin]="{ xs: '5%', lg: '5%', xl: '5%', marginLeft: true, marginRight: true}">
+            <lux-card luxTagId = "alleVerstoesse" luxTitle="Alle Verstöße" luxSubTitle="Hier sind die Verstöße aller Mitarbeiter aufgelistet und sortiert nach dem Status und dem Datum." *luxLayoutRowItem="{}">
+                <lux-icon luxIconName="fas fa-window-close"></lux-icon>
+                <lux-card-content>
+                    <lux-table [luxData]="verstoesse" [luxShowPagination]="true" [luxPageSize]="10">
+                        <lux-table-column luxColumnDef="datum">
+                            <lux-table-column-header><ng-template>Datum</ng-template></lux-table-column-header>
+                            <lux-table-column-content>
+                                <ng-template let-element>{{element.datum | paDate}}</ng-template>
+                            </lux-table-column-content>
+                        </lux-table-column>
+    
+                        <lux-table-column luxColumnDef="mitarbeiterEmail">
+                            <lux-table-column-header><ng-template>Email</ng-template></lux-table-column-header>
+                            <lux-table-column-content>
+                                <ng-template let-element>
+                                    <lux-link [luxRaised]="false" [luxLabel]="element.mitarbeiterEmail" (luxClicked)="onClickOpenInTeams(element.mitarbeiterEmail)" luxColor="primary"></lux-link>
+                                </ng-template>
+                            </lux-table-column-content>
+                        </lux-table-column>
+    
+                        <lux-table-column luxColumnDef="bemerkung">
+                            <lux-table-column-header><ng-template>Bemerkung</ng-template></lux-table-column-header>
+                            <lux-table-column-content><ng-template let-element>{{element.bemerkung}}</ng-template></lux-table-column-content>
+                        </lux-table-column>
+    
+                        <lux-table-column luxColumnDef="status">
+                        <lux-table-column-header><ng-template>Status</ng-template></lux-table-column-header>
                         <lux-table-column-content>
-                            <ng-template let-element>{{element.datum | paDate}}</ng-template>
+                            <ng-template let-element>
+                                <lux-select luxTagId="statusAuswahl"
+                                    [luxOptions]="statusAuswahl"
+                                    luxOptionLabelProp="label"
+                                    [luxSelected]="element.status"
+                                    (luxSelectedChange)="changeStatusForVerstoss($event, element)">
+                                </lux-select>
+                            </ng-template>
                         </lux-table-column-content>
-                    </lux-table-column>
-
-                    <lux-table-column luxColumnDef="bemerkung">
-                        <lux-table-column-header><ng-template>Bemerkung</ng-template></lux-table-column-header>
-                        <lux-table-column-content><ng-template let-element>{{element.bemerkung}}</ng-template></lux-table-column-content>
-                    </lux-table-column>
-
-                    <lux-table-column luxColumnDef="status">
-                    <lux-table-column-header><ng-template>Status</ng-template></lux-table-column-header>
-                    <lux-table-column-content>
-                        <ng-template let-element>
-                            <lux-select luxTagId="statusAuswahl"
-                                [luxOptions]="statusAuswahl"
-                                luxOptionLabelProp="label"
-                                [luxSelected]="element.status"
-                                (luxSelectedChange)="changeStatusForVerstoss($event, element)">
-                            </lux-select>
-                        </ng-template>
-                    </lux-table-column-content>
-                    </lux-table-column>
-                </lux-table>
-            </lux-card-content>
-        </lux-card>
-    </lux-layout-card-row>
-<lux-layout>
-
-
+                        </lux-table-column>
+                    </lux-table>
+                </lux-card-content>
+            </lux-card>
+        </lux-layout-card-row>
+    <lux-layout>
