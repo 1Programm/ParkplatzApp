@@ -41,13 +41,13 @@ class VerstossServiceTest {
         calendar.set(Calendar.DATE, 21);
         Date datum = calendar.getTime();
 
-        VerstossDto verstossDto = new VerstossDto(1L, datum, "Test", VerstossStatusDto.parseFromVerstossStatus(IN_BEARBEITUNG));
+        VerstossDto verstossDto = new VerstossDto(1L, datum, "test-email@gmx.de", "Test", VerstossStatusDto.parseFromVerstossStatus(IN_BEARBEITUNG));
         Verstoss verstoss = verstossService.speichernVerstoss(1, verstossDto);
         assertEquals("Test", verstoss.getBemerkung());
         assertEquals("IN_BEARBEITUNG", verstoss.getStatus());
 
         assertThrows(IllegalArgumentException.class, () -> {
-            VerstossDto verstossDtoError = new VerstossDto(1L, datum, "Test", VerstossStatusDto.parseFromVerstossStatus(IN_BEARBEITUNG));
+            VerstossDto verstossDtoError = new VerstossDto(1L, datum, "test@gmx.de", "Test", VerstossStatusDto.parseFromVerstossStatus(IN_BEARBEITUNG));
             verstossService.speichernVerstoss(8, verstossDtoError);
         });
     }

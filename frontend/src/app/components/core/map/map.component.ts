@@ -21,7 +21,17 @@ export class MapComponent implements OnInit {
   public newMarkerY = 0;
   public isAdmin = this.accountService.isAdmin;
 
-  @Input() marker: ParkplatzMitStatusDto[];
+  private _marker: ParkplatzMitStatusDto[];
+  @Input() 
+  public set marker(marker: ParkplatzMitStatusDto[]){
+    this._marker = marker;
+    console.log(marker);
+  }
+
+  public get marker() {
+    return this._marker;
+  }
+  
   @Input() image: any;
   @Output() onParkplatzToBasket = new EventEmitter<Parkplatz>();
   @Output() onMarkerDeleted = new EventEmitter<number>();
@@ -41,7 +51,6 @@ export class MapComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {}
-
  
   //wird ausgeführt, wenn der User auf einen Marker klickt
   handleUserMarkerClick(event: MouseEvent, spot: ParkplatzMitStatusDto): void {
