@@ -4,6 +4,10 @@ import com.gfi.parkplatzapp.backend.persistence.entities.Parkhaus;
 import com.gfi.parkplatzapp.backend.utils.AktivitaetEnum;
 import lombok.*;
 
+/**
+ * Die ParkhausEditierenDto-Klasse repräsentiert die Datenübertragungsobjekte für die Parkhäuser.
+ * Das dto wird verwendet, wenn der Administrator ein Parkhaus editiert.
+ */
 @Getter
 @Setter
 @ToString

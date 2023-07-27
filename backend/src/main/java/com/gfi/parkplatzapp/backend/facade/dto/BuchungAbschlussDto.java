@@ -9,6 +9,10 @@ import lombok.Setter;
 
 import java.util.Date;
 
+/**
+ * Die BuchungAbschlussDto-Klasse repräsentiert die Datenübertragungsobjekte für die Buchungsabschlussinformationen.
+ * Das Frontend schickt eine Liste von Buchungsabschlüssen an das Backend.
+ */
 @Getter
 @Setter
 @AllArgsConstructor

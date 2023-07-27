@@ -4,6 +4,10 @@ import lombok.*;
 
 import java.util.List;
 
+/**
+ * Die AccountDto-Klasse repräsentiert die Datenübertragungsobjekte für Benutzerkontoinformationen in der Parkplatzapp-Backend-Fassade.
+ * Sie enthält Attribute wie die eindeutige Benutzer-ID, die Mitarbeiter-ID, den Namen des Benutzers und die Liste der Rollen.
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
