@@ -7,6 +7,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Die ParkhausAdresseDto-Klasse repräsentiert die Datenübertragungsobjekte für die Parkhausadresseinformationen.
+ * Dieses dto wird zur Anzeige von Parkhausdetails verwendet
+ */
 @Getter
 @Setter
 @AllArgsConstructor

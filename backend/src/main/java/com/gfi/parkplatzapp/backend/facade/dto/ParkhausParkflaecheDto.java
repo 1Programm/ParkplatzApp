@@ -10,6 +10,10 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Ein ParkhausParkflaecheDto ist ein Datenübertragungsobjekt, das die Daten eines Parkhauses und seiner Parkflächen enthält.
+ * Dabei werden die Parkplätze nicht mit übertragen. Dies dient der Listenansicht für den Admin
+ */
 @Getter
 @Setter
 public class ParkhausParkflaecheDto {

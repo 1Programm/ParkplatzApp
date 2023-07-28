@@ -8,7 +8,10 @@ import lombok.Setter;
 
 import java.util.Date;
 
-
+/**
+ * Die BuchungUebersichtDto-Klasse repräsentiert die Datenübertragungsobjekte für die Buchungsübersichtsinformationen.
+ * Diese Anzeige wird auf der Buchungsübersichtseite angezeigt
+ */
 @Getter
 @Setter
 @AllArgsConstructor

@@ -89,4 +89,11 @@ export class PageVerstossComponent implements OnInit {
       this.getAllVerstoesse();
     });
   }
+
+  onClickOpenInTeams(mitarbeiterEmail: string) {
+    // Die tatsächliche URL von Microsoft Teams zum Senden einer Chatnachricht an eine bestimmte E-Mail-Adresse kann variieren, 
+    //je nach der spezifischen Teams-Version und Konfiguration deines Unternehmens, daher sollte diese URL angepasst werden
+    const teamsURL = 'https://teams.microsoft.com/l/chat/0/0?users='.replace('<EMAIL_ADDRESS>', encodeURIComponent(mitarbeiterEmail));
+    window.open(teamsURL, '_blank');
+  }
 }
