@@ -1,25 +1,18 @@
 package com.gfi.parkplatzapp.backend.service;
 
 import com.gfi.parkplatzapp.backend.Application;
-import com.gfi.parkplatzapp.backend.facade.dto.BuchungAbschlussDto;
-import com.gfi.parkplatzapp.backend.facade.dto.ParkhausParkflaecheDto;
-import com.gfi.parkplatzapp.backend.persistence.entities.DBImage;
-import com.gfi.parkplatzapp.backend.persistence.entities.Parkflaeche;
-import com.gfi.parkplatzapp.backend.persistence.entities.Parkhaus;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 
 @AutoConfigureMockMvc(addFilters = false)
@@ -40,11 +33,9 @@ class ParkflaecheServiceTest  {
      */
 
     @Test
-    public void getParkflaecheById_Test() throws Exception {
+    public void getParkflaecheById_Test() {
 
-        assertThrows(IllegalStateException.class, () -> {
-            parkflaecheService.getParkflaecheById(8L);
-        });
+        assertThrows(IllegalStateException.class, () -> parkflaecheService.getParkflaecheById(8L));
         assertEquals("Fläche A", parkflaecheService.getParkflaecheById(1L).getBezeichnung());
     }
 
@@ -54,7 +45,7 @@ class ParkflaecheServiceTest  {
      */
 
     @Test
-    public void updateImageForParkflaeche_Test() throws Exception {
+    public void updateImageForParkflaeche_Test() {
         /*
         MockMultipartFile file
                 = new MockMultipartFile(
@@ -73,15 +64,13 @@ class ParkflaecheServiceTest  {
      */
 
     @Test
-    public void deleteParkflaeche_Test() throws Exception {
+    public void deleteParkflaeche_Test() {
 
         ParkflaecheService mockInstance = mock(ParkflaecheService.class);
-        mockInstance.deleteParkflaeche(1l);
+        mockInstance.deleteParkflaeche(1L);
         Mockito.verify(mockInstance).deleteParkflaeche(1L);
 
-        assertThrows(IllegalStateException.class, () -> {
-            parkflaecheService.deleteParkflaeche(-1L);
-        });
+        assertThrows(IllegalStateException.class, () -> parkflaecheService.deleteParkflaeche(-1L));
     }
 
     /**
@@ -90,7 +79,7 @@ class ParkflaecheServiceTest  {
      */
 
     @Test
-    public void saveParkflaeche_Test() throws Exception {
+    public void saveParkflaeche_Test() {
         /*
         ParkhausParkflaecheDto.ParkflaecheDto parkflaecheDto = new ParkhausParkflaecheDto.ParkflaecheDto(1L, "Test", DBImage );
         ParkhausParkflaecheDto.ParkflaecheDto parkflaeche = parkflaecheService.saveParkflaeche(1L, parkflaecheDto);
@@ -102,7 +91,6 @@ class ParkflaecheServiceTest  {
 
          */
     }
-
 
 
 }

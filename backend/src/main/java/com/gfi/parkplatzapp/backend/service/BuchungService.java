@@ -244,17 +244,6 @@ public class BuchungService {
         return res;
     }
 
-    public void updateBuchungen(BuchungDetailsDto buchung) {
-        log.info("TESTTTTTTTT", buchung);
-        System.out.println(buchung.getParkplatzKennung());
-        /*buchungsList.forEach(buchungDto -> {
-            Buchung buchung = new Buchung();
-            buchung.setKennzeichen(buchungDto.getKennzeichen());
-            buchung.setDatum(buchungDto.getDatum());
-            buchung.setTagespreis(buchungDto.getTagespreis());
-        });*/
-    }
-
     public void schliesseBuchungAb(BuchungAbschlussDto[] buchungen){
         if(buchungen == null || buchungen.length == 0) return;
 

@@ -101,11 +101,12 @@ class VerstossServiceTest {
         calendar.set(Calendar.MONTH, 07);
         calendar.set(Calendar.DATE, 21);
         Date datum = calendar.getTime();
-        VerstossDto verstossDto = new VerstossDto(10L, datum, "Test", null,  VerstossStatusDto.parseFromVerstossStatus(ABGESCHLOSSEN));
+
+        VerstossDto verstossDto = new VerstossDto(10L, datum, "test-email@gmx.de", "Test", VerstossStatusDto.parseFromVerstossStatus(ABGESCHLOSSEN));
         assertEquals(ABGESCHLOSSEN.toString(), verstossDto.getStatus().getKey());
 
         assertThrows(IllegalArgumentException.class, () -> {
-            VerstossDto verstossDtoError = new VerstossDto(-10L, datum, "Test", null, VerstossStatusDto.parseFromVerstossStatus(ABGESCHLOSSEN));;
+            VerstossDto verstossDtoError = new VerstossDto(-10L, datum, "test@gmx.de", "Test", VerstossStatusDto.parseFromVerstossStatus(ABGESCHLOSSEN));
             verstossService.changeStatusForVerstoss(verstossDtoError);
         });
     }

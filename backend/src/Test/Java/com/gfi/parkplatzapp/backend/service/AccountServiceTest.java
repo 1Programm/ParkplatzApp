@@ -1,8 +1,6 @@
 package com.gfi.parkplatzapp.backend.service;
 
 import com.gfi.parkplatzapp.backend.Application;
-import com.gfi.parkplatzapp.backend.facade.dto.AccountDto;
-import org.apache.logging.log4j.message.Message;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -12,8 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @AutoConfigureMockMvc(addFilters = false)
 @ExtendWith(MockitoExtension.class)
@@ -33,14 +29,10 @@ class AccountServiceTest {
 
     @Test
     public void getAccount_Test () throws Exception {
-        {
-            /*
-           AccountDto accountS = accountService.getAccount(jwtAuthenticationToken);
-           assertEquals("Checking Account for uid: [{}]...", accountS.getName());
-             */
-
-        }
-
+        /*
+       AccountDto accountS = accountService.getAccount(jwtAuthenticationToken);
+       assertEquals("Checking Account for uid: [{}]...", accountS.getName());
+         */
     }
 
 }

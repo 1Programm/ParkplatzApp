@@ -7,7 +7,6 @@ import com.gfi.parkplatzapp.backend.persistence.entities.Parkplatztyp;
 import com.gfi.parkplatzapp.backend.persistence.entities.Preiskategorie;
 import com.gfi.parkplatzapp.backend.service.BuchungService;
 import com.gfi.parkplatzapp.backend.service.MitarbeiterService;
-import com.gfi.parkplatzapp.backend.service.ParkplatzService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,9 +21,6 @@ public class BuchungController {
 
     @Autowired
     private BuchungService buchungService;
-
-    @Autowired
-    private ParkplatzService parkplatzService;
 
     @Autowired
     private MitarbeiterService mitarbeiterService;
@@ -42,7 +38,7 @@ public class BuchungController {
     /**
      * Gibt die Adresse eines Parkhauses anhand seiner ID zurück.
      *
-     * @param parkhausID Die ID des Parkhauses.
+     * @param id Die ID des Parkhauses.
      * @return Die ParkhausAdresseDto, das die Adresse des Parkhauses enthält.
      */
     @GetMapping("/parkhaus/{parkhausID}/adresse")
@@ -114,16 +110,6 @@ public class BuchungController {
     @GetMapping("/{mitarbeiterID}/kennzeichen")
     public List<Kennzeichen> getKennzeichenForMitarbeiter(@PathVariable("mitarbeiterID") Long mitarbeiterID) {
         return this.mitarbeiterService.getKennzeichenForMitarbeiter(mitarbeiterID);
-    }
-
-    /**
-     * Aktualisiert die Buchungsdetails mit den übergebenen Werten.
-     *
-     * @param buchung Die BuchungDetailsDto, die die zu aktualisierenden Buchungsinformationen enthält.
-     */
-    @PostMapping(path = "/test", consumes = "application/json")
-    public void updateBuchungen(@RequestBody BuchungDetailsDto buchung) {
-        buchungService.updateBuchungen(buchung);
     }
 
     /**

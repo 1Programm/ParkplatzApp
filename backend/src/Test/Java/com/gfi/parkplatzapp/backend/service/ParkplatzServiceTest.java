@@ -1,7 +1,9 @@
 package com.gfi.parkplatzapp.backend.service;
 
 import com.gfi.parkplatzapp.backend.Application;
-import com.gfi.parkplatzapp.backend.persistence.entities.*;
+import com.gfi.parkplatzapp.backend.persistence.entities.Parkplatz;
+import com.gfi.parkplatzapp.backend.persistence.entities.Parkplatztyp;
+import com.gfi.parkplatzapp.backend.persistence.entities.Preiskategorie;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
@@ -9,18 +11,16 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.core.parameters.P;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 import static com.gfi.parkplatzapp.backend.utils.AktivitaetEnum.AKTIV;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @AutoConfigureMockMvc(addFilters = false)
 @ExtendWith(MockitoExtension.class)
@@ -41,7 +41,7 @@ class ParkplatzServiceTest {
      */
 
     @Test
-    public void saveParkplatz_Test () throws Exception {
+    public void saveParkplatz_Test () {
         Parkplatztyp parkplatztyp = new Parkplatztyp(1L, "Test", "probieren");
         Preiskategorie preiskategorie = new Preiskategorie(1L, "Test", 19.00);
         Parkplatz parkplatz = new Parkplatz(1L, "P4", 345, 789, AKTIV, parkplatztyp, preiskategorie, null);
@@ -60,7 +60,6 @@ class ParkplatzServiceTest {
             Parkplatz parkplatzError = new Parkplatz(1L, "P4", 345, 789, AKTIV, parkplatztypError, preiskategorie, null);
             parkplatzService.saveParkplatz(parkplatzError, 1L);
         });
-
     }
 
     /**
@@ -69,12 +68,11 @@ class ParkplatzServiceTest {
      */
 
     @Test
-    public void deleteParkplatz_Test () throws Exception {
+    public void deleteParkplatz_Test () {
         Parkplatz delPl = parkplatzService.deleteParkplatz(1L);
         assertEquals("P1", delPl.getNummer());
         //assertEquals(3, delPl.);
         //delPl.getParkflaeche().getParkplatzList()
     }
-
 
 }

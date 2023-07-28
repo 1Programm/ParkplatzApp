@@ -43,15 +43,16 @@ public class ParkhausService {
     }
 
     public ParkhausEditierenDto saveParkhaus(ParkhausEditierenDto parkhausEditierenDto) {
-       Parkhaus parkhaus = ParkhausEditierenDto.convertToParkhaus(parkhausEditierenDto);
-       if(parkhausEditierenDto.getParkhausID() != null) {
-           Parkhaus old = parkhausRepo.findById(parkhausEditierenDto.getParkhausID()).get();
-           parkhaus.setParkflaecheList(old.getParkflaecheList());
-           parkhaus.setAktivitaet(old.getAktivitaet());
-       }
-       else {
-              parkhaus.setAktivitaet(AktivitaetEnum.AKTIV);
-       }
+        Parkhaus parkhaus = ParkhausEditierenDto.convertToParkhaus(parkhausEditierenDto);
+        if(parkhausEditierenDto.getParkhausID() != null) {
+            Parkhaus old = parkhausRepo.findById(parkhausEditierenDto.getParkhausID()).get();
+            parkhaus.setParkflaecheList(old.getParkflaecheList());
+            parkhaus.setAktivitaet(old.getAktivitaet());
+        }
+        else {
+            parkhaus.setAktivitaet(AktivitaetEnum.AKTIV);
+        }
+
         Parkhaus res = parkhausRepo.save(parkhaus);
         return ParkhausEditierenDto.convertToDto(res);
     }
