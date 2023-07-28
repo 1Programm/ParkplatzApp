@@ -34,6 +34,12 @@ class ParkplatzServiceTest {
     @Autowired
     ParkplatzService parkplatzService;
 
+    /**
+     * Testen ob saveParkplatz  einen neuen Parkplatz anlegt
+     * Testen ob falsche ID bei preisKategorie oder parkplatzTyp geworfen wird
+     * @throws Exception
+     */
+
     @Test
     public void saveParkplatz_Test () throws Exception {
         Parkplatztyp parkplatztyp = new Parkplatztyp(1L, "Test", "probieren");
@@ -57,10 +63,17 @@ class ParkplatzServiceTest {
 
     }
 
+    /**
+     *
+     * @throws Exception
+     */
+
     @Test
     public void deleteParkplatz_Test () throws Exception {
         Parkplatz delPl = parkplatzService.deleteParkplatz(1L);
         assertEquals("P1", delPl.getNummer());
+        //assertEquals(3, delPl.);
+        //delPl.getParkflaeche().getParkplatzList()
     }
 
 

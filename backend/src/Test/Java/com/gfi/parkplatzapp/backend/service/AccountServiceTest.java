@@ -23,7 +23,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class AccountServiceTest {
     @Autowired
     public AccountService accountService;
-    public JwtAuthenticationToken jwtAuthenticationToken; // Token erstellen
+    public JwtAuthenticationToken jwtAuthenticationToken;
+
+    /**
+     * JwtAuthenticationToken ist unbekannt, weswegen die Klasse AccountService nicht getetsted wird
+     * @throws Exception
+     */
+
 
     @Test
     public void getAccount_Test () throws Exception {

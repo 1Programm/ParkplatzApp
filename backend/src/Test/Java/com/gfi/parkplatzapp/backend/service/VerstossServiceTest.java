@@ -35,6 +35,12 @@ class VerstossServiceTest {
     @Autowired
     VerstossService verstossService;
 
+    /**
+     * Testen ob speicherVerstoss ausgeführt werden
+     * Testen ob bei falscher Mitarbeiter ID exception ausgeworfen wird
+     * @throws Exception
+     */
+
     @Test
     public void speichernVerstoss_Test () throws Exception {
         Calendar calendar = Calendar.getInstance();
@@ -49,10 +55,15 @@ class VerstossServiceTest {
         assertEquals("IN_BEARBEITUNG", verstoss.getStatus());
 
         assertThrows(IllegalArgumentException.class, () -> {
-            VerstossDto verstossDtoError = new VerstossDto(1L, datum, "Test", VerstossStatusDto.parseFromVerstossStatus(IN_BEARBEITUNG));
-            verstossService.speichernVerstoss(8, verstossDtoError);
+            verstossService.speichernVerstoss(8, verstossDto);
         });
     }
+
+    /**
+     * Test ob Get den richtigen Wert auswirft
+     * Testen ob bei falscher Mitarbeiter ID exception ausgeworfen wird
+     * @throws Exception
+     */
 
     @Test
     public void getVerstoesseForMitarbeiter_Test () throws Exception {
@@ -65,11 +76,22 @@ class VerstossServiceTest {
 
     }
 
+    /**
+     * Testen ob 3 verstosse ausgeworfen
+     * @throws Exception
+     */
+
     @Test
     public void getAllVerstoesse_Test() throws Exception {
         List<VerstossDto> verstoss = verstossService.getAllVerstoesse();
         assertEquals(3, verstoss.size());
     }
+
+    /**
+     * Testen ob verstossDto den Status von IN_BEARBEITUNG zu ABGESCHLOSSEN aendert
+     * Testen ob falsche Melde ID ausgegeben wird
+     * @throws Exception
+     */
 
     @Test
     public void changeStatusForVerstoss_Test() throws Exception {

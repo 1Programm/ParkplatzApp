@@ -49,6 +49,12 @@ class MitarbeiterServiceTest {
 
     Long id = 1L;
 
+    /**
+     * Überprüfen ob der Getter Wert den zur Id zugehörigen Wert ausliefert
+     * Exception überprüfen mit fehlerhafter ID
+     * @throws Exception
+     */
+
     @Test
     public void getMitarbeiter_Test () throws Exception {
         Mitarbeiter mitarbeiter = mitarbeiterService.getMitarbeiter(id);
@@ -59,6 +65,11 @@ class MitarbeiterServiceTest {
         });
     }
 
+    /**
+     * Testen ob 2 Kennzeichen für id 1 ausgegeben werden
+     * @throws Exception
+     */
+
     @Test
     public void getKennzeichenForMitarbeiter_Test() throws Exception {
         List<Kennzeichen> kennzeichen = mitarbeiterService.getKennzeichenForMitarbeiter(id);
@@ -67,8 +78,16 @@ class MitarbeiterServiceTest {
         assertEquals("DO-JB1998", kennzeichen.get(1).getKennzeichen());
     }
 
+    /**
+     * Testen ob Kennzeichen geloescht wurde
+     * Testen ob Exception bei fehlerhaften Angaben geworfen werdden
+     * @throws Exception
+     */
+
     @Test
     public void deleteKennzeichenFromMitarbeiter_Test() throws Exception {
+        Mitarbeiter mitarbeiter = mitarbeiterService.deleteKennzeichenFromMitarbeiter(1L, 2L);
+        assertEquals(1, mitarbeiter.getKennzeichenList().size());
 
         assertThrows(IllegalArgumentException.class, () -> {
             mitarbeiterService.deleteKennzeichenFromMitarbeiter(8L, 1L);
@@ -78,9 +97,13 @@ class MitarbeiterServiceTest {
             mitarbeiterService.deleteKennzeichenFromMitarbeiter(1L, 8L);
         });
 
-        assertEquals(1, mitarbeiterService.deleteKennzeichenFromMitarbeiter(1L,1L).getKennzeichenList().size());
-
     }
+
+    /**
+     * Testen ob ein neues Kennzeichen in Liste eingefügt wurde
+     * Testen ob bei falscher Mitarbeiter ID Exception geworfen wird
+     * @throws Exception
+     */
 
     @Test
     public void createKennzeichenForMitarbeiter_Tets() throws Exception {

@@ -28,6 +28,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static com.gfi.parkplatzapp.backend.utils.AktivitaetEnum.AKTIV;
+import static com.gfi.parkplatzapp.backend.utils.AktivitaetEnum.INAKTIV;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
@@ -43,6 +44,11 @@ class ParkhausServiceTest {
     @Autowired
     private ParkhausService parkhausService;
 
+    /**
+     * Überprüfen ob alle Parkhauser ausgegeben werden
+     * @throws Exception
+     */
+
     @Test
     public void getParkhaeuser_Test() throws Exception{
         List<ParkhausParkflaecheDto> parkhaus = parkhausService.getParkhaeuser();
@@ -50,6 +56,12 @@ class ParkhausServiceTest {
         assertEquals("Parkhaus 1", parkhaus.get(0).getBezeichnung());
         assertEquals("Parkhaus 2", parkhaus.get(1).getBezeichnung());
     }
+
+    /**
+     * Testen ob der ID entsprechend das Parkhaus ausgegegben wird
+     * Testen was bei falscher Parkhaus ID ausgegeben wird
+     * @throws Exception
+     */
 
     @Test
     public void getParkhaus() throws Exception{
@@ -62,6 +74,11 @@ class ParkhausServiceTest {
 
     }
 
+    /**
+     *
+     * @throws Exception
+     */
+
     @Test
     public void saveParkhaus_Test() throws Exception {
         ParkhausEditierenDto parkhausEditierenDto = new ParkhausEditierenDto(1L, "Test", "Teststraße", 5, 9999, "Gelsenkirchen");
@@ -69,12 +86,21 @@ class ParkhausServiceTest {
         assertEquals("Test", parkhaus.getBezeichnung());
 
         /*
+        Parkhaus parkhausAkti = ParkhausEditierenDto.convertToParkhaus(parkhausEditierenDto);
+        assertEquals(null, parkhausAkti.getAktivitaet());
+
         ParkhausEditierenDto parkhausEditierenDtoNull = new ParkhausEditierenDto(null, "Test", "Teststraße", 5, 9999, "Gelsenkirchen");
         Parkhaus parkhausEdit = ParkhausEditierenDto.convertToParkhaus(parkhausEditierenDtoNull);
         assertEquals(AKTIV, parkhausEdit.getAktivitaet());
-         */
 
+         */
     }
+
+    /**
+     * Testen ob deleteParkflaeche ausgeführt wird
+     * Testen auf falsche IDs
+     * @throws Exception
+     */
 
     @Test
     public void deleteParkhaus_Test() throws Exception {

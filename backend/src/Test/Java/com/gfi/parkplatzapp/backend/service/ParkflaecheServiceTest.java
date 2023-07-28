@@ -33,6 +33,12 @@ class ParkflaecheServiceTest  {
     @Autowired
     private ParkflaecheService parkflaecheService;
 
+    /**
+     * Testen ob Parkflaechen Id außerhalb liegt
+     * Testen ob Parkflaeche entsprechend der ID ausgegeben wird
+     * @throws Exception
+     */
+
     @Test
     public void getParkflaecheById_Test() throws Exception {
 
@@ -41,6 +47,11 @@ class ParkflaecheServiceTest  {
         });
         assertEquals("Fläche A", parkflaecheService.getParkflaecheById(1L).getBezeichnung());
     }
+
+    /**
+     * Test Image wird zunächst nicht erzeugt
+     * @throws Exception
+     */
 
     @Test
     public void updateImageForParkflaeche_Test() throws Exception {
@@ -55,6 +66,12 @@ class ParkflaecheServiceTest  {
          */
     }
 
+    /**
+     * Testen ob deleteParkflaeche ausgeführt wird
+     * Testen auf falsche IDs
+     * @throws Exception
+     */
+
     @Test
     public void deleteParkflaeche_Test() throws Exception {
 
@@ -66,6 +83,11 @@ class ParkflaecheServiceTest  {
             parkflaecheService.deleteParkflaeche(-1L);
         });
     }
+
+    /**
+     * Test Image wird zunächst nicht erzeugt
+     * @throws Exception
+     */
 
     @Test
     public void saveParkflaeche_Test() throws Exception {
