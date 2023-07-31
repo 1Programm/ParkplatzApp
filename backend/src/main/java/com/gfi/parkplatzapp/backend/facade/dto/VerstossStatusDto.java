@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Ein Json Wrapper - Dto für das VertossStatus - Enum.
+ */
 @Getter
 @Setter
 @AllArgsConstructor

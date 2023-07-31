@@ -32,11 +32,21 @@ public class ParkflaecheService {
     @Autowired
     private DBImageRepo imageRepo;
 
+    /**
+     * Gibt die Parkfläche mit einer bestimmten id zurück.
+     * @param id die ID.
+     * @return gibt eine Parkfläche zurück.
+     */
     public Parkflaeche getParkflaecheById(long id){
         return parkflaecheRepo.findById(id)
                 .orElseThrow(() -> new IllegalStateException("Could not find the Parkflaeche with id [" + id + "]!"));
     }
 
+    /**
+     * Speichert ein Bild ab und weist dieses einer Parkfläche zu.
+     * @param parkflaecheID die Parkfläche.
+     * @param file das Bild.
+     */
     public void updateImageForParkflaeche(long parkflaecheID, MultipartFile file) throws IOException {
         DBImage image = new DBImage(null, file.getOriginalFilename(), file.getContentType(), ImageUtils.compressImage(file.getBytes()));
         image = imageRepo.save(image);
@@ -46,6 +56,10 @@ public class ParkflaecheService {
         parkflaecheRepo.save(parkflaeche);
     }
 
+    /**
+     * Löscht eine Parkfläche.
+     * @param parkflaecheID die ID.
+     */
     public void deleteParkflaeche(long parkflaecheID) {
         log.info("Deleting Parkflaeche with id [" + parkflaecheID + "]!");
         parkflaecheRepo.findById(parkflaecheID)
@@ -57,24 +71,28 @@ public class ParkflaecheService {
                 });
     }
 
-    public ParkhausParkflaecheDto.ParkflaecheDto saveParkflaeche(long parkhausID, ParkhausParkflaecheDto.ParkflaecheDto _parkflaeche) {
+    /**
+     * Speichert eine Parkfläche (eine neue oder alte) zu einem Parkhaus ab.
+     * @param parkhausID die ParkhausID.
+     * @param parkflaecheDto Die Parkfläche, die gespeichert werden soll.
+     * @return die abgespeicherte Parkfläche (besitzt nun eine ID, falls sie voher keine hatte).
+     */
+    public ParkhausParkflaecheDto.ParkflaecheDto saveParkflaeche(long parkhausID, ParkhausParkflaecheDto.ParkflaecheDto parkflaecheDto) {
         Parkflaeche toSave;
-        if(_parkflaeche.getParkflaecheID() != null) {
-            toSave = parkflaecheRepo.findById(_parkflaeche.getParkflaecheID()).get();
-            toSave.setBezeichnung(_parkflaeche.getBezeichnung());
-            toSave.setImage(_parkflaeche.getImage());
+        if(parkflaecheDto.getParkflaecheID() != null) {
+            toSave = parkflaecheRepo.findById(parkflaecheDto.getParkflaecheID()).get();
+            toSave.setBezeichnung(parkflaecheDto.getBezeichnung());
+            toSave.setImage(parkflaecheDto.getImage());
             toSave.setAktivitaet(AktivitaetEnum.AKTIV);
             parkflaecheRepo.save(toSave);
         } else {
-            toSave = ParkhausParkflaecheDto.ParkflaecheDto.createFromParkflaecheDto(_parkflaeche);
+            toSave = ParkhausParkflaecheDto.ParkflaecheDto.createFromParkflaecheDto(parkflaecheDto);
             parkflaecheRepo.save(toSave);
             Parkhaus parkhaus = parkhausRepo.findById(parkhausID)
                     .orElseThrow(() -> new IllegalStateException("Could not find the Parkhaus with id [" + parkhausID + "]!"));
             parkhaus.getParkflaecheList().add(toSave);
             parkhausRepo.save(parkhaus);
         }
-
-
 
         return ParkhausParkflaecheDto.ParkflaecheDto.createFromParkflaeche(toSave);
     }

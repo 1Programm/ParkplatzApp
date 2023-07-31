@@ -7,6 +7,11 @@ import lombok.Setter;
 
 import java.util.List;
 
+/**
+ *
+ * Ein Dto, was dazu benutzt wird Daten zu einem bestimmten Werte typ zu mappen.
+ * Dieses Dto wird für das Anzeigen der getätigten Buchungen benutzt.
+ */
 @Getter
 @Setter
 @AllArgsConstructor

@@ -185,19 +185,6 @@ class BuchungServiceTest {
         assertEquals(15.00, preis.get(1).getPreis());
     }
 
-    /**
-     * Testen ob 2 buchungen ausgegeben werden
-     * Testen ob id 1 und 5 ausgegeben werden
-     * @throws Exception
-     */
-
-    @Test
-    public void isAnyKennzeichenForBuchung_Test() {
-        List<Buchung> buchung = buchungService.isAnyKennzeichenForBuchung(1L, 1L);
-        assertEquals(2, buchung.size());
-        assertEquals(1, buchung.get(0).getBuchungID());
-        assertEquals(5, buchung.get(1).getBuchungID());
-    }
 
     /**
      * Methode nicht implementiert

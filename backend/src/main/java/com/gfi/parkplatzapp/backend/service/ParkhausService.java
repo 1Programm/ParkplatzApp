@@ -22,6 +22,10 @@ public class ParkhausService {
     @Autowired
     ParkflaecheRepo parkflaecheRepo;
 
+    /**
+     * Gibt alle Parkhäuser mit iheren Parkflächen zurück.
+     * @return Liste an Parkhaus Dtos.
+     */
     public List<ParkhausParkflaecheDto> getParkhaeuser() {
         List<ParkhausParkflaecheDto> parkhausDtoList = new ArrayList<>();
 
@@ -33,6 +37,11 @@ public class ParkhausService {
         return parkhausDtoList;
     }
 
+    /**
+     * Gibt ein Parkhaus mit einer bestimmten ID zurück.
+     * @param parkhausID die ParkhausID
+     * @return ein Parkhaus-Editieren-Dto
+     */
     public ParkhausEditierenDto getParkhaus(long parkhausID) {
         Parkhaus parkhaus = parkhausRepo.findById(parkhausID).orElseThrow(() -> new IllegalStateException("Could not find the Parkhaus with id [" + parkhausID + "]!"));
         if(parkhaus.getAktivitaet() == AktivitaetEnum.AKTIV) {
@@ -42,6 +51,11 @@ public class ParkhausService {
         }
     }
 
+    /**
+     * Speichert ein Parkhaus ab (oder legt es an).
+     * @param parkhausEditierenDto das Parkhaus Dto
+     * @return das Parkhaus-Editieren-Dto (hat nun eine id, falls es voher keine hatte).
+     */
     public ParkhausEditierenDto saveParkhaus(ParkhausEditierenDto parkhausEditierenDto) {
         Parkhaus parkhaus = ParkhausEditierenDto.convertToParkhaus(parkhausEditierenDto);
         if(parkhausEditierenDto.getParkhausID() != null) {
@@ -57,13 +71,14 @@ public class ParkhausService {
         return ParkhausEditierenDto.convertToDto(res);
     }
 
+    /**
+     * Löscht ein Parkhaus mit einer bestimmten ID.
+     * @param parkhausID die ParkhausID.
+     */
     public void deleteParkhaus(long parkhausID) {
         Parkhaus parkhaus = parkhausRepo.findById(parkhausID).orElseThrow(() -> new IllegalStateException("Could not find the Parkhaus with id [" + parkhausID + "]!"));
         parkhaus.setAktivitaet(AktivitaetEnum.INAKTIV);
         parkhausRepo.save(parkhaus);
     }
-
-
-
 
 }

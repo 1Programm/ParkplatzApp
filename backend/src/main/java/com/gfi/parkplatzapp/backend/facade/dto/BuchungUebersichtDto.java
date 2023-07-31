@@ -23,6 +23,7 @@ public class BuchungUebersichtDto {
     private String parkplatzKennung;
     private Double tagespreis;
     private Kennzeichen kennzeichen;
+
 }
 
 

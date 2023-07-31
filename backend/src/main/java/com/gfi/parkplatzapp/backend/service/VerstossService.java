@@ -24,6 +24,12 @@ public class VerstossService {
     @Autowired
     private VerstossRepo verstossRepo;
 
+    /**
+     * Speichert einen Verstoß zu einem Mitarbeiter ab.
+     * @param mitarbeiterID die MitarbeiterID.
+     * @param verstossDto das Verstoß-Dto
+     * @return ein Vertstoß.
+     */
     public Verstoss speichernVerstoss(long mitarbeiterID, VerstossDto verstossDto) {
         Verstoss verstoss = new Verstoss();
         verstoss.setBemerkung(verstossDto.getBemerkung());
@@ -40,6 +46,11 @@ public class VerstossService {
         return verstoss;
     }
 
+    /**
+     * Gibt alle Verstöße zurück, die ein Mitarbeiter insgesamt erstellt hat.
+     * @param mitarbeiterID die MitarbeiterID.
+     * @return Liste mit Verstoss-Dtos.
+     */
     public List<VerstossDto> getVerstoesseForMitatbeiter(Long mitarbeiterID) {
         Mitarbeiter mitarbeiter = mitarbeiterRepo.findById(mitarbeiterID)
                 .orElseThrow(() -> new IllegalArgumentException("Mitarbeiter mit ID " + mitarbeiterID + " wurde nicht gefunden."));
@@ -48,6 +59,10 @@ public class VerstossService {
                 .sorted(Comparator.comparing(VerstossDto::getDatum)).collect(Collectors.toList());
     }
 
+    /**
+     * Gibt alle Verstöße zurück, die es gibt.
+     * @return Liste mit Verstoss-Dtos.
+     */
     public List<VerstossDto> getAllVerstoesse() {
         List<VerstossDto> verstossList = new ArrayList<>();
         Iterable<Mitarbeiter> mitarbeiterIterable = mitarbeiterRepo.findAll();
@@ -65,6 +80,12 @@ public class VerstossService {
 
         return verstossList;
     }
+
+    /**
+     * Speichert den geänderten Status eines Verstoßes ab.
+     * @param verstossDto das Verstoß Dto.
+     * @return ein Verstoß.
+     */
     public Verstoss changeStatusForVerstoss(VerstossDto verstossDto) {
         Verstoss verstoss = verstossRepo.findById(verstossDto.getMeldeID())
                 .orElseThrow(() -> new IllegalArgumentException("Verstoss mit ID " + verstossDto.getMeldeID() + " wurde nicht gefunden."));
@@ -80,6 +101,10 @@ public class VerstossService {
         return verstoss;
     }
 
+    /**
+     * Gibt alle möglichen Verstoß Status zurück.
+     * @return Liste mit Verstoß-Status-Dtos.
+     */
     public List<VerstossStatusDto> getAllVerstossStatus() {
         List<VerstossStatusDto> verstossStatusDtoList = new ArrayList<>();
         for(VerstossStatus status : VerstossStatus.values()) {

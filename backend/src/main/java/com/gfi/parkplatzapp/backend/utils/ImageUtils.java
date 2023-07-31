@@ -6,10 +6,12 @@ import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 
+/**
+ * Helfer-Klasse, um PNG / JPEG zu komprimieren / dekomprimieren.
+ */
 public class ImageUtils {
 
     public static byte[] compressImage(byte[] data) throws IOException {
-
         Deflater deflater = new Deflater();
         deflater.setLevel(Deflater.BEST_COMPRESSION);
         deflater.setInput(data);

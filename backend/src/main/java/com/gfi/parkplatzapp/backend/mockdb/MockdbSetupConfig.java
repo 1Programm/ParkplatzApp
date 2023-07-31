@@ -16,6 +16,12 @@ import org.springframework.util.MimeTypeUtils;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * Diese Klasse wird für das Aufsetzen der Mock - Datenbank benutzt.
+ * Die meisten Daten werden bereits durch die data.sql Datei in die Datenbank geladen.
+ * Bilder können jedoch nicht über diesen Weg eingefügt werden, welches daher nach dem Einbinden der data.sql
+ * Datei erfolgt.
+ */
 @Service
 @Slf4j
 public class MockdbSetupConfig {
@@ -26,6 +32,9 @@ public class MockdbSetupConfig {
     @Autowired
     private ParkflaecheRepo parkflaecheRepo;
 
+    /**
+     * Speichert Beispielhaft 2 Bilder in der Datenbenk ab
+     */
     @PostConstruct
     public void setup() throws IOException {
         log.info("Mock DB Setup...");
@@ -33,21 +42,24 @@ public class MockdbSetupConfig {
         saveImage("/static/parkflaechen", "parkplatz.jpg", MimeTypeUtils.IMAGE_JPEG_VALUE);
         saveImage("/static/parkflaechen", "parkplatz2.jpg", MimeTypeUtils.IMAGE_JPEG_VALUE);
 
-
         log.info("Mock DB Setup Done!");
     }
 
+    /**
+     * Wenn Hibernate fertig mit dem Aufsetzen der data.sql Datei ist und die Bilder abgespeichert hat,
+     * werden die Bilder nun zu einer bestimmten Parkfläche zugewiesen
+     */
     @EventListener(ApplicationReadyEvent.class)
     public void afterDatabasePopulated() {
         log.info("Database finished populizing!");
 
-        // Set the images here because otherwise the "data.sql" script has not been executed yet!
-
+        //Weisst Bild mit der id 1 der Parkfläche mit der id 1 zu
         Parkflaeche p1 = parkflaecheRepo.findById(1L).get();
         DBImage img1 = imageRepo.findById(1L).get();
         p1.setImage(img1);
         parkflaecheRepo.save(p1);
 
+        //Weisst Bild mit der id 2 der Parkfläche mit der id 2 zu
         Parkflaeche p2 = parkflaecheRepo.findById(2L).get();
         DBImage img2 = imageRepo.findById(2L).get();
         p2.setImage(img2);

@@ -41,10 +41,5 @@ export class ProfilServiceService extends ServiceBase {
     );
   }
 
-  public getBuchungForKennzeichen(kennzeichenID: number, mitarbeiterID: number): Observable<Buchung[]> {
-      return this.wrapRetryAndCatchError(
-        this.http.get<Buchung[]>(`${environment.apiServerUrl}/profil/${kennzeichenID}/${mitarbeiterID}`)
-      )
-    }
 }
 

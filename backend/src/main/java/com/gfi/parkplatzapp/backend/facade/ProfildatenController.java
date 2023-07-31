@@ -63,10 +63,5 @@ public class ProfildatenController {
         return mitarbeiterService.createKennzeichenForMitarbeiter(mitarbeiterID, kennzeichen);
     }
 
-    @GetMapping(path = "/{kennzeichenID}/{mitarbeiterID}")
-    public List<Buchung> isAnyBuchungForKennzeichen(@PathVariable Long kennzeichenID, @PathVariable Long mitarbeiterID) {
-        return buchungService.isAnyKennzeichenForBuchung(kennzeichenID, mitarbeiterID);
-    }
-
 
 }

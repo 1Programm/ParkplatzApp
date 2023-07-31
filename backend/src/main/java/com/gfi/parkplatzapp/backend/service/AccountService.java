@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Der Account Service ist für das Vermitteln von Informationen über den angemeldeten Nutzer zuständig.
+ */
 @Service
 @Slf4j
 public class AccountService {
@@ -19,6 +22,9 @@ public class AccountService {
     @Autowired
     private MitarbeiterRepo mitarbeiterRepo;
 
+    /**
+     * Gibt die zugehörige mitarbeiter id, sowie seine Rollen zu dem angemeldeten Mitarbeiter zurück.
+     */
     @SuppressWarnings("unchecked")
     public AccountDto getAccount(JwtAuthenticationToken auth){
         String uid = auth.getName();

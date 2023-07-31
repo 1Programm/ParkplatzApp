@@ -7,6 +7,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Dieses Dto wird für das Darstellen eines Markers benutzt,
+ * der je nachdem ob ein Parkplatz bereits belegt ist anders angezeigt werden soll.
+ */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -14,5 +18,4 @@ import lombok.Setter;
 public class ParkplatzMitStatusDto {
     StatusEnum status;
     Parkplatz parkplatz;
-
 }

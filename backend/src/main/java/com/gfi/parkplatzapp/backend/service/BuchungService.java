@@ -60,6 +60,10 @@ public class BuchungService {
         return buchungDtos;
     }
 
+    /**
+     * Liefert alle Buchungen (absteigend nach dem Datum sortiert) zurück.
+     * @return Liste aller Buchungen als ÜbersichtDto
+     */
     public List<BuchungUebersichtDto> getAllBuchungen(){
         return buchungRepo.findAll(Sort.by("datum").descending())
                 .stream()
@@ -67,6 +71,25 @@ public class BuchungService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Erstellt ein Überischt Dto zu einer Buchung
+     * @return ein Buchungs-Übersicht-Dto
+     */
+    private BuchungUebersichtDto createUebersichtFromBuchung(Buchung buchung){
+        Mitarbeiter mitarbeiter = buchung.getMitarbeiter();
+        String name = mitarbeiter.getVorname() + " " + mitarbeiter.getNachname();
+
+        Parkflaeche parkflaeche = parkflaecheRepo.findByParkplatzList_parkplatzID(buchung.getParkplatz().getParkplatzID());
+        Parkhaus parkhaus = parkhausRepo.findByParkflaecheList_parkflaecheID(parkflaeche.getParkflaecheID());
+        String bezeichnung = parkhaus.getBezeichnung() + "-" + parkflaeche.getBezeichnung() + "-" + buchung.getParkplatz().getNummer();
+
+        return new BuchungUebersichtDto(buchung.getDatum(), name, bezeichnung, buchung.getTagespreis(), buchung.getKennzeichen());
+    }
+
+    /**
+     * Liefert alle Buchungen, gemappt zu ihren Buchungstagen.
+     * @return Liste an gemappten Buchungen
+     */
     public List<BuchungUebersichtMappedDto<Date>> getAllBuchungenMappedByDate(){
         List<BuchungUebersichtDto> buchungen = getAllBuchungen();
 
@@ -82,6 +105,10 @@ public class BuchungService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Liefert alle Buchungen, gemappt zu ihren Mitarbeitern.
+     * @return Liste an gemappten Buchungen
+     */
     public List<BuchungUebersichtMappedDto<String>> getAllBuchungenMappedByMitarbeiter(){
         List<BuchungUebersichtDto> buchungen = getAllBuchungen();
 
@@ -95,17 +122,6 @@ public class BuchungService {
                 .map(e -> new BuchungUebersichtMappedDto<>(e.getKey(), e.getValue()))
                 .sorted(Comparator.comparing(BuchungUebersichtMappedDto::getKey))
                 .collect(Collectors.toList());
-    }
-
-    private BuchungUebersichtDto createUebersichtFromBuchung(Buchung buchung){
-        Mitarbeiter mitarbeiter = buchung.getMitarbeiter();
-        String name = mitarbeiter.getVorname() + " " + mitarbeiter.getNachname();
-
-        Parkflaeche parkflaeche = parkflaecheRepo.findByParkplatzList_parkplatzID(buchung.getParkplatz().getParkplatzID());
-        Parkhaus parkhaus = parkhausRepo.findByParkflaecheList_parkflaecheID(parkflaeche.getParkflaecheID());
-        String bezeichnung = parkhaus.getBezeichnung() + "-" + parkflaeche.getBezeichnung() + "-" + buchung.getParkplatz().getNummer();
-
-        return new BuchungUebersichtDto(buchung.getDatum(), name, bezeichnung, buchung.getTagespreis(), buchung.getKennzeichen());
     }
 
     /**
@@ -148,6 +164,10 @@ public class BuchungService {
         return getBuchungenForMitarbeiter(mitarbeiterID);
     }
 
+    /**
+     * Gibt alle Parkflaechen als ParkflaecheAswahlDto zurück.
+     * @return Liste an Parkflächen-Auswahl-Dto
+     */
     public List<ParkflaecheAuswahlDto> getParkflaechen() {
         List<ParkflaecheAuswahlDto> resultList = new ArrayList<>();
         Iterable<Parkhaus> parkhausIterable = parkhausRepo.findAllByAktivitaet(AktivitaetEnum.AKTIV);
@@ -170,6 +190,11 @@ public class BuchungService {
         return resultList;
     }
 
+    /**
+     * Gibt die Adresse zu einem Parkhaus als Dto zurück.
+     * @param id die ID des Parkhauses
+     * @return ein Parkhaus-Adresse-Dto.
+     */
     public ParkhausAdresseDto getParkhausAdresse(long id){
         Parkhaus parkhaus = parkhausRepo.findById(id)
                 .orElseThrow(() -> new IllegalStateException("Parkhaus [" + id + "] should be found!"));
@@ -177,8 +202,14 @@ public class BuchungService {
         return ParkhausAdresseDto.createFromParkhaus(parkhaus);
     }
 
+    /**
+     * Gibt Parkplätze zu einer Parkfläche zurück, die je nachdem ob sie an dem übergebenen Datum bereits belegt sind
+     * als 'BELEGT' oder 'FREI' gekennzeichnet werden.
+     * @param parkflaecheID die Parkfläche, dessen Parkplätze zurück gegeben werden sollen
+     * @param p_date das Datum (in dem Format 'dd.MM.yyyy'), an hand welchem geguckt wird, ob ein Parkplatz belegt ist.
+     * @return Liste an Parkplätzen mit Status, ob sie belegt sind oder nicht.
+     */
     public List<ParkplatzMitStatusDto> getParkplaetzeOfParkflaecheAndDate(Long parkflaecheID, String p_date) {
-
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         Date date = new Date();
         Parkflaeche flaeche = parkflaecheRepo.findByAktivitaetAndParkflaecheID(AktivitaetEnum.AKTIV, parkflaecheID);
@@ -200,8 +231,10 @@ public class BuchungService {
         return res;
     }
 
+    /**
+     * Testet, ob eine Buchung an einem Datum vorhanden ist.
+     */
     private boolean isBuchungVorhanden(Parkplatz parkplatz, Date date) {
-        boolean found;
         List<Buchung> buchungen = new ArrayList<>();
         this.buchungRepo.findAll().iterator().forEachRemaining(buchungen::add);
         for (Buchung b : buchungen) {
@@ -211,6 +244,11 @@ public class BuchungService {
         return false;
     }
 
+    /**
+     * Gibt die Parkplätze einer Parkfläche zurück.
+     * @param parkflaecheID die Parkflächen ID
+     * @return Liste an Parkplätze
+     */
     public List<Parkplatz> getParkplaetzeOfParkflaeche(Long parkflaecheID) {
         Parkflaeche flaeche = parkflaecheRepo.findById(parkflaecheID).get();
         if(flaeche.getAktivitaet() == AktivitaetEnum.INAKTIV){
@@ -222,28 +260,30 @@ public class BuchungService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Gibt alle Parkplatztypen zurück.
+     * @return Liste an Parkplatztypen.
+     */
     public List<Parkplatztyp> getParkplatztyp() {
         List<Parkplatztyp> typen = new ArrayList<>();
         parkplatztypRepo.findAll().iterator().forEachRemaining(typen::add);
         return typen;
     }
 
+    /**
+     * Gibt alle Preiskategorien zurück.
+     * @return Liste an Preiskategorien.
+     */
     public List<Preiskategorie> getPreiskategorien() {
         List<Preiskategorie> kategorien = new ArrayList<>();
         preiskategorieRepo.findAll().iterator().forEachRemaining(kategorien::add);
         return kategorien;
     }
 
-    public List<Buchung> isAnyKennzeichenForBuchung(Long kennzeichenID, Long mitarbeiterID) {
-        Date filterDate = new Date();
-        Kennzeichen kennzeichen = kennzeichenRepo.findById(kennzeichenID).get();
-        Mitarbeiter mitarbeiter = mitarbeiterRepo.findById(mitarbeiterID).get();
-        List<Buchung> res = buchungRepo.findByKennzeichenAndMitarbeiter(kennzeichen, mitarbeiter).stream()
-                .filter(buchung -> buchung.getDatum().after(filterDate))
-                .collect(Collectors.toList());
-        return res;
-    }
-
+    /**
+     * Schließt alle übergebenen Buchungen ab und speichert sie zu einem Mitarbeiter ab.
+     * @param buchungen Liste aller neuen Buchungen.
+     */
     public void schliesseBuchungAb(BuchungAbschlussDto[] buchungen){
         if(buchungen == null || buchungen.length == 0) return;
 
@@ -276,8 +316,12 @@ public class BuchungService {
         log.info("{}", (Object) buchungen);
     }
 
-
-
+    /**
+     * Platzhaltermethode, falls der Preis in Zukunft anders berechnet werden soll.
+     * Gibt den aktuellen Tagespreis zu einem Parkplatz zurück.
+     * @param p der Parkplatz.
+     * @return gibt einen Tagespreis als Dezimalzahl zurück.
+     */
     public double calculateTagespreis(Parkplatz p){
         return p.getPreiskategorie().getPreis();
     }
